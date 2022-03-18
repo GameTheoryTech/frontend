@@ -164,7 +164,7 @@ const Home = () => {
         <Grid item xs={12} sm={8}>
           <Paper style={{ backgroundColor: "transparent", boxShadow: "none", border: "1px solid var(--white)" }}>
             <Box p={4}>
-              <h2>Welcome to Game Theory!</h2>
+              <h2>Welcome to Game Theory! (TESTNET VERSION)</h2>
               <p>Game Theory is an experimental "game" and thought experiment currently in development on the Fantom Opera blockchain.  In simple terms, it works like a Tomb/3omb fork mixed with a DeFi Kingdoms fork. Depending on funds raised, it might be used to create a variety of projects, starting with a video game since that is what the dev's background is. THEORY holders will be able to vote on aspects of the game, as well as receive a cut of the revenue (details to be worked out later). GAME might be used as currency within the game(s)/project(s), and the LP providers would earn fees from that (as well as from other promotions).</p>
               <p>For more information, check out the <StyledLink href="https://docs.gametheory.tech/">Docs</StyledLink> and <StyledLink href="/faq">FAQ</StyledLink>. The community fund is used for marketing, community actions, gathering and putting assets to work, and allocating seigniorage. It also may be used to fund development in an emergency and vice versa (this will be announced on Discord in advance, so don't be alarmed if you see some of these funds move to the dev fund). The dev fund is used for paying the developer and hiring new ones.</p>
               <p>During the genesis phase, stake a number of tokens to earn GAME. There is a small deposit fee to help kickstart the theory.</p>
@@ -232,13 +232,13 @@ const Home = () => {
               >
                 Buy GAME
               </Button>
-              <Button variant="contained" target="_blank" href="https://spookyswap.finance/swap?outputCurrency=0x6437adac543583c4b31bf0323a0870430f5cc2e7" style={{ marginRight: '10px' }} className={classes.button}>
+              <Button variant="contained" target="_blank" href="https://spookyswap.finance/swap?outputCurrency=" style={{ marginRight: '10px' }} className={classes.button}>
                 Buy THEORY
               </Button>
-              <Button variant="contained" target="_blank" href="https://dexscreener.com/fantom/0x83a52eff2e9d112e9b022399a9fd22a9db7d33ae" style={{ marginRight: '10px' }} className={classes.button}>
+              <Button variant="contained" target="_blank" href="https://dexscreener.com/fantom/" style={{ marginRight: '10px' }} className={classes.button}>
                 GAME Chart
               </Button>
-              <Button variant="contained" target="_blank" href="https://dexscreener.com/fantom/0xd352dac95a91afefb112dbbb3463ccfa5ec15b65" className={classes.button}>
+              <Button variant="contained" target="_blank" href="https://dexscreener.com/fantom/" className={classes.button}>
                 THEORY Chart
               </Button>
             </CardContent>
@@ -300,8 +300,8 @@ const Home = () => {
                 </span>
               </Box>
               <span style={{ fontSize: '12px' }}>
-                Market Cap: ${(tombCirculatingSupply * tombPriceInDollars).toFixed(2)} <br />
-                Circulating Supply: {tombCirculatingSupply} <br />
+                Market Cap (Including Locked): ${(tombCirculatingSupply * tombPriceInDollars).toFixed(2)} <br />
+                Circulating Supply (Including Locked): {tombCirculatingSupply} <br />
                 Total Supply: {tombTotalSupply}
               </span>
             </CardContent>
@@ -337,8 +337,8 @@ const Home = () => {
                 <span style={{ fontSize: '16px' }}>${tSharePriceInDollars ? tSharePriceInDollars : '-.--'}</span>
               </Box>
               <span style={{ fontSize: '12px' }}>
-                Market Cap: ${(tShareCirculatingSupply * tSharePriceInDollars).toFixed(2)} <br />
-                Circulating Supply: {tShareCirculatingSupply} <br />
+                Market Cap (Including Locked): ${(tShareCirculatingSupply * tSharePriceInDollars).toFixed(2)} <br />
+                Circulating Supply (Including Locked): {tShareCirculatingSupply} <br />
                 Total Supply: {tShareTotalSupply}
               </span>
             </CardContent>

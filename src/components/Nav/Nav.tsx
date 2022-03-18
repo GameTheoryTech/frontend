@@ -145,7 +145,7 @@ const Nav = () => {
               {/*<a href="https://snapshot.org/#/forgiving.forg.eth" target="_blank" className={classes.link}>*/}
               {/*  Governance*/}
               {/*</a>*/}
-              <a href="https://gedeon-crypto.gitbook.io/gametheory.tech/" target="_blank" className={classes.link}>
+              <a href="https://docs.gametheory.tech" target="_blank" className={classes.link}>
                 Docs
               </a>
               <Link color="textPrimary" to="/faq" className={classes.link}>
@@ -208,7 +208,7 @@ const Nav = () => {
                 {/*<ListItem button component="a" href="https://snapshot.org/#/forgiving.forg.eth">*/}
                 {/*  <ListItemText>Governance</ListItemText>*/}
                 {/*</ListItem>*/}
-                <ListItem button component="a" href="https://gedeon-crypto.gitbook.io/gametheory.tech/">
+                <ListItem button component="a" href="https://docs.gametheory.tech">
                   <ListItemText>Docs</ListItemText>
                 </ListItem>
                 <ListItemLink primary="FAQ" to="/faq" />
