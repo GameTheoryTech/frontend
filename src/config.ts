@@ -1,0 +1,218 @@
+// import { ChainId } from '@pancakeswap-libs/sdk';
+import { ChainId } from '@spookyswap/sdk/dist';
+import { ChainId as ChainIdSpirit } from '@spiritswap/sdk';
+import { Configuration } from './tomb-finance/config';
+import { BankInfo } from './tomb-finance';
+
+const configurations: { [env: string]: Configuration } = {
+  production: {
+    chainId: ChainId.MAINNET,
+    chainIdSpirit: ChainIdSpirit.MAINNET,
+    networkName: 'Fantom Opera Mainnet',
+    ftmscanUrl: 'https://ftmscan.com',
+    defaultProvider: 'https://rpc.ftm.tools/',
+    deployments: require('./tomb-finance/deployments/deployments.mainnet.json'),
+    externalTokens: {
+      DAI: ['0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83', 18],
+      FUSDT: ['0x04068DA6C83AFCFA0e13ba15A6696662335D5B75', 6], // This is actually usdc on mainnet not fusdt
+      BOO: ['0x841FAD6EAe12c286d1Fd18d1d525DFfA75C7EFFE', 18],
+      ZOO: ['0x09e145a1d53c0045f41aeef25d8ff982ae74dd56', 0],
+      SHIBA: ['0x9ba3e4f84a34df4e08c112e1a0ff148b81655615', 9],
+      BELUGA: ['0x4A13a2cf881f5378DEF61E430139Ed26d843Df9A', 18],
+      BIFI: ['0xd6070ae98b8069de6B494332d1A1a81B6179D960', 18],
+      MIM: ['0x82f0b8b456c1a451378467398982d4834b6829c1', 18],
+      BLOOM: ['0x9B2e37cDC711CfcAC1E1482B5741c74dd3924199', 9],
+      'dAI': ['0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83', 18],
+      '2OMB': ['0x7a6e4E3CC2ac9924605DCa4bA31d1831c84b44aE', 18],
+      '2OMB-2SHARES LP': ['0xd9B5f00d183df52D717046521152303129F088DD', 18],
+      '2OMB-DAI LP': ['0xbdC7DFb7B88183e87f003ca6B5a2F81202343478',18],
+      '2SHARES-DAI LP': ['0x6398ACBBAB2561553a9e458Ab67dCFbD58944e52',18],
+      '2SHARES': ['0xc54A1684fD1bef1f077a336E6be4Bd9a3096a6Ca', 18],
+      'GAME-DAI LP': ['0x83A52eff2E9D112E9B022399A9fD22a9DB7d33Ae',18],
+      'THEORY-DAI LP': ['0xd352daC95a91AfeFb112DBBB3463ccfA5EC15b65',18],
+      'THEORY': ['0x6437ADAC543583C4b31Bf0323A0870430F5CC2e7', 18],
+      'USDT-FTM-LP': ['0x2b4C76d0dc16BE1C31D4C1DC53bF9B45987Fc75c', 18],
+      'GAME-DAI-LP': ['0x83a52eff2e9d112e9b022399a9fd22a9db7d33ae', 18],
+      'THEORY-DAI-LP': ['0xd352dac95a91afefb112dbbb3463ccfa5ec15b65', 18],
+    },
+    baseLaunchDate: new Date('2021-06-02 13:00:00Z'),
+    bondLaunchesAt: new Date('2020-12-03T15:00:00Z'),
+    masonryLaunchesAt: new Date('2020-12-11T00:00:00Z'),
+    refreshInterval: 10000,
+  },
+  development: {
+    chainId: ChainId.FTMTESTNET,
+    chainIdSpirit: ChainIdSpirit.FTMTESTNET,
+    networkName: 'Fantom Opera Testnet',
+    ftmscanUrl: 'https://xapi.testnet.fantom.network/lachesis',
+    defaultProvider: 'https://xapi.testnet.fantom.network/lachesis',
+    deployments: require('./tomb-finance/deployments/deployments.testing.json'),
+    externalTokens: {
+      'GAME': ['0xAA96Af10683542DB10b52D7eDD8E4BbcD599A059', 18],
+      'THEORY': ['0x4D1f76eCF939902B26BD978ef47C73EfDE4Bc134', 18],
+      'DAI': ['0x150072D04B6A23D2dA7d52C2DB91bb58936FcCa6', 18],
+      'GAME-DAI LP': ['0x4d9FB7169fCFdd156F57D44C940C9AB08e1ba27E', 18],
+      'THEORY-DAI LP': ['0x20a81845d041ec9B4A4aBeD7461d6dd4bf6f94f1', 18],
+      'GAME-DAI-LP': ['0x4d9FB7169fCFdd156F57D44C940C9AB08e1ba27E', 18],
+      'THEORY-DAI-LP': ['0x20a81845d041ec9B4A4aBeD7461d6dd4bf6f94f1', 18],
+    },
+    baseLaunchDate: new Date('2021-06-02 13:00:00Z'),
+    bondLaunchesAt: new Date('2020-12-03T15:00:00Z'),
+    masonryLaunchesAt: new Date('2020-12-11T00:00:00Z'),
+    refreshInterval: 10000,
+  },
+};
+
+export const bankDefinitions: { [contractName: string]: BankInfo } = {
+  /*
+  Explanation:
+  name: description of the card
+  poolId: the poolId assigned in the contract
+  sectionInUI: way to distinguish in which of the 3 pool groups it should be listed
+        - 0 = Single asset stake pools
+        - 1 = LP asset staking rewarding TOMB
+        - 2 = LP asset staking rewarding TSHARE
+  contract: the contract name which will be loaded from the deployment.environmnet.json
+  depositTokenName : the name of the token to be deposited
+  earnTokenName: the rewarded token
+  finished: will disable the pool on the UI if set to true
+  sort: the order of the pool
+  */
+  GameDAIRewardPool: {
+    name: 'Earn GAME by staking DAI',
+    page: "GameDAIRewardPool",
+    poolId: 0,
+    sectionInUI: 0,
+    contract: 'GameGenesisRewardPool',
+    depositTokenName: 'DAI',
+    earnTokenName: 'GAME',
+    finished: false,
+    multiplier: '7500',
+    site: "https://makerdao.com",
+    buyLink: 'https://spookyswap.finance/swap?outputCurrency=0x8D11eC38a3EB5E956B052f67Da8Bdc9bef8Abf3E',
+    sort: 0,
+    closedForStaking: false,
+  },
+  GameUSDCRewardPool: {
+    name: 'Earn GAME by staking USDC',
+    page: "GameUSDCRewardPool",
+    poolId: 1,
+    sectionInUI: 0,
+    contract: 'GameGenesisRewardPool',
+    depositTokenName: 'USDC',
+    earnTokenName: 'GAME',
+    finished: false,
+    multiplier: '2500',
+    site: "https://www.centre.io",
+    buyLink: 'https://spookyswap.finance/swap?outputCurrency=0x04068DA6C83AFCFA0e13ba15A6696662335D5B75',
+    sort: 1,
+    closedForStaking: false,
+  },
+  GameMIMRewardPool: {
+    name: 'Earn GAME by staking MIM',
+    page: "GameMIMRewardPool",
+    poolId: 2,
+    sectionInUI: 0,
+    contract: 'GameGenesisRewardPool',
+    depositTokenName: 'MIM',
+    earnTokenName: 'GAME',
+    finished: false,
+    multiplier: '2500',
+    site: "https://abracadabra.money",
+    buyLink: 'https://spookyswap.finance/swap?outputCurrency=0x82f0B8B456c1A451378467398982d4834b6829c1',
+    sort: 2,
+    closedForStaking: false,
+  },
+  GameWFTMRewardPool: {
+    name: 'Earn GAME by staking WFTM',
+    page: "GameWFTMRewardPool",
+    poolId: 3,
+    sectionInUI: 0,
+    contract: 'GameGenesisRewardPool',
+    depositTokenName: 'WFTM',
+    earnTokenName: 'GAME',
+    finished: false,
+    multiplier: '2500',
+    site: "https://fantom.foundation/defi",
+    buyLink: 'https://spookyswap.finance/swap?outputCurrency=0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83',
+    sort: 3,
+    closedForStaking: false,
+  },
+  GameETHRewardPool: {
+    name: 'Earn GAME by staking ETH',
+    page: "GameETHRewardPool",
+    poolId: 4,
+    sectionInUI: 0,
+    contract: 'GameGenesisRewardPool',
+    depositTokenName: 'ETH',
+    earnTokenName: 'GAME',
+    finished: false,
+    multiplier: '2500',
+    site: "https://weth.io",
+    buyLink: 'https://spookyswap.finance/swap?outputCurrency=0x74b23882a30290451A17c44f4F05243b6b58C76d',
+    sort: 4,
+    closedForStaking: false,
+  },
+  GamepFTMRewardPool: {
+    name: 'Earn GAME by staking pFTM',
+    page: "GamepFTMRewardPool",
+    poolId: 5,
+    sectionInUI: 0,
+    contract: 'GameGenesisRewardPool',
+    depositTokenName: 'pFTM',
+    earnTokenName: 'GAME',
+    finished: false,
+    multiplier: '4000',
+    site: "https://ripae.finance",
+    buyLink: 'https://spookyswap.finance/swap?outputCurrency=0x112dF7E3b4B7Ab424F07319D4E92F41e6608c48B',
+    sort: 5,
+    closedForStaking: false,
+  },
+  GamebFTMRewardPool: {
+    name: 'Earn GAME by staking bFTM',
+    page: "GamebFTMRewardPool",
+    poolId: 6,
+    sectionInUI: 0,
+    contract: 'GameGenesisRewardPool',
+    depositTokenName: 'bFTM',
+    earnTokenName: 'GAME',
+    finished: false,
+    multiplier: '5000',
+    site: "https://ripae.finance",
+    buyLink: 'https://ripae.finance/bonds',
+    sort: 6,
+    closedForStaking: false,
+  },
+  TheoryGameDaiSpookyLpRewardPool: {
+    name: 'Earn THEORY by staking GAME-DAI LP',
+    page: "TheoryGameDaiSpookyLpRewardPool",
+    poolId: 0,
+    sectionInUI: 2,
+    contract: 'TheoryRewardPool',
+    depositTokenName: 'GAME-DAI LP',
+    earnTokenName: 'THEORY',
+    finished: false,
+    multiplier: '35500',
+    site: "https://gametheory.tech",
+    buyLink: 'https://spookyswap.finance/swap?outputCurrency=',
+    sort: 0,
+    closedForStaking: false,
+  },
+  TheoryTheoryDaiSpookyLpRewardPool: {
+    name: 'Earn THEORY by staking THEORY-DAI LP',
+    page: "TheoryTheoryDaiSpookyLpRewardPool",
+    poolId: 1,
+    sectionInUI: 2,
+    contract: 'TheoryRewardPool',
+    depositTokenName: 'THEORY-DAI LP',
+    earnTokenName: 'THEORY',
+    finished: false,
+    multiplier: '24000',
+    site: "https://gametheory.tech",
+    buyLink: 'https://spookyswap.finance/swap?outputCurrency=',
+    sort: 1,
+    closedForStaking: false,
+  }
+};
+
+export default configurations['development'];
