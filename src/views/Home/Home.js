@@ -225,7 +225,7 @@ const Home = () => {
               </Button> */}
               <Button
                 target="_blank"
-                href="https://spookyswap.finance/swap?outputCurrency=0x14def7584a6c52f470ca4f4b9671056b22f4ffde"
+                href="https://spookyswap.finance/swap?outputCurrency="
                 variant="contained"
                 style={{ marginRight: '10px' }}
                 className={classes.button}
