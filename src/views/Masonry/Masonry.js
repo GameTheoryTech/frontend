@@ -22,6 +22,7 @@ import useCurrentEpoch from '../../hooks/useCurrentEpoch';
 import useFetchMasonryAPR from '../../hooks/useFetchMasonryAPR';
 
 import useCashPriceInEstimatedTWAP from '../../hooks/useCashPriceInEstimatedTWAP';
+import useCashPriceInNextTWAP from '../../hooks/useCashPriceInNextTWAP';
 import useTreasuryAllocationTimes from '../../hooks/useTreasuryAllocationTimes';
 import useTotalStakedOnMasonry from '../../hooks/useTotalStakedOnMasonry';
 import useClaimRewardCheck from '../../hooks/masonry/useClaimRewardCheck';
@@ -64,12 +65,13 @@ const Masonry = () => {
   const { onRedeem } = useRedeemOnMasonry();
   const stakedBalance = useStakedBalanceOnMasonry();
   const currentEpoch = useCurrentEpoch();
-  const cashStat = useCashPriceInEstimatedTWAP();
+  //const cashStat = useCashPriceInEstimatedTWAP();
+  //const nextCashStat = useCashPriceInNextTWAP();
   const totalStaked = useTotalStakedOnMasonry();
   const { apr, dpr } = useFetchMasonryAPR();
   const canClaimReward = useClaimRewardCheck();
   const canWithdraw = useWithdrawCheck();
-  const scalingFactor = useMemo(() => (cashStat ? Number(cashStat.priceInDollars).toFixed(4) : null), [cashStat]);
+  //const scalingFactor = useMemo(() => (cashStat ? Number(cashStat.priceInDollars).toFixed(4) : null), [cashStat]);
   const { to } = useTreasuryAllocationTimes();
   const rebateStats = useTreasury()
 
@@ -118,6 +120,16 @@ const Masonry = () => {
               <Grid item xs={12} md={2} lg={2} className={classes.gridItem}>
                 <Card className={classes.gridItem}>
                   <CardContent align="center">
+                    <Typography>
+                      Price<small> (Next TWAP)</small>
+                    </Typography>
+                    <Typography>{rebateStats.tombPriceUpdated.toFixed(4)} DAI</Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={12} md={2} lg={2} className={classes.gridItem}>
+                <Card className={classes.gridItem}>
+                  <CardContent align="center">
                     <Typography>APR</Typography>
                     <Typography>{(!rebateStats.outOfBootstrap || rebateStats.tombPrice >= 1.01) ? apr.toFixed(2) : "0.00"}%</Typography>
                   </CardContent>
@@ -160,7 +172,7 @@ const Masonry = () => {
             <Grid container justifyContent="center">
               <Box mt={3} style={{ width: '525px' }}>
                 <Alert variant="transparent" severity="info">
-                  Rewards can only be claimed after {rebateStats.currentClaimEpochs} {rebateStats.currentClaimEpochs == 1 ? "epoch" : "epochs"} since last action. Staked THEORY can only be withdrawn after {rebateStats.currentWithdrawEpochs} {rebateStats.currentWithdrawEpochs == 1 ? "epoch" : "epochs"} since last action (deposit, withdraw, etc.).
+                   Rewards can only be claimed after {rebateStats.currentClaimEpochs} {rebateStats.currentClaimEpochs == 1 ? "epoch" : "epochs"} since last action. Staked THEORY can only be withdrawn after {rebateStats.currentWithdrawEpochs} {rebateStats.currentWithdrawEpochs == 1 ? "epoch" : "epochs"} since last action (deposit, withdraw, etc.).
                 </Alert>
               </Box>
             </Grid>
@@ -168,7 +180,7 @@ const Masonry = () => {
             <Grid container justifyContent="center">
               <Box mt={3} style={{ width: '525px' }}>
                 <Alert variant="transparent" severity="info">
-                  The number of epochs that you have to wait increases as time progresses. Check the docs for more info.
+                  Next TWAP determines if rewards will be distributed at the end of an epoch. TWAP determines everything else. The number of epochs that you have to wait increases as time progresses. Check the docs for more info.
                 </Alert>
               </Box>
             </Grid>

@@ -1373,6 +1373,7 @@ function useTreasury() {
     const [ maxBondSell, setMaxBondSell ] = useState(0)
     const [ maxBondSellBN, setMaxBondSellBN ] = useState(BigNumber.from(0))
     const [ bondBonus, setBondBonus ] = useState(0)
+    const [ tombPriceUpdated, setTombPriceUpdated ] = useState(0)
     const tombFinance = useTombFinance();
 
     async function update() {
@@ -1388,7 +1389,8 @@ function useTreasury() {
             bootstrapEpochs,
             currentEpoch,
             bondsRedeemable,
-            bondRate
+            bondRate,
+            tombPriceUpdated
         ] = await Promise.all([
             Treasury.methods.getGamePrice().call(),
             Game.methods.balanceOf(TreasuryAddress).call(),
@@ -1399,7 +1401,8 @@ function useTreasury() {
             Treasury.methods.bootstrapEpochs().call(),
             Treasury.methods.epoch().call(),
             Treasury.methods.getRedeemableBonds().call(),
-            Treasury.methods.getBondPremuim().call()
+            Treasury.methods.getBondPremiumRate().call(),
+            Treasury.methods.getGameUpdatedPrice().call(),
         ])
 
         setTombPrice(+web3.utils.fromWei(tombPrice));
@@ -1413,6 +1416,7 @@ function useTreasury() {
         setMaxBondSell(+web3.utils.fromWei(bondsRedeemable));
         setMaxBondSellBN(BigNumber.from(bondsRedeemable));
         setBondBonus(+web3.utils.fromWei(bondRate));
+        setTombPriceUpdated(+web3.utils.fromWei(tombPriceUpdated));
     }
 
     useEffect(() => {
@@ -1433,7 +1437,8 @@ function useTreasury() {
         bootstrapEpochsLeft,
         maxBondSell,
         maxBondSellBN,
-        bondBonus
+        bondBonus,
+        tombPriceUpdated
     }
 }
 

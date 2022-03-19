@@ -195,6 +195,21 @@ export class TombFinance {
     };
   }
 
+  async getTombStatInNextTWAP(): Promise<TokenStat> {
+    const { Treasury, GameGenesisRewardPool } = this.contracts;
+    const expectedPrice = await Treasury.getGameUpdatedPrice(); // Updated price is UUUUSELESS.
+
+    const supply = await this.TOMB.totalSupply();
+    const tombRewardPoolSupply = await this.TOMB.balanceOf(GameGenesisRewardPool.address);
+    const tombCirculatingSupply = supply.sub(tombRewardPoolSupply);
+    return {
+      tokenInFtm: getDisplayBalance(expectedPrice),
+      priceInDollars: getDisplayBalance(expectedPrice),
+      totalSupply: getDisplayBalance(supply, this.TOMB.decimal, 0),
+      circulatingSupply: getDisplayBalance(tombCirculatingSupply, this.TOMB.decimal, 0),
+    };
+  }
+
   async getTombStatInEstimatedTWAP(): Promise<TokenStat> {
     const { Treasury, GameGenesisRewardPool } = this.contracts;
     const expectedPrice = await Treasury.getGamePrice(); // Updated price is UUUUSELESS.

@@ -120,7 +120,7 @@ const Pit: React.FC = () => {
                   toTokenName="GAME"
                   priceDesc={`${getDisplayBalance(bondBalance)} HODL Available in wallet.` + (isBondRedeemable ? + ` ${rebateStats.tombAvailable.toFixed(4)} GAME available for purchase with ${rebateStats.maxBondSell.toFixed(4)} HODL. Current bonus rate is +${(rebateStats.bondBonus * 100 - 100).toFixed(2)}%.` : "")}
                   onExchange={handleRedeemBonds}
-                  disabled={!bondStat || bondBalance.eq(0) || !isBondRedeemable}
+                  disabled={!bondStat || bondBalance.eq(0) || rebateStats.maxBondSellBN.eq(0) || !isBondRedeemable}
                   disabledDescription={!isBondRedeemable ? `Enabled when GAME > ${BOND_REDEEM_PRICE} DAI` : null}
                   max={rebateStats.maxBondSellBN}
                 />
