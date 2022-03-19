@@ -369,7 +369,7 @@ export class TombFinance {
    */
   async redeemBonds(amount: string): Promise<TransactionResponse> {
     const { Treasury } = this.contracts;
-    const priceForTomb = await Treasury.getTombPrice();
+    const priceForTomb = await Treasury.getGamePrice();
     return await Treasury.redeemBonds(decimalToBalance(amount), priceForTomb);
   }
 
