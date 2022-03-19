@@ -54,7 +54,7 @@ const ExchangeCard: React.FC<ExchangeCardProps> = ({
     <ExchangeModal
       title={action}
       description={priceDesc}
-      max={max == undefined ? balance : (balance > max ? max : balance)}
+      max={max == undefined ? balance : (balance.gt(max) ? max : balance)}
       onConfirm={(value) => {
         onExchange(value);
         onDismiss();

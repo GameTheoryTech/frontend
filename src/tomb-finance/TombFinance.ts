@@ -157,7 +157,7 @@ export class TombFinance {
     const { Treasury } = this.contracts;
     const tombStat = await this.getTombStat();
     const bondTombRatioBN = await Treasury.getBondPremiumRate();
-    const modifier = bondTombRatioBN / 1e18 > 1 ? bondTombRatioBN / 1e18 : 1;
+    const modifier = bondTombRatioBN > BigNumber.from(10).pow(18) ? bondTombRatioBN.div(BigNumber.from(10).pow(18)).toNumber() : 1;
     const bondPriceInFTM = (Number(tombStat.tokenInFtm) * modifier).toFixed(2);
     const priceOfTBondInDollars = (Number(tombStat.priceInDollars) * modifier).toFixed(2);
     const supply = await this.HODL.displayedTotalSupply();
@@ -196,8 +196,8 @@ export class TombFinance {
   }
 
   async getTombStatInEstimatedTWAP(): Promise<TokenStat> {
-    const { Oracle, GameGenesisRewardPool } = this.contracts;
-    const expectedPrice = await Oracle.twap(this.TOMB.address, ethers.utils.parseEther('1'));
+    const { Treasury, GameGenesisRewardPool } = this.contracts;
+    const expectedPrice = await Treasury.getGamePrice(); // Updated price is UUUUSELESS.
 
     const supply = await this.TOMB.totalSupply();
     const tombRewardPoolSupply = await this.TOMB.balanceOf(GameGenesisRewardPool.address);
@@ -212,12 +212,12 @@ export class TombFinance {
 
   async getTombPriceInLastTWAP(): Promise<BigNumber> {
     const { Treasury } = this.contracts;
-    return Treasury.getTombUpdatedPrice();
+    return Treasury.getGamePrice(); // Updated price is UUUUSELESS.
   }
 
   async getBondsPurchasable(): Promise<BigNumber> {
     const { Treasury } = this.contracts;
-    return Treasury.getBurnableTombLeft();
+    return Treasury.getBurnableGameLeft();
   }
 
   /**

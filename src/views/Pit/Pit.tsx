@@ -100,14 +100,14 @@ const Pit: React.FC = () => {
               </StyledCardWrapper>
               <StyledStatsWrapper>
                 <ExchangeStat
-                  tokenName="GAME"
-                  description="Last-Hour TWAP Price"
-                  price={getDisplayBalance(cashPrice, 18, 4)}
+                    tokenName="GAME"
+                    description="GAME Price (TWAP)"
+                    price={getDisplayBalance(cashPrice, 18, 4)}
                 />
                 <Spacer size="md" />
                 <ExchangeStat
                   tokenName="HODL"
-                  description="Current Price: (GAME)^2"
+                  description="Current Price (Current GAME Price + Premium)"
                   price={Number(bondStat?.tokenInFtm).toFixed(2) || '-'}
                 />
               </StyledStatsWrapper>
