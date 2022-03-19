@@ -1,6 +1,6 @@
 export const TOMB_TICKER = 'TOMB';
 export const TSHARE_TICKER = 'TSHARE';
-export const TBOND_TICKER = 'TBOND';
+export const HODL_TICKER = 'HODL';
 export const FTM_TICKER = 'FTM';
 export const WFTM_TICKER = 'WFTM';
 export const DAI_TICKER = 'DAI';

@@ -17,6 +17,7 @@ import ERC20 from '../../../tomb-finance/ERC20';
 import useTokenBalance from '../../../hooks/useTokenBalance';
 import useApprove, { ApprovalState } from '../../../hooks/useApprove';
 import useCatchError from '../../../hooks/useCatchError';
+import {BigNumber} from "ethers";
 
 interface ExchangeCardProps {
   action: string;
@@ -28,6 +29,7 @@ interface ExchangeCardProps {
   onExchange: (amount: string) => void;
   disabled?: boolean;
   disabledDescription?: string;
+  max?: BigNumber;
 }
 
 const ExchangeCard: React.FC<ExchangeCardProps> = ({
@@ -40,19 +42,19 @@ const ExchangeCard: React.FC<ExchangeCardProps> = ({
   onExchange,
   disabled = false,
   disabledDescription,
+  max = undefined
 }) => {
   const catchError = useCatchError();
   const {
     contracts: { Treasury },
   } = useTombFinance();
   const [approveStatus, approve] = useApprove(fromToken, Treasury.address);
-
   const balance = useTokenBalance(fromToken);
   const [onPresent, onDismiss] = useModal(
     <ExchangeModal
       title={action}
       description={priceDesc}
-      max={balance}
+      max={max == undefined ? balance : (balance > max ? max : balance)}
       onConfirm={(value) => {
         onExchange(value);
         onDismiss();

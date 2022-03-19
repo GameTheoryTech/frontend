@@ -25,7 +25,7 @@ const AccountModal: React.FC<ModalProps> = ({ onDismiss }) => {
   const displayTshareBalance = useMemo(() => getDisplayBalance(tshareBalance), [tshareBalance]);
   const displayTheoryLocked = useMemo(() => getDisplayBalance(theoryLocked), [theoryLocked]);
 
-  const tbondBalance = useTokenBalance(tombFinance.TBOND);
+  const tbondBalance = useTokenBalance(tombFinance.HODL);
   const displayTbondBalance = useMemo(() => getDisplayBalance(tbondBalance), [tbondBalance]);
 
   // const useStyles = makeStyles((theme) => ({
@@ -80,7 +80,7 @@ const AccountModal: React.FC<ModalProps> = ({ onDismiss }) => {
         </StyledBalanceWrapper>
 
         <StyledBalanceWrapper>
-          <TokenSymbol symbol="TBOND" />
+          <TokenSymbol symbol="HODL" />
           <StyledBalance>
             <StyledValue>{displayTbondBalance}</StyledValue>
             <Label text="HODL Available" />

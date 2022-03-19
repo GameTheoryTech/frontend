@@ -20,6 +20,7 @@ import { getDisplayBalance } from '../../utils/formatBalance';
 import { BOND_REDEEM_PRICE, BOND_REDEEM_PRICE_BN } from '../../tomb-finance/constants';
 import { Typography } from '@mui/material';
 import useRefresh from "../../hooks/useRefresh";
+import useTreasury from "../../hooks/useTreasury";
 
 
 const BackgroundImage = createGlobalStyle`
@@ -43,15 +44,16 @@ const Pit: React.FC = () => {
   const bondStat = useBondStats();
   const cashPrice = useCashPriceInLastTWAP();
   const bondsPurchasable = useBondsPurchasable();
+  const rebateStats = useTreasury();
   const  { slowRefresh } = useRefresh();
 
-  const bondBalance = useTokenBalance(tombFinance?.TBOND);
+  const bondBalance = useTokenBalance(tombFinance?.HODL);
 
   const handleBuyBonds = useCallback(
     async (amount: string) => {
       const tx = await tombFinance.buyBonds(amount);
       addTransaction(tx, {
-        summary: `Buy ${Number(amount).toFixed(2)} TBOND with ${amount} TOMB`,
+        summary: `Buy ${Number(amount).toFixed(2)} HODL with ${amount} TOMB`,
       });
     },
     [tombFinance, addTransaction],
@@ -60,7 +62,7 @@ const Pit: React.FC = () => {
   const handleRedeemBonds = useCallback(
     async (amount: string) => {
       const tx = await tombFinance.redeemBonds(amount);
-      addTransaction(tx, { summary: `Redeem ${amount} TBOND` });
+      addTransaction(tx, { summary: `Redeem ${amount} HODL` });
     },
     [tombFinance, addTransaction],
   );
@@ -85,12 +87,12 @@ const Pit: React.FC = () => {
                   action="Purchase"
                   fromToken={tombFinance.TOMB}
                   fromTokenName="GAME"
-                  toToken={tombFinance.TBOND}
+                  toToken={tombFinance.HODL}
                   toTokenName="HODL"
                   priceDesc={
                     !isBondPurchasable
                       ? 'GAME is over peg'
-                      : getDisplayBalance(bondsPurchasable, 18, 4) + ' HODL available for purchase'
+                      : getDisplayBalance(bondsPurchasable, 18, 4) + ' HODL available for purchase.'
                   }
                   onExchange={handleBuyBonds}
                   disabled={!bondStat || isBondRedeemable}
@@ -112,14 +114,15 @@ const Pit: React.FC = () => {
               <StyledCardWrapper>
                 <ExchangeCard
                   action="Redeem"
-                  fromToken={tombFinance.TBOND}
+                  fromToken={tombFinance.HODL}
                   fromTokenName="HODL"
                   toToken={tombFinance.TOMB}
                   toTokenName="GAME"
-                  priceDesc={`${getDisplayBalance(bondBalance)} HODL Available in wallet`}
+                  priceDesc={`${getDisplayBalance(bondBalance)} HODL Available in wallet.` + (isBondRedeemable ? + ` ${rebateStats.tombAvailable.toFixed(4)} GAME available for purchase with ${rebateStats.maxBondSell.toFixed(4)} HODL. Current bonus rate is +${(rebateStats.bondBonus * 100 - 100).toFixed(2)}%.` : "")}
                   onExchange={handleRedeemBonds}
                   disabled={!bondStat || bondBalance.eq(0) || !isBondRedeemable}
-                  disabledDescription={!isBondRedeemable ? `Enabled when GAME > ${BOND_REDEEM_PRICE} FTM` : null}
+                  disabledDescription={!isBondRedeemable ? `Enabled when GAME > ${BOND_REDEEM_PRICE} DAI` : null}
+                  max={rebateStats.maxBondSellBN}
                 />
               </StyledCardWrapper>
             </StyledBond>

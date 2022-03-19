@@ -33,7 +33,7 @@ export class TombFinance {
   TOMBDAI_LP: Contract;
   TOMB: ERC20Lockable;
   TSHARE: ERC20Lockable;
-  TBOND: ERC20;
+  HODL: ERC20;
   FTM: ERC20;
 
   constructor(cfg: Configuration) {
@@ -51,7 +51,7 @@ export class TombFinance {
     }
     this.TOMB = new ERC20Lockable(deployments.game.address, provider, 'GAME');
     this.TSHARE = new ERC20Lockable(deployments.theory.address, provider, 'THEORY');
-    this.TBOND = new ERC20(deployments.hodl.address, provider, 'HODL');
+    this.HODL = new ERC20(deployments.hodl.address, provider, 'HODL');
     this.FTM = this.externalTokens['DAI'];
 
     // Uniswap V2 Pair
@@ -72,7 +72,7 @@ export class TombFinance {
     for (const [name, contract] of Object.entries(this.contracts)) {
       this.contracts[name] = contract.connect(this.signer);
     }
-    const tokens = [this.TOMB, this.TSHARE, this.TBOND, ...Object.values(this.externalTokens)];
+    const tokens = [this.TOMB, this.TSHARE, this.HODL, ...Object.values(this.externalTokens)];
     for (const token of tokens) {
       token.connect(this.signer);
     }
@@ -147,7 +147,7 @@ export class TombFinance {
 
   /**
    * Use this method to get price for Tomb
-   * @returns TokenStat for TBOND
+   * @returns TokenStat for HODL
    * priceInFTM
    * priceInDollars
    * TotalSupply
@@ -160,7 +160,7 @@ export class TombFinance {
     const modifier = bondTombRatioBN / 1e18 > 1 ? bondTombRatioBN / 1e18 : 1;
     const bondPriceInFTM = (Number(tombStat.tokenInFtm) * modifier).toFixed(2);
     const priceOfTBondInDollars = (Number(tombStat.priceInDollars) * modifier).toFixed(2);
-    const supply = await this.TBOND.displayedTotalSupply();
+    const supply = await this.HODL.displayedTotalSupply();
     return {
       tokenInFtm: bondPriceInFTM,
       priceInDollars: priceOfTBondInDollars,
@@ -736,8 +736,8 @@ export class TombFinance {
       } else if (assetName === 'TSHARE') {
         asset = this.TSHARE;
         assetUrl = 'https://tomb.finance/presskit/tshare_icon_noBG.png';
-      } else if (assetName === 'TBOND') {
-        asset = this.TBOND;
+      } else if (assetName === 'HODL') {
+        asset = this.HODL;
         assetUrl = 'https://tomb.finance/presskit/tbond_icon_noBG.png';
       }
       await ethereum.request({

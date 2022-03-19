@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import Web3 from "web3"
 import useTombFinance from "./useTombFinance";
+import {BigNumber} from "ethers";
 
 const TreasuryABI =
     [
@@ -1369,6 +1370,9 @@ function useTreasury() {
     const [ rewardsLocked, setRewardsLocked ] = useState(0)
     const [ outOfBootstrap, setOutOfBootstrap ] = useState(false)
     const [ bootstrapEpochsLeft, setBootstrapEpochsLeft ] = useState(0)
+    const [ maxBondSell, setMaxBondSell ] = useState(0)
+    const [ maxBondSellBN, setMaxBondSellBN ] = useState(BigNumber.from(0))
+    const [ bondBonus, setBondBonus ] = useState(0)
     const tombFinance = useTombFinance();
 
     async function update() {
@@ -1382,7 +1386,9 @@ function useTreasury() {
             _currentWithdrawFeeOf,
             _rewardsLocked,
             bootstrapEpochs,
-            currentEpoch
+            currentEpoch,
+            bondsRedeemable,
+            bondRate
         ] = await Promise.all([
             Treasury.methods.getGamePrice().call(),
             Game.methods.balanceOf(TreasuryAddress).call(),
@@ -1391,7 +1397,9 @@ function useTreasury() {
             Treasury.methods.theoreticsGetWithdrawFeeOf(tombFinance.myAccount).call(),
             Treasury.methods.theoreticsGetLockPercentage().call(),
             Treasury.methods.bootstrapEpochs().call(),
-            Treasury.methods.epoch().call()
+            Treasury.methods.epoch().call(),
+            Treasury.methods.getRedeemableBonds().call(),
+            Treasury.methods.getBondPremuim().call()
         ])
 
         setTombPrice(+web3.utils.fromWei(tombPrice));
@@ -1402,6 +1410,9 @@ function useTreasury() {
         setRewardsLocked(+_rewardsLocked)
         setOutOfBootstrap(+currentEpoch >= +bootstrapEpochs);
         setBootstrapEpochsLeft((+bootstrapEpochs) - (+currentEpoch));
+        setMaxBondSell(+web3.utils.fromWei(bondsRedeemable));
+        setMaxBondSellBN(BigNumber.from(bondsRedeemable));
+        setBondBonus(+web3.utils.fromWei(bondRate));
     }
 
     useEffect(() => {
@@ -1419,7 +1430,10 @@ function useTreasury() {
         currentWithdrawFeeOf,
         rewardsLocked,
         outOfBootstrap,
-        bootstrapEpochsLeft
+        bootstrapEpochsLeft,
+        maxBondSell,
+        maxBondSellBN,
+        bondBonus
     }
 }
 

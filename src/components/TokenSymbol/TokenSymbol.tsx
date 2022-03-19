@@ -36,7 +36,7 @@ const logosBySymbol: { [title: string]: string } = {
   TOMBPNG: tombLogoPNG,
   TSHAREPNG: tShareLogoPNG,
   TSHARE: tShareLogo,
-  TBOND: tBondLogo,
+  HODL: tBondLogo,
   DAI: daiLogo,
   BOO: booLogo,
   SHIBA: shibaLogo,

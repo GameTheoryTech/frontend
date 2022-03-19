@@ -345,14 +345,14 @@ const Home = () => {
           </Card>
         </Grid>
 
-        {/* TBOND */}
+        {/* HODL */}
         <Grid item xs={12} sm={3}>
           <Card style={{ backgroundColor: "transparent", boxShadow: "none", border: "1px solid var(--white)" }}>
             <CardContent align="center" style={{ position: 'relative' }}>
               <h2>HODL</h2>
               {/* <Button
                 onClick={() => {
-                  tombFinance.watchAssetInMetamask('TBOND');
+                  tombFinance.watchAssetInMetamask('HODL');
                 }}
                 color="secondary"
                 variant="outlined"
@@ -363,7 +363,7 @@ const Home = () => {
               </Button> */}
               <Box mt={2}>
                 <CardIcon>
-                  <TokenSymbol symbol="TBOND" />
+                  <TokenSymbol symbol="HODL" />
                 </CardIcon>
               </Box>
               Current Price
