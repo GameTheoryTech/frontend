@@ -35,7 +35,7 @@ const configurations: { [env: string]: Configuration } = {
       'GAME-DAI-LP': ['0x83a52eff2e9d112e9b022399a9fd22a9db7d33ae', 18],
       'THEORY-DAI-LP': ['0xd352dac95a91afefb112dbbb3463ccfa5ec15b65', 18],
     },
-    baseLaunchDate: new Date('2021-06-02 13:00:00Z'),
+    baseLaunchDate: new Date('2021-06-02T13:00:00Z'),
     bondLaunchesAt: new Date('2020-12-03T15:00:00Z'),
     masonryLaunchesAt: new Date('2020-12-11T00:00:00Z'),
     refreshInterval: 10000,
@@ -139,7 +139,7 @@ export const bankDefinitions: { [contractName: string]: BankInfo } = {
     closedForStaking: false,
   },
   GameETHRewardPool: {
-    name: 'Earn GAME by staking ETH',
+    name: 'Earn GAME by staking ETH (wETH on SpookySwap)',
     page: "GameETHRewardPool",
     poolId: 4,
     sectionInUI: 0,

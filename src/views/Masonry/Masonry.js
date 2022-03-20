@@ -80,6 +80,9 @@ const Masonry = () => {
       <BackgroundImage />
       {!!account ? (
         <>
+          <Alert variant="filled" severity="info" style={{ marginTop: '50px' }}>
+            Theoretics will start at {(new Date('2022-03-28T12:00:00Z')).toString()}.
+          </Alert>
           <Typography color="textPrimary" align="center" variant="h3" gutterBottom>
             Theoretics
           </Typography>
