@@ -225,20 +225,20 @@ const Home = () => {
               </Button> */}
               <Button
                 target="_blank"
-                href="https://spookyswap.finance/swap?outputCurrency=0xe5c495DEE0A78a12e44d946b7E9931d46B35dF62"
+                href="https://spookyswap.finance/swap?outputCurrency=0x56EbFC2F3873853d799C155AF9bE9Cb8506b7817"
                 variant="contained"
                 style={{ marginRight: '10px' }}
                 className={classes.button}
               >
                 Buy GAME
               </Button>
-              <Button variant="contained" target="_blank" href="https://spookyswap.finance/swap?outputCurrency=0xDbF138c66cbacd169017d8bEcFBBEeD84f6e6315" style={{ marginRight: '10px' }} className={classes.button}>
+              <Button variant="contained" target="_blank" href="https://spookyswap.finance/swap?outputCurrency=0x60787C689ddc6edfc84FCC9E7d6BD21990793f06" style={{ marginRight: '10px' }} className={classes.button}>
                 Buy THEORY
               </Button>
-              <Button variant="contained" target="_blank" href="https://dexscreener.com/fantom/0xBED27D20AB6C23003498184969A7982Cd8c68551" style={{ marginRight: '10px' }} className={classes.button}>
+              <Button variant="contained" target="_blank" href="https://dexscreener.com/fantom/0x168e509FE5aae456cDcAC39bEb6Fd56B6cb8912e" style={{ marginRight: '10px' }} className={classes.button}>
                 GAME Chart
               </Button>
-              <Button variant="contained" target="_blank" href="https://dexscreener.com/fantom/0x488E9DBDb93aE207ddDDd5683749b4751b379283" className={classes.button}>
+              <Button variant="contained" target="_blank" href="https://dexscreener.com/fantom/0xF69FCB51A13D4Ca8A58d5a8D964e7ae5d9Ca8594" className={classes.button}>
                 THEORY Chart
               </Button>
             </CardContent>
