@@ -18,7 +18,7 @@ import usetShareStats from '../../hooks/usetShareStats';
 import useTotalValueLocked from '../../hooks/useTotalValueLocked';
 import useFantomPrice from '../../hooks/useFantomPrice';
 import { game as tombTesting, theory as tShareTesting } from '../../tomb-finance/deployments/deployments.testing.json';
-import { tomb as tombProd, tShare as tShareProd } from '../../tomb-finance/deployments/deployments.mainnet.json';
+import { game as tombProd, theory as tShareProd } from '../../tomb-finance/deployments/deployments.mainnet.json';
 
 import useTotalTreasuryBalance from '../../hooks/useTotalTreasuryBalance.js';
 
@@ -62,10 +62,10 @@ const Home = () => {
 
   let tomb;
   let tShare;
-  if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+  /*if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
     tomb = tombTesting;
     tShare = tShareTesting;
-  } else {
+  } else */{
     tomb = tombProd;
     tShare = tShareProd;
   }
@@ -164,7 +164,7 @@ const Home = () => {
         <Grid item xs={12} sm={8}>
           <Paper style={{ backgroundColor: "transparent", boxShadow: "none", border: "1px solid var(--white)" }}>
             <Box p={4}>
-              <h2>Welcome to Game Theory! (TESTNET VERSION)</h2>
+              <h2>Welcome to Game Theory!</h2>
               <p>Game Theory is an experimental "game" and thought experiment currently in development on the Fantom Opera blockchain.  In simple terms, it works like a Tomb/3omb fork mixed with a DeFi Kingdoms fork. Depending on funds raised, it might be used to create a variety of projects, starting with a video game since that is what the dev's background is. THEORY holders will be able to vote on aspects of the game, as well as receive a cut of the revenue (details to be worked out later). GAME might be used as currency within the game(s)/project(s), and the LP providers would earn fees from that (as well as from other promotions).</p>
               <p>For more information, check out the <StyledLink href="https://docs.gametheory.tech/">Docs</StyledLink> and <StyledLink href="/faq">FAQ</StyledLink>. The community fund is used for marketing, community actions, gathering and putting assets to work, and allocating seigniorage. It also may be used to fund development in an emergency and vice versa (this will be announced on Discord in advance, so don't be alarmed if you see some of these funds move to the dev fund and vice versa). The dev fund is used for paying the developer and hiring new ones.</p>
               <p>During the genesis phase, stake a number of tokens to earn GAME. There is a small deposit fee to help kickstart the theory.</p>
@@ -225,20 +225,20 @@ const Home = () => {
               </Button> */}
               <Button
                 target="_blank"
-                href="https://spookyswap.finance/swap?outputCurrency="
+                href="https://spookyswap.finance/swap?outputCurrency=0xe5c495DEE0A78a12e44d946b7E9931d46B35dF62"
                 variant="contained"
                 style={{ marginRight: '10px' }}
                 className={classes.button}
               >
                 Buy GAME
               </Button>
-              <Button variant="contained" target="_blank" href="https://spookyswap.finance/swap?outputCurrency=" style={{ marginRight: '10px' }} className={classes.button}>
+              <Button variant="contained" target="_blank" href="https://spookyswap.finance/swap?outputCurrency=0xDbF138c66cbacd169017d8bEcFBBEeD84f6e6315" style={{ marginRight: '10px' }} className={classes.button}>
                 Buy THEORY
               </Button>
-              <Button variant="contained" target="_blank" href="https://dexscreener.com/fantom/" style={{ marginRight: '10px' }} className={classes.button}>
+              <Button variant="contained" target="_blank" href="https://dexscreener.com/fantom/0xBED27D20AB6C23003498184969A7982Cd8c68551" style={{ marginRight: '10px' }} className={classes.button}>
                 GAME Chart
               </Button>
-              <Button variant="contained" target="_blank" href="https://dexscreener.com/fantom/" className={classes.button}>
+              <Button variant="contained" target="_blank" href="https://dexscreener.com/fantom/0x488E9DBDb93aE207ddDDd5683749b4751b379283" className={classes.button}>
                 THEORY Chart
               </Button>
             </CardContent>
