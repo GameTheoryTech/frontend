@@ -158,7 +158,7 @@ export class TombFinance {
     const tombStat = await this.getTombStat();
     const bondTombRatioBN = await Treasury.getBondPremiumRate();
     const modifier = bondTombRatioBN > BigNumber.from(10).pow(18) ? bondTombRatioBN.div(BigNumber.from(10).pow(18)).toNumber() : 1;
-    const bondPriceInFTM = (Number(tombStat.tokenInFtm) * modifier).toFixed(2);
+    const bondPriceInFTM = (Number(tombStat.tokenInFtm) * modifier).toFixed(4);
     const priceOfTBondInDollars = (Number(tombStat.priceInDollars) * modifier).toFixed(2);
     const supply = await this.HODL.displayedTotalSupply();
     return {
