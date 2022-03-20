@@ -46,7 +46,7 @@ const App: React.FC = () => {
 
   return (
     <Providers>
-      <Router>
+      <Router basename='/'>
         <Suspense fallback={<Loader />}>
           <Switch>
             <Route exact path="/">

@@ -211,10 +211,10 @@ const Home = () => {
           <Card style={{ height: '100%', backgroundColor: "transparent", boxShadow: "none", border: "1px solid var(--white)", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
             <CardContent align="center">
               {/* <h2 style={{ marginBottom: '20px' }}>Wallet Balance</h2> */}
-              <Button color="primary" href="/farms" variant="contained" style={{ marginRight: '10px' }}>
+              <Button color="primary" href="/#/farms" variant="contained" style={{ marginRight: '10px' }}>
                 Farms
               </Button>
-              <Button color="primary" href="/theoretics" variant="contained" style={{ marginRight: '25px' }}>
+              <Button color="primary" href="/#/theoretics" variant="contained" style={{ marginRight: '25px' }}>
                 Stake
               </Button>
               {/* <Button color="primary" href="/masonry" variant="contained" style={{ marginRight: '10px' }}>
