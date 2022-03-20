@@ -1,6 +1,6 @@
 {
   "Oracle": {
-    "address": "0x01B6c6c38b2554380F162B4191A6A9004a02947f",
+    "address": "0x5D5579A0A2d695Ab92CCD7D2d184f02d1474aAa9",
     "abi": [
       {
         "inputs": [
@@ -405,7 +405,7 @@
     ]
   },
   "game": {
-    "address": "0x00B8ba86C1b207f32710e7a4BCaDAB6F04C7dbd2",
+    "address": "0x9b343B2fF740E7d4935a4C26c8f94DaD73b5f2ad",
     "abi": [
       {
         "inputs": [],
@@ -1248,7 +1248,7 @@
     ]
   },
   "theory": {
-    "address": "0x597Acf9e77D94ED297434851f4c4588c4407E339",
+    "address": "0x330e5d339C84524B99a02Df30c086b01fcE41614",
     "abi": [
       {
         "inputs": [
@@ -2219,7 +2219,7 @@
     ]
   },
   "hodl": {
-    "address": "0x18BB5bcaa92BcE1335EAe72103E1E92302562de5",
+    "address": "0x3d8A41215098207fEc2988fA79faA7Fd35A434F2",
     "abi": [
       {
         "inputs": [],
@@ -2664,7 +2664,7 @@
     ]
   },
   "Treasury": {
-    "address": "0x643f98fa70126dB82fd32c29473933Fe8c4BF507",
+    "address": "0x55c6B3105ace3752e2414930D8767Df50Fb2f513",
     "abi": [
       {
         "anonymous": false,
@@ -4016,7 +4016,7 @@
     ]
   },
   "Theoretics": {
-    "address": "0x97564e5F8b3C9AF89C821Cd296F552Cd0E02A47C",
+    "address": "0x8b1455618B07Fa4Ef1f67F9f85b8a7CE6588b513",
     "abi": [
       {
         "anonymous": false,
@@ -4930,7 +4930,7 @@
     ]
   },
   "GameGenesisRewardPool": {
-    "address": "0xb74B09CdF72D3a25173b81E7B08a6DAA6D5A5B61",
+    "address": "0x5713201Bbd87bBbECd690D76903BdBbaCc4EC77C",
     "abi": [
       {
         "inputs": [
@@ -5634,7 +5634,7 @@
     ]
   },
   "TheoryRewardPool": {
-    "address": "0x20E2208038a6a6Bb0772217aD5727dD16b685CFE",
+    "address": "0x085DAD9Ac4E8EF88Ff2B12218401dE015A36eB0d",
     "abi": [
       {
         "inputs": [
