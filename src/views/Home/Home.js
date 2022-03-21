@@ -166,11 +166,11 @@ const Home = () => {
             <Box p={4}>
               <h2>Welcome to Game Theory!</h2>
               <p>Game Theory is an experimental "game" and thought experiment currently in development on the Fantom Opera blockchain.  In simple terms, it works like a Tomb/3omb fork mixed with a DeFi Kingdoms fork. Depending on funds raised, it might be used to create a variety of projects, starting with a video game since that is what the dev's background is. THEORY holders will be able to vote on aspects of the game, as well as receive a cut of the revenue (details to be worked out later). GAME might be used as currency within the game(s)/project(s), and the LP providers would earn fees from that (as well as from other promotions).</p>
-              <p>For more information, check out the <StyledLink href="https://docs.gametheory.tech/">Docs</StyledLink> and <StyledLink href="/faq">FAQ</StyledLink>. The community fund is used for marketing, community actions, gathering and putting assets to work, and allocating seigniorage. It also may be used to fund development in an emergency and vice versa (this will be announced on Discord in advance, so don't be alarmed if you see some of these funds move to the dev fund and vice versa). The dev fund is used for paying the developer and hiring new ones.</p>
+              <p>For more information, check out the <StyledLink href="https://docs.gametheory.tech/">Docs</StyledLink> and <StyledLink href="/#/faq">FAQ</StyledLink>. The community fund is used for marketing, community actions, gathering and putting assets to work, and allocating seigniorage. It also may be used to fund development in an emergency and vice versa (this will be announced on Discord in advance, so don't be alarmed if you see some of these funds move to the dev fund and vice versa). The dev fund is used for paying the developer and hiring new ones.</p>
               <p>During the genesis phase, stake a number of tokens to earn GAME. There is a small deposit fee to help kickstart the theory.</p>
               <p>
-                After the genesis pools are over, use your acquired GAME to create and stake GAME-DAI LP in the <StyledLink href="/farms">Farms</StyledLink> to earn THEORY rewards.
-                Then stake your earned THEORY in the <StyledLink href="/theoretics">Theoretics</StyledLink>, or try a different approach like creating and staking THEORY-DAI LP, or holding your rewards to avoid lockup. The choice is yours.
+                After the genesis pools are over, use your acquired GAME to create and stake GAME-DAI LP in the <StyledLink href="/#/farms">Farms</StyledLink> to earn THEORY rewards.
+                Then stake your earned THEORY in the <StyledLink href="/#/theoretics">Theoretics</StyledLink>, or try a different approach like creating and staking THEORY-DAI LP, or holding your rewards to avoid lockup. The choice is yours.
               </p>
             </Box>
           </Paper>
