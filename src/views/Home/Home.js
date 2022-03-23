@@ -165,12 +165,12 @@ const Home = () => {
           <Paper style={{ backgroundColor: "transparent", boxShadow: "none", border: "1px solid var(--white)" }}>
             <Box p={4}>
               <h2>Welcome to Game Theory!</h2>
-              <p>Game Theory is an experimental "game" and thought experiment currently in development on the Fantom Opera blockchain.  In simple terms, it works like a Tomb/3omb fork mixed with a DeFi Kingdoms fork. Depending on funds raised, it might be used to create a variety of projects, starting with a video game since that is what the dev's background is. THEORY holders will be able to vote on aspects of the game, as well as receive a cut of the revenue (details to be worked out later). GAME might be used as currency within the game(s)/project(s), and the LP providers would earn fees from that (as well as from other promotions).</p>
-              <p>For more information, check out the <StyledLink href="https://docs.gametheory.tech/">Docs</StyledLink> and <StyledLink href="/#/faq">FAQ</StyledLink>. The community fund is used for marketing, community actions, gathering and putting assets to work, and allocating seigniorage. It also may be used to fund development in an emergency and vice versa (this will be announced on Discord in advance, so don't be alarmed if you see some of these funds move to the dev fund and vice versa). The dev fund is used for paying the developer and hiring new ones.</p>
-              <p>During the genesis phase, stake a number of tokens to earn GAME. There is a small deposit fee to help kickstart the theory.</p>
+              <p>Game Theory is building a 2D RPG that is currently in development on the Fantom Opera blockchain. It is combining the best attributes of Tomb Finance and Defi Kingdoms to bootstrap liquidity for the launch of the game. $THEORY holders will be able to vote on aspects of the game and be share-holders in its revenue. $GAME will be in the in-game currency and LP providers will earn fees from the game and other promotions. </p>
+              <p>For more information, check out the <StyledLink href="https://docs.gametheory.tech/">Docs</StyledLink> and <StyledLink href="/#/faq">FAQ</StyledLink>. The treasury wallet is used for marketing, community actions, allocating seigniorage, and funding development of the game. The developer wallet is used for paying the developer and the team.</p>
+              <p>During the genesis phase, stake your tokens to earn $GAME. There is a small 1% deposit fee on each pool to fund the protocol and to be distributed as rewards to the community.</p>
               <p>
-                After the genesis pools are over, use your acquired GAME to create and stake GAME-DAI LP in the <StyledLink href="/#/farms">Farms</StyledLink> to earn THEORY rewards.
-                Then stake your earned THEORY in the <StyledLink href="/#/theoretics">Theoretics</StyledLink>, or try a different approach like creating and staking THEORY-DAI LP, or holding your rewards to avoid lockup. The choice is yours.
+                After the genesis pools are over, use your acquired $GAME to create and stake $GAME-$DAI LP in the <StyledLink href="/#/farms">Farms</StyledLink> to earn $THEORY rewards.
+                Then you can either stake your earned $THEORY in the <StyledLink href="/#/theoretics">Theoretics</StyledLink>, create $THEORY-$DAI LP and farm more $THEORY, or hold your rewards to avoid lockup. The choice is yours.
               </p>
             </Box>
           </Paper>
@@ -182,7 +182,7 @@ const Home = () => {
         <Grid container justifyContent="center">
             <Box mt={3} style={{ width: '1000px' }}>
             <Alert variant="filled" severity="warning">
-                DO NOT INVEST MORE THAN YOU ARE WILLING TO LOSE. Do your own research before investing. Investing is risky and may result in monetary loss. Game Theory is highly experimental and game-like, and as such may contain bugs, which bad parties may exploit. Game Theory was created with Test-Driven Development in mind, but this does not make it invulnerable to coding mistakes. It may turn into nothingness by simply existing. It is the first DeFi project created this single dev, with the help of some other projects and the dev's years of programming experience. By using Game Theory or any of its products, you agree that the Game Theory dev is not responsible for any financial losses from investing in Game Theory.
+              DO NOT INVEST MORE THAN YOU ARE WILLING TO LOSE. Do your own research before investing. Investing is risky and may result in monetary loss. By using Game Theory or any of its products, you agree that the Game Theory team is not responsible for any financial losses.
             </Alert>
             </Box>
         </Grid>

@@ -119,10 +119,10 @@ const Nav = () => {
                 Bonds
               </Link>
               <a href="https://ftmscan.com/address/0x90dED1c9c35f06b7239429939832f7Ab896D0E06" target="_blank" className={classes.link}>
-                Community Fund (Marketing Wallet)
+                Treasury Wallet
               </a>
               <a href="https://ftmscan.com/address/0x29a92c81795d589b32e98fd119568e738ae5952b" target="_blank" className={classes.link}>
-                Dev Fund (Pay Wallet)
+                Developer Wallet
               </a>
               {/* <Link color="textPrimary" to="/treasury" className={classes.link}>
                 Treasury
@@ -200,10 +200,10 @@ const Nav = () => {
                 <ListItemLink primary="Liquidity" to="/liquidity" />
                 <ListItemLink primary="Regulations" to="/regulations" /> */}
                 <ListItem button component="a" href="https://ftmscan.com/address/0x90dED1c9c35f06b7239429939832f7Ab896D0E06">
-                  <ListItemText>Community Fund (Marketing Wallet)</ListItemText>
+                  <ListItemText>Treasury Wallet</ListItemText>
                 </ListItem>
                 <ListItem button component="a" href="https://ftmscan.com/address/0x29a92c81795d589b32e98fd119568e738ae5952b">
-                  <ListItemText>Dev Fund (Pay Wallet)</ListItemText>
+                  <ListItemText>Developer Fund</ListItemText>
                 </ListItem>
                 {/*<ListItem button component="a" href="https://snapshot.org/#/forgiving.forg.eth">*/}
                 {/*  <ListItemText>Governance</ListItemText>*/}
