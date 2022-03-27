@@ -2,8 +2,8 @@
   "files": {
     "static/js/0.ee2904a6.chunk.js": "/static/js/0.ee2904a6.chunk.js",
     "static/js/0.ee2904a6.chunk.js.map": "/static/js/0.ee2904a6.chunk.js.map",
-    "static/js/1.26393785.chunk.js": "/static/js/1.26393785.chunk.js",
-    "static/js/1.26393785.chunk.js.map": "/static/js/1.26393785.chunk.js.map",
+    "static/js/1.0b19be5c.chunk.js": "/static/js/1.0b19be5c.chunk.js",
+    "static/js/1.0b19be5c.chunk.js.map": "/static/js/1.0b19be5c.chunk.js.map",
     "static/js/2.aee2b66d.chunk.js": "/static/js/2.aee2b66d.chunk.js",
     "static/js/2.aee2b66d.chunk.js.map": "/static/js/2.aee2b66d.chunk.js.map",
     "static/js/3.9eadc534.chunk.js": "/static/js/3.9eadc534.chunk.js",
@@ -13,8 +13,8 @@
     "main.css": "/static/css/main.cdb446f2.chunk.css",
     "main.js": "/static/js/main.3680ca5f.chunk.js",
     "main.js.map": "/static/js/main.3680ca5f.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.3e39294d.js",
-    "runtime-main.js.map": "/static/js/runtime-main.3e39294d.js.map",
+    "runtime-main.js": "/static/js/runtime-main.f53d5614.js",
+    "runtime-main.js.map": "/static/js/runtime-main.f53d5614.js.map",
     "static/js/7.e190886c.chunk.js": "/static/js/7.e190886c.chunk.js",
     "static/js/7.e190886c.chunk.js.map": "/static/js/7.e190886c.chunk.js.map",
     "static/js/8.67590645.chunk.js": "/static/js/8.67590645.chunk.js",
@@ -97,6 +97,7 @@
     "static/media/fantom-ftm-logo.40755d1e.png": "/static/media/fantom-ftm-logo.40755d1e.png",
     "static/media/github.0a1ec797.svg": "/static/media/github.0a1ec797.svg",
     "static/media/home.728e80e4.png": "/static/media/home.728e80e4.png",
+    "static/media/medium.74e98b25.svg": "/static/media/medium.74e98b25.svg",
     "static/media/metamask-fox.7db94670.svg": "/static/media/metamask-fox.7db94670.svg",
     "static/media/mimlogopng.722cde03.png": "/static/media/mimlogopng.722cde03.png",
     "static/media/multi-collateral-dai-dai-logo.196bd5b1.png": "/static/media/multi-collateral-dai-dai-logo.196bd5b1.png",
@@ -113,7 +114,7 @@
     "static/media/zoo_logo.6467ffb2.svg": "/static/media/zoo_logo.6467ffb2.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.3e39294d.js",
+    "static/js/runtime-main.f53d5614.js",
     "static/js/7.e190886c.chunk.js",
     "static/css/main.cdb446f2.chunk.css",
     "static/js/main.3680ca5f.chunk.js"
