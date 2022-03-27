@@ -90,7 +90,7 @@ const Masonry = () => {
             The withdraw fee changes the longer you are in the theoretics. The fees are as follows: 1 block = 25%, less than 1 hour = 8%, less than 1 day = 4%, less than 3 days = 2%, less than 5 days = 1%, less than 2 weeks = 0.5%, less than 4 weeks = 0.25%, equal to or more than 4 weeks = 0.01%. Depositing or claiming does not reset your withdraw fee.
           </Alert>
           <Alert variant="filled" severity="warning" style={{ marginBottom: '50px' }}>
-            Withdrawing any amount also claims your rewards. The amount of rewards locked increases the closer to under-peg GAME is. At 1.01 or lower, it is 95%. At 4.0 or higher, it is 0%. You get your rewards after the epoch is over if the TWAP (time-weighted average price) is greater or equal to 1.01.{rebateStats.outOfBootstrap ? "" : " Also, the bootstrap phase is ongoing for " + rebateStats.bootstrapEpochsLeft + " more epochs, so GAME is being printed regardless of the TWAP right now."} You can find your locked rewards using the My Wallet button. View the docs for more info.
+            Withdrawing any amount also claims your rewards. The amount of rewards locked increases the closer to under-peg GAME is. At 1.01 or lower, it is 95%. At 4.0 or higher, it is 0%. You get your rewards after the epoch is over if the TWAP (time-weighted average price) is greater or equal to 1.01.{rebateStats.outOfBootstrap ? "" : " Also, the bootstrap phase is ongoing for " + rebateStats.bootstrapEpochsLeft + " more epochs, so GAME is being printed regardless of the TWAP right now."} You can find your locked LGAME rewards using the My Wallet button. View the docs for more info.
           </Alert>
           <Box mt={5}>
             <Grid container justifyContent="center" rowSpacing={13} columnSpacing={3}>
@@ -133,7 +133,7 @@ const Masonry = () => {
               <Grid item xs={12} md={2} lg={2} className={classes.gridItem}>
                 <Card className={classes.gridItem}>
                   <CardContent align="center">
-                    <Typography>APR</Typography>
+                    <Typography>Total APR</Typography>
                     <Typography>{(!rebateStats.outOfBootstrap || rebateStats.tombPrice >= 1.01) ? apr.toFixed(2) : "0.00"}%</Typography>
                   </CardContent>
                 </Card>
@@ -141,7 +141,23 @@ const Masonry = () => {
               <Grid item xs={12} md={2} lg={2} className={classes.gridItem}>
                 <Card className={classes.gridItem}>
                   <CardContent align="center">
-                    <Typography>DPR</Typography>
+                    <Typography>GAME APR</Typography>
+                    <Typography>{(!rebateStats.outOfBootstrap || rebateStats.tombPrice >= 1.01) ? (apr*(100.0-rebateStats.rewardsLocked)/100.0).toFixed(2) : "0.00"}%</Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={12} md={2} lg={2} className={classes.gridItem}>
+                <Card className={classes.gridItem}>
+                  <CardContent align="center">
+                    <Typography>LGAME APR</Typography>
+                    <Typography>{(!rebateStats.outOfBootstrap || rebateStats.tombPrice >= 1.01) ? (apr*rebateStats.rewardsLocked/100.0).toFixed(2) : "0.00"}%</Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={12} md={2} lg={2} className={classes.gridItem}>
+                <Card className={classes.gridItem}>
+                  <CardContent align="center">
+                    <Typography>Total DPR</Typography>
                     <Typography>{(!rebateStats.outOfBootstrap || rebateStats.tombPrice >= 1.01) ? dpr.toFixed(2) : "0.00"}%</Typography>
                   </CardContent>
                 </Card>
@@ -149,7 +165,23 @@ const Masonry = () => {
               <Grid item xs={12} md={2} lg={2} className={classes.gridItem}>
                 <Card className={classes.gridItem}>
                   <CardContent align="center">
-                    <Typography>Withdraw Fee</Typography>
+                    <Typography>GAME DPR</Typography>
+                    <Typography>{(!rebateStats.outOfBootstrap || rebateStats.tombPrice >= 1.01) ? (dpr*(100.0-rebateStats.rewardsLocked)/100.0).toFixed(2) : "0.00"}%</Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={12} md={2} lg={2} className={classes.gridItem}>
+                <Card className={classes.gridItem}>
+                  <CardContent align="center">
+                    <Typography>LGAME DPR</Typography>
+                    <Typography>{(!rebateStats.outOfBootstrap || rebateStats.tombPrice >= 1.01) ? (dpr*rebateStats.rewardsLocked/100.0).toFixed(2) : "0.00"}%</Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={12} md={2} lg={2} className={classes.gridItem}>
+                <Card className={classes.gridItem}>
+                  <CardContent align="center">
+                    <Typography>Your Current Withdraw Fee</Typography>
                     <Typography>{(rebateStats.currentWithdrawFeeOf / 100).toFixed(2)}%</Typography>
                   </CardContent>
                 </Card>
@@ -157,7 +189,7 @@ const Masonry = () => {
               <Grid item xs={12} md={2} lg={2} className={classes.gridItem}>
                 <Card className={classes.gridItem}>
                   <CardContent align="center">
-                    <Typography>Rewards Locked</Typography>
+                    <Typography>LGAME Percentage</Typography>
                     <Typography>{(rebateStats.rewardsLocked).toFixed(2)}%</Typography>
                   </CardContent>
                 </Card>
@@ -192,7 +224,7 @@ const Masonry = () => {
               <StyledBoardroom>
                 <StyledCardsWrapper>
                   <StyledCardWrapper>
-                    <Harvest />
+                    <Harvest rewardsLocked={rebateStats.rewardsLocked} />
                   </StyledCardWrapper>
                   <Spacer />
                   <StyledCardWrapper>

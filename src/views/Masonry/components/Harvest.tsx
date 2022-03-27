@@ -15,7 +15,12 @@ import useEarningsOnMasonry from '../../../hooks/useEarningsOnMasonry';
 import useTombStats from '../../../hooks/useTombStats';
 import { getDisplayBalance } from '../../../utils/formatBalance';
 
-const Harvest: React.FC = () => {
+export interface HarvestProps
+{
+  rewardsLocked : number
+}
+
+const Harvest: React.FC<HarvestProps> = ({rewardsLocked}) => {
   const tombStats = useTombStats();
   const { onReward } = useHarvestFromMasonry();
   const earnings = useEarningsOnMasonry();
@@ -30,6 +35,7 @@ const Harvest: React.FC = () => {
 
   const { from, to } = useClaimRewardTimerMasonry();
 
+
   return (
     <Box>
       <Card>
@@ -41,7 +47,15 @@ const Harvest: React.FC = () => {
               </CardIcon>
               <Value value={getDisplayBalance(earnings)} />
               <Label text={`≈ $${earnedInDollars}`} color="#5f51c2" />
-              <Label text="GAME Earned" color="#5f51c2" />
+              <Label text="Total Earned" />
+              <br/>
+              <Value value={`${(Number(getDisplayBalance(earnings)) * (100.0-rewardsLocked) / 100.0).toFixed(4)}`} />
+              <Label text={`≈ $${(Number(earnedInDollars) * (100.0-rewardsLocked) / 100.0).toFixed(2)}`} color="#5f51c2" />
+              <Label text="GAME Earned" />
+              <br/>
+              <Value value={`${(Number(getDisplayBalance(earnings)) * rewardsLocked / 100.0).toFixed(4)}`} />
+              <Label text={`≈ $${(Number(earnedInDollars) * rewardsLocked / 100.0).toFixed(2)}`} color="#5f51c2" />
+              <Label text="LGAME Earned" />
             </StyledCardHeader>
             <StyledCardActions>
               <Button

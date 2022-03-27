@@ -66,7 +66,7 @@ const AccountModal: React.FC<ModalProps> = ({ onDismiss }) => {
           <TokenSymbol symbol="TOMB" />
           <StyledBalance>
             <StyledValue>{displayGameLocked}</StyledValue>
-            <Label text="GAME Locked" />
+            <Label text="LGAME Locked" />
             <Button disabled={gameCanUnlockAmount.eq(0)} onClick={onUnlockGame}>Unlock</Button> {/*Can only unlock after a year, so don't have to implement this immediately.*/}
           </StyledBalance>
         </StyledBalanceWrapper>
@@ -83,7 +83,7 @@ const AccountModal: React.FC<ModalProps> = ({ onDismiss }) => {
           <TokenSymbol symbol="TSHARE" />
           <StyledBalance>
             <StyledValue>{displayTheoryLocked}</StyledValue>
-            <Label text="THEORY Locked" /> {/*TODO: Link to unlock*/}
+            <Label text="LTHEORY Locked" />
             <Button disabled={theoryCanUnlockAmount.eq(0)} onClick={onUnlockTheory} >Unlock</Button> {/*Can only unlock after a year, so don't have to implement this immediately.*/}
           </StyledBalance>
         </StyledBalanceWrapper>
