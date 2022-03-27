@@ -929,6 +929,14 @@ export class TombFinance {
       );
     }
   }
+  async unlockGame(): Promise<TransactionResponse> {
+    const { game } = this.contracts;
+    return await game.unlock();
+  }
+  async unlockTheory(): Promise<TransactionResponse> {
+    const { theory } = this.contracts;
+    return await theory.unlock(); //TODO: NFTs
+  }
   async swapTBondToTShare(tbondAmount: BigNumber): Promise<TransactionResponse> {
     const { TShareSwapper } = this.contracts;
     return await TShareSwapper.swapTBondToTShare(tbondAmount);

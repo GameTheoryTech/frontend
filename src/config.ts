@@ -84,7 +84,7 @@ export const bankDefinitions: { [contractName: string]: BankInfo } = {
     site: "https://makerdao.com",
     buyLink: 'https://spookyswap.finance/swap?outputCurrency=0x8D11eC38a3EB5E956B052f67Da8Bdc9bef8Abf3E',
     sort: 0,
-    closedForStaking: false,
+    closedForStaking: true,
   },
   GameUSDCRewardPool: {
     name: 'Earn GAME by staking USDC',
@@ -99,7 +99,7 @@ export const bankDefinitions: { [contractName: string]: BankInfo } = {
     site: "https://www.centre.io",
     buyLink: 'https://spookyswap.finance/swap?outputCurrency=0x04068DA6C83AFCFA0e13ba15A6696662335D5B75',
     sort: 1,
-    closedForStaking: false,
+    closedForStaking: true,
   },
   GameMIMRewardPool: {
     name: 'Earn GAME by staking MIM',
@@ -114,7 +114,7 @@ export const bankDefinitions: { [contractName: string]: BankInfo } = {
     site: "https://abracadabra.money",
     buyLink: 'https://spookyswap.finance/swap?outputCurrency=0x82f0B8B456c1A451378467398982d4834b6829c1',
     sort: 2,
-    closedForStaking: false,
+    closedForStaking: true,
   },
   GameWFTMRewardPool: {
     name: 'Earn GAME by staking WFTM',
@@ -129,7 +129,7 @@ export const bankDefinitions: { [contractName: string]: BankInfo } = {
     site: "https://fantom.foundation/defi",
     buyLink: 'https://spookyswap.finance/swap?outputCurrency=0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83',
     sort: 3,
-    closedForStaking: false,
+    closedForStaking: true,
   },
   GameETHRewardPool: {
     name: 'Earn GAME by staking ETH (wETH on SpookySwap)',
@@ -144,7 +144,7 @@ export const bankDefinitions: { [contractName: string]: BankInfo } = {
     site: "https://weth.io",
     buyLink: 'https://spookyswap.finance/swap?outputCurrency=0x74b23882a30290451A17c44f4F05243b6b58C76d',
     sort: 4,
-    closedForStaking: false,
+    closedForStaking: true,
   },
   GamepFTMRewardPool: {
     name: 'Earn GAME by staking pFTM',
@@ -159,7 +159,7 @@ export const bankDefinitions: { [contractName: string]: BankInfo } = {
     site: "https://ripae.finance",
     buyLink: 'https://spookyswap.finance/swap?outputCurrency=0x112dF7E3b4B7Ab424F07319D4E92F41e6608c48B',
     sort: 5,
-    closedForStaking: false,
+    closedForStaking: true,
   },
   GamebFTMRewardPool: {
     name: 'Earn GAME by staking bFTM',
@@ -174,7 +174,7 @@ export const bankDefinitions: { [contractName: string]: BankInfo } = {
     site: "https://ripae.finance",
     buyLink: 'https://ripae.finance/bonds',
     sort: 6,
-    closedForStaking: false,
+    closedForStaking: true,
   },
   TheoryGameDaiSpookyLpRewardPool: {
     name: 'Earn THEORY by staking GAME-DAI LP',

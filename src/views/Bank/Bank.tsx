@@ -45,10 +45,10 @@ const Bank: React.FC = () => {
         title={bank?.name}
       />
       <Alert variant="filled" severity="warning" style={{ marginBottom: '50px' }}>
-        {bank.earnTokenName == "GAME" ? "There is a 1% deposit fee for genesis pools to kickstart the theory and grow the treasury." : "The withdraw fee changes the longer you are in the farm. The fees are as follows: 1 block = 25%, less than 1 hour = 8%, less than 1 day = 4%, less than 3 days = 2%, less than 5 days = 1%, less than 2 weeks = 0.5%, less than 4 weeks = 0.25%, equal to or more than 4 weeks = 0.01%."}
+        {bank.earnTokenName == "GAME" ? "There is a 1% deposit fee for genesis pools to kickstart the theory and grow the treasury." : "The withdraw fee changes the longer you are in the farm. The fees are as follows: 1 block = 25%, less than 1 hour = 8%, less than 1 day = 4%, less than 3 days = 2%, less than 5 days = 1%, less than 2 weeks = 0.5%, less than 4 weeks = 0.25%, equal to or more than 4 weeks = 0.01%. Depositing or claiming does not reset your withdraw fee."}
       </Alert>
       <Alert variant="filled" severity="warning" style={{ marginBottom: '50px' }}>
-        {bank.earnTokenName == "GAME" ? "Due to the price fluctuations of low liquidity, APRs should be only thought of as relative to other pools in the protocol and not as monetary gain. Rewards are not locked for genesis pools so you can immediately start using your GAME." : "Withdrawing or depositing any amount also claims your rewards. The amount of rewards created and locked decreases every week. View the docs for more info."}
+        {bank.earnTokenName == "GAME" ? "Due to the price fluctuations of low liquidity, APRs should be only thought of as relative to other pools in the protocol and not as monetary gain. Rewards are not locked for genesis pools so you can immediately start using your GAME." : "Withdrawing or depositing any amount also claims your rewards. The amount of rewards created and locked decreases every week. You can find your locked rewards using the My Wallet button. View the docs for more info."}
       </Alert>
       <Box>
         <Grid container justifyContent="center" spacing={3} style={{ marginBottom: '50px' }}>
@@ -104,7 +104,7 @@ const Bank: React.FC = () => {
             <StyledCardWrapper>{<Stake bank={bank} />}</StyledCardWrapper>
           </StyledCardsWrapper>
           <Spacer size="lg" />
-          {/* {bank.depositTokenName.includes('LP') && <LPTokenHelpText bank={bank} />} */}
+           {bank.depositTokenName.endsWith('LP') && <LPTokenHelpText bank={bank} />}
           <Spacer size="lg" />
           <div>
             <Button onClick={onRedeem} color="primary" variant="contained">
@@ -131,10 +131,10 @@ const LPTokenHelpText: React.FC<{ bank: BankEntity }> = ({ bank }) => {
   let uniswapUrl: string;
   if (bank.depositTokenName.includes('GAME')) {
     pairName = 'GAME-DAI pair';
-    uniswapUrl = 'https://spookyswap.finance/add/FTM/' + tombAddr;
+    uniswapUrl = 'https://spookyswap.finance/add/' + tombAddr + "/0x8D11eC38a3EB5E956B052f67Da8Bdc9bef8Abf3E";
   } else {
     pairName = 'THEORY-DAI pair';
-    uniswapUrl = 'https://spookyswap.finance/add/FTM/' + tshareAddr;
+    uniswapUrl = 'https://spookyswap.finance/add/' + tshareAddr + "/0x8D11eC38a3EB5E956B052f67Da8Bdc9bef8Abf3E";
   }
   return (
     <Card>

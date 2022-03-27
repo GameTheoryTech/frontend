@@ -87,10 +87,10 @@ const Masonry = () => {
             Theoretics
           </Typography>
           <Alert variant="filled" severity="warning" style={{ marginBottom: '50px' }}>
-            The withdraw fee changes the longer you are in the theoretics. The fees are as follows: 1 block = 25%, less than 1 hour = 8%, less than 1 day = 4%, less than 3 days = 2%, less than 5 days = 1%, less than 2 weeks = 0.5%, less than 4 weeks = 0.25%, equal to or more than 4 weeks = 0.01%.
+            The withdraw fee changes the longer you are in the theoretics. The fees are as follows: 1 block = 25%, less than 1 hour = 8%, less than 1 day = 4%, less than 3 days = 2%, less than 5 days = 1%, less than 2 weeks = 0.5%, less than 4 weeks = 0.25%, equal to or more than 4 weeks = 0.01%. Depositing or claiming does not reset your withdraw fee.
           </Alert>
           <Alert variant="filled" severity="warning" style={{ marginBottom: '50px' }}>
-            Withdrawing any amount also claims your rewards. The amount of rewards locked increases the closer to under-peg GAME is. At 1.01 or lower, it is 95%. At 4.0 or higher, it is 0%. You get your rewards after the epoch is over if the TWAP (time-weighted average price) is greater or equal to 1.01.{rebateStats.outOfBootstrap ? "" : " Also, the bootstrap phase is ongoing for " + rebateStats.bootstrapEpochsLeft + " more epochs, so GAME is being printed regardless of the TWAP right now."} View the docs for more info.
+            Withdrawing any amount also claims your rewards. The amount of rewards locked increases the closer to under-peg GAME is. At 1.01 or lower, it is 95%. At 4.0 or higher, it is 0%. You get your rewards after the epoch is over if the TWAP (time-weighted average price) is greater or equal to 1.01.{rebateStats.outOfBootstrap ? "" : " Also, the bootstrap phase is ongoing for " + rebateStats.bootstrapEpochsLeft + " more epochs, so GAME is being printed regardless of the TWAP right now."} You can find your locked rewards using the My Wallet button. View the docs for more info.
           </Alert>
           <Box mt={5}>
             <Grid container justifyContent="center" rowSpacing={13} columnSpacing={3}>
