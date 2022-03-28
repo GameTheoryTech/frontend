@@ -41,21 +41,21 @@ const Bank: React.FC = () => {
     <>
       <PageHeader
         icon="🏦"
-        subtitle={`Deposit ${bank?.depositTokenName} and earn ${bank?.earnTokenName}`}
+        subtitle={`Deposit ${bank?.depositTokenName} and earn ${bank?.earnTokenName} and L${bank?.earnTokenName}`}
         title={bank?.name}
       />
       <Alert variant="filled" severity="warning" style={{ marginBottom: '50px' }}>
-        {bank.earnTokenName == "GAME" ? "There is a 1% deposit fee for genesis pools to kickstart the theory and grow the treasury." : "The withdraw fee changes the longer you are in the farm. The fees are as follows: Less than 1 hour = 8%, less than 1 day = 4%, less than 3 days = 2%, less than 5 days = 1%, less than 2 weeks = 0.5%, less than 4 weeks = 0.25%, equal to or more than 4 weeks = 0.01%."}
+        {bank.earnTokenName == "GAME" ? "There is a 1% deposit fee for genesis pools to kickstart the theory and grow the treasury." : "The withdraw fee changes the longer you are in the farm. The fees are as follows: 1 block = 25%, less than 1 hour = 8%, less than 1 day = 4%, less than 3 days = 2%, less than 5 days = 1%, less than 2 weeks = 0.5%, less than 4 weeks = 0.25%, equal to or more than 4 weeks = 0.01%. Depositing or claiming does not reset your withdraw fee."}
       </Alert>
       <Alert variant="filled" severity="warning" style={{ marginBottom: '50px' }}>
-        {bank.earnTokenName == "GAME" ? "Due to the price fluctuations of low liquidity, APRs should be only thought of as relative to other pools in the protocol and not as monetary gain. Rewards are not locked for genesis pools so you can immediately start using your GAME." : "The amount of rewards created and locked decreases every week. View the docs for more info."}
+        {bank.earnTokenName == "GAME" ? "Due to the price fluctuations of low liquidity, APRs should be only thought of as relative to other pools in the protocol and not as monetary gain. Rewards are not locked for genesis pools so you can immediately start using your GAME." : "Withdrawing or depositing any amount also claims your rewards. The amount of rewards created and locked decreases every week. You can find your locked LTHEORY rewards using the My Wallet button. View the docs for more info."}
       </Alert>
       <Box>
-        <Grid container justifyContent="center" spacing={3} style={{ marginBottom: '50px' }}>
+        <Grid container justifyContent="center" rowSpacing={13} columnSpacing={3} style={{ marginBottom: '50px' }}>
           <Grid item xs={12} md={2} lg={2} className={classes.gridItem}>
             <Card className={classes.gridItem}>
               <CardContent style={{ textAlign: 'center', boxShadow: 'none !important' }}>
-                <Typography>APR</Typography>
+                <Typography>Total APR</Typography>
                 <Typography>{bank.closedForStaking ? '0.00' : statsOnPool?.yearlyAPR}%</Typography>
               </CardContent>
             </Card>
@@ -63,8 +63,40 @@ const Bank: React.FC = () => {
           <Grid item xs={12} md={2} lg={2} className={classes.gridItem}>
             <Card className={classes.gridItem}>
               <CardContent style={{ textAlign: 'center' }}>
-                <Typography>DPR</Typography>
+                <Typography>{bank.earnTokenName} APR</Typography>
+                <Typography>{bank.closedForStaking ? '0.00' : (Number(statsOnPool?.yearlyAPR)*(100.0-Number(statsOnPool?.locked))/100.0).toFixed(2)}%</Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item xs={12} md={2} lg={2} className={classes.gridItem}>
+            <Card className={classes.gridItem}>
+              <CardContent style={{ textAlign: 'center' }}>
+                <Typography>L{bank.earnTokenName} APR</Typography>
+                <Typography>{bank.closedForStaking ? '0.00' : (Number(statsOnPool?.yearlyAPR)*Number(statsOnPool?.locked)/100.0).toFixed(2)}%</Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item xs={12} md={2} lg={2} className={classes.gridItem}>
+            <Card className={classes.gridItem}>
+              <CardContent style={{ textAlign: 'center' }}>
+                <Typography>Total DPR</Typography>
                 <Typography>{bank.closedForStaking ? '0.00' : statsOnPool?.dailyAPR}%</Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item xs={12} md={2} lg={2} className={classes.gridItem}>
+            <Card className={classes.gridItem}>
+              <CardContent style={{ textAlign: 'center' }}>
+                <Typography>{bank.earnTokenName} DPR</Typography>
+                <Typography>{bank.closedForStaking ? '0.00' : (Number(statsOnPool?.dailyAPR)*(100.0-Number(statsOnPool?.locked))/100.0).toFixed(2)}%</Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item xs={12} md={2} lg={2} className={classes.gridItem}>
+            <Card className={classes.gridItem}>
+              <CardContent style={{ textAlign: 'center' }}>
+                <Typography>L{bank.earnTokenName} DPR</Typography>
+                <Typography>{bank.closedForStaking ? '0.00' : (Number(statsOnPool?.dailyAPR)*Number(statsOnPool?.locked)/100.0).toFixed(2)}%</Typography>
               </CardContent>
             </Card>
           </Grid>
@@ -79,7 +111,7 @@ const Bank: React.FC = () => {
           <Grid item xs={12} md={2} lg={2} className={classes.gridItem}>
             <Card className={classes.gridItem}>
               <CardContent style={{ textAlign: 'center' }}>
-                <Typography>{bank.earnTokenName == "GAME" ? "Deposit" : "Withdraw"} Fee</Typography>
+                <Typography>{bank.earnTokenName == "GAME" ? "Deposit" : "Your Current Withdraw"} Fee</Typography>
                 <Typography>{statsOnPool?.fee}%</Typography>
               </CardContent>
             </Card>
@@ -87,24 +119,24 @@ const Bank: React.FC = () => {
           <Grid item xs={12} md={2} lg={2} className={classes.gridItem}>
             <Card className={classes.gridItem}>
               <CardContent style={{textAlign: 'center'}}>
-                <Typography>Rewards Locked</Typography>
+                <Typography>L{bank.earnTokenName} Percentage</Typography>
                 <Typography>{statsOnPool?.locked}%</Typography>
               </CardContent>
             </Card>
           </Grid>
         </Grid>
       </Box>
-      <Box mt={5}>
+      <Box mt={15}>
         <StyledBank>
           <StyledCardsWrapper>
             <StyledCardWrapper>
-              <Harvest bank={bank} />
+              <Harvest bank={bank} rewardsLocked={Number(statsOnPool?.locked)} />
             </StyledCardWrapper>
             <Spacer />
             <StyledCardWrapper>{<Stake bank={bank} />}</StyledCardWrapper>
           </StyledCardsWrapper>
           <Spacer size="lg" />
-          {/* {bank.depositTokenName.includes('LP') && <LPTokenHelpText bank={bank} />} */}
+           {bank.depositTokenName.endsWith('LP') && <LPTokenHelpText bank={bank} />}
           <Spacer size="lg" />
           <div>
             <Button onClick={onRedeem} color="primary" variant="contained">
@@ -131,10 +163,10 @@ const LPTokenHelpText: React.FC<{ bank: BankEntity }> = ({ bank }) => {
   let uniswapUrl: string;
   if (bank.depositTokenName.includes('GAME')) {
     pairName = 'GAME-DAI pair';
-    uniswapUrl = 'https://spookyswap.finance/add/FTM/' + tombAddr;
+    uniswapUrl = 'https://spookyswap.finance/add/' + tombAddr + "/0x8D11eC38a3EB5E956B052f67Da8Bdc9bef8Abf3E";
   } else {
     pairName = 'THEORY-DAI pair';
-    uniswapUrl = 'https://spookyswap.finance/add/FTM/' + tshareAddr;
+    uniswapUrl = 'https://spookyswap.finance/add/' + tshareAddr + "/0x8D11eC38a3EB5E956B052f67Da8Bdc9bef8Abf3E";
   }
   return (
     <Card>

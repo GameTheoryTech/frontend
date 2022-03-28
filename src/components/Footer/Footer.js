@@ -6,6 +6,7 @@ import GithubImage from '../../assets/img/github.svg';
 import TelegramImage from '../../assets/img/telegram.svg';
 import DiscordImage from '../../assets/img/discord.svg';
 import YoutubeImage from '../../assets/img/youtube.svg';
+import MediumImage from '../../assets/img/medium.svg';
 
 const useStyles = makeStyles((theme) => ({
   footer: {
@@ -78,6 +79,9 @@ const Footer = () => {
             {/*</a>*/}
             <a href="https://discord.gg/DVc27ub3D8" rel="noopener noreferrer" target="_blank" className={classes.link}>
               <img alt="discord" src={DiscordImage} className={classes.img} />
+            </a>
+            <a href="https://gametheorytech.medium.com" rel="noopener noreferrer" target="_blank" className={classes.link}>
+              <img alt="medium" src={MediumImage} className={classes.img} />
             </a>
           </Grid>
         </Grid>

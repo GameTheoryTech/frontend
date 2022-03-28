@@ -1,6 +1,6 @@
 import React, { Suspense, lazy } from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import { ThemeProvider as TP } from '@mui/material/styles';
 import { ThemeProvider as TP1 } from 'styled-components';
 import { UseWalletProvider } from 'use-wallet';
@@ -46,7 +46,7 @@ const App: React.FC = () => {
 
   return (
     <Providers>
-      <Router>
+      <Router basename='/'>
         <Suspense fallback={<Loader />}>
           <Switch>
             <Route exact path="/">

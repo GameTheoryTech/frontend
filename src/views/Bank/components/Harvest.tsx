@@ -20,9 +20,10 @@ import useShareStats from '../../../hooks/usetShareStats';
 
 interface HarvestProps {
   bank: Bank;
+  rewardsLocked : number;
 }
 
-const Harvest: React.FC<HarvestProps> = ({ bank }) => {
+const Harvest: React.FC<HarvestProps> = ({ bank, rewardsLocked }) => {
   const earnings = useEarnings(bank.contract, bank.earnTokenName, bank.poolId);
   const { onReward } = useHarvest(bank);
   const tombStats = useTombStats();
@@ -44,8 +45,16 @@ const Harvest: React.FC<HarvestProps> = ({ bank }) => {
               <TokenSymbol symbol={bank.earnToken.symbol} />
             </CardIcon>
             <Value value={getDisplayBalance(earnings)} />
-            <Label text={`≈ $${earnedInDollars}`} />
+            <Label text={`≈ $${earnedInDollars}`} color="#5f51c2" />
+            <Label text={`Total Earned`} />
+            <br/>
+            <Value value={`${(Number(getDisplayBalance(earnings)) * (100.0-rewardsLocked) / 100.0).toFixed(4)}`} />
+            <Label text={`≈ $${(Number(earnedInDollars) * (100.0-rewardsLocked) / 100.0).toFixed(2)}`} color="#5f51c2" />
             <Label text={`${tokenName} Earned`} />
+            <br/>
+            <Value value={`${(Number(getDisplayBalance(earnings)) * rewardsLocked / 100.0).toFixed(4)}`} />
+            <Label text={`≈ $${(Number(earnedInDollars) * rewardsLocked / 100.0).toFixed(2)}`} color="#5f51c2" />
+            <Label text={`L${tokenName} Earned`} />
           </StyledCardHeader>
           <StyledCardActions>
             <Button onClick={onReward} disabled={earnings.eq(0)} color="primary" variant="contained">

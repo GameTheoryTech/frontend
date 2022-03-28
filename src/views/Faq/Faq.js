@@ -37,15 +37,15 @@ const Faq = () => {
             <Box p={4}>
               <h2>FAQ</h2>
               <h3>Are you affiliated with Ripae?</h3>
-              <p>No, but I enjoy their community and what they're building! Check them out, they deserve another chance.</p>
+              <p>No, but we enjoy their community and what they're building!</p>
               <h3>Will you renounce the contracts?</h3>
-              <p>Maybe, but I rather use a multisig for emergency purposes. Since this project has new code than normal tomb forks, it may be hard to get the parameters right the first go around. Hopefully, some trustworthy good actors show up so that I can set up a multisig wallet. I've also changed the contracts a bunch to make not renouncing less dangerous.</p>
+              <p>As the project is a mixture of a RPG game, a seigniorage protocol, and a blockchain game, the code is complicated and our team needs to have access to the contract. In lieu of renouncement, our team will have a multi-signature wallet as well as has edited the contract to make it more secure. For more info, please see the docs. </p>
               <h3>Will you undergo KYC?</h3>
-              <p>KYC is useless. A rugpull will rug you no matter what, and no Tomb fork is 100% safe from rugs. Trust the team/dev. Additionally, I'm shy and I like my privacy. Maybe KYC will happen if Game Theory gets big enough to form a corporation. Let's put it this way: Would I really go through the trouble to create something more unique and put in extra security measures if I wanted to rug you?</p>
+              <p>As we have seen before, countless projects have scammed investors after a KYC. We do not believe that a KYC provides any extra security for investors, and believe trust in us will come through time and demonstrating to investors that Game Theory will outwork and outperform our competitors.</p>
               <h3>Will Game Theory be audited?</h3>
-              <p>Totally, if we get big enough to afford it!</p>
+              <p>Yes.</p>
               <h3>Why DAI?</h3>
-              <p>For its stability, simplicity, and for the fact that it is not used too much or too little, making it less susceptible to attacks by big money. Also, I heard that DAI has a liquidity problem, so that might come in handy!</p>
+              <p>For its stability, simplicity, and for the fact that it is not used too much or too little, making it less susceptible to exploitation. DAI also has a need for more liquidity on Fantom.</p>
             </Box>
           </Paper>
         </Grid>

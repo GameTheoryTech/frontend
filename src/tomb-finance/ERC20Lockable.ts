@@ -19,6 +19,10 @@ class ERC20Lockable extends ERC20 {
     return this.contract.lockOf(account);
   }
 
+  canUnlockAmount(account: string): Promise<BigNumber> {
+    return this.contract.canUnlockAmount(account);
+  }
+
   totalBalanceOf(account: string): Promise<BigNumber> {
     return this.contract.totalBalanceOf(account);
   }

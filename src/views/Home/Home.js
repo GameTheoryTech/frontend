@@ -18,7 +18,7 @@ import usetShareStats from '../../hooks/usetShareStats';
 import useTotalValueLocked from '../../hooks/useTotalValueLocked';
 import useFantomPrice from '../../hooks/useFantomPrice';
 import { game as tombTesting, theory as tShareTesting } from '../../tomb-finance/deployments/deployments.testing.json';
-import { tomb as tombProd, tShare as tShareProd } from '../../tomb-finance/deployments/deployments.mainnet.json';
+import { game as tombProd, theory as tShareProd } from '../../tomb-finance/deployments/deployments.mainnet.json';
 
 import useTotalTreasuryBalance from '../../hooks/useTotalTreasuryBalance.js';
 
@@ -165,12 +165,12 @@ const Home = () => {
           <Paper style={{ backgroundColor: "transparent", boxShadow: "none", border: "1px solid var(--white)" }}>
             <Box p={4}>
               <h2>Welcome to Game Theory! (TESTNET VERSION)</h2>
-              <p>Game Theory is an experimental "game" and thought experiment currently in development on the Fantom Opera blockchain.  In simple terms, it works like a Tomb/3omb fork mixed with a DeFi Kingdoms fork. Depending on funds raised, it might be used to create a variety of projects, starting with a video game since that is what the dev's background is. THEORY holders will be able to vote on aspects of the game, as well as receive a cut of the revenue (details to be worked out later). GAME might be used as currency within the game(s)/project(s), and the LP providers would earn fees from that (as well as from other promotions).</p>
-              <p>For more information, check out the <StyledLink href="https://docs.gametheory.tech/">Docs</StyledLink> and <StyledLink href="/faq">FAQ</StyledLink>. The community fund is used for marketing, community actions, gathering and putting assets to work, and allocating seigniorage. It also may be used to fund development in an emergency and vice versa (this will be announced on Discord in advance, so don't be alarmed if you see some of these funds move to the dev fund and vice versa). The dev fund is used for paying the developer and hiring new ones.</p>
-              <p>During the genesis phase, stake a number of tokens to earn GAME. There is a small deposit fee to help kickstart the theory.</p>
+              <p>Game Theory is building a 2D RPG that is currently in development on the Fantom Opera blockchain. It is combining the best attributes of Tomb Finance and Defi Kingdoms to bootstrap liquidity for the launch of the game. $THEORY holders will be able to vote on aspects of the game and be share-holders in its revenue. $GAME will be in the in-game currency and LP providers will earn fees from the game and other promotions. </p>
+              <p>For more information, check out the <StyledLink href="https://docs.gametheory.tech/">Docs</StyledLink> and <StyledLink href="/#/faq">FAQ</StyledLink>. The treasury wallet is used for marketing, community actions, allocating seigniorage, and funding development of the game. The developer wallet is used for paying the developer and the team.</p>
+              <p>During the genesis phase, stake your tokens to earn $GAME. There is a small 1% deposit fee on each pool to fund the protocol and to be distributed as rewards to the community.</p>
               <p>
-                After the genesis pools are over, use your acquired GAME to create and stake GAME-DAI LP in the <StyledLink href="/farms">Farms</StyledLink> to earn THEORY rewards.
-                Then stake your earned THEORY in the <StyledLink href="/theoretics">Theoretics</StyledLink>, or try a different approach like creating and staking THEORY-DAI LP, or holding your rewards to avoid lockup. The choice is yours.
+                After the genesis pools are over, use your acquired $GAME to create and stake $GAME-$DAI LP in the <StyledLink href="/#/farms">Farms</StyledLink> to earn $THEORY rewards.
+                Then you can either stake your earned $THEORY in the <StyledLink href="/#/theoretics">Theoretics</StyledLink>, create $THEORY-$DAI LP and farm more $THEORY, or hold your rewards to avoid lockup. The choice is yours.
               </p>
             </Box>
           </Paper>
@@ -182,7 +182,7 @@ const Home = () => {
         <Grid container justifyContent="center">
             <Box mt={3} style={{ width: '1000px' }}>
             <Alert variant="filled" severity="warning">
-                DO NOT INVEST MORE THAN YOU ARE WILLING TO LOSE. Do your own research before investing. Investing is risky and may result in monetary loss. Game Theory is highly experimental and game-like, and as such may contain bugs, which bad parties may exploit. Game Theory was created with Test-Driven Development in mind, but this does not make it invulnerable to coding mistakes. It may turn into nothingness by simply existing. It is the first DeFi project created this single dev, with the help of some other projects and the dev's years of programming experience. By using Game Theory or any of its products, you agree that the Game Theory dev is not responsible for any financial losses from investing in Game Theory.
+              DO NOT INVEST MORE THAN YOU ARE WILLING TO LOSE. Do your own research before investing. Investing is risky and may result in monetary loss. By using Game Theory or any of its products, you agree that the Game Theory team is not responsible for any financial losses.
             </Alert>
             </Box>
         </Grid>
@@ -211,10 +211,10 @@ const Home = () => {
           <Card style={{ height: '100%', backgroundColor: "transparent", boxShadow: "none", border: "1px solid var(--white)", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
             <CardContent align="center">
               {/* <h2 style={{ marginBottom: '20px' }}>Wallet Balance</h2> */}
-              <Button color="primary" href="/farms" variant="contained" style={{ marginRight: '10px' }}>
+              <Button color="primary" href="/#/farms" variant="contained" style={{ marginRight: '10px' }}>
                 Farms
               </Button>
-              <Button color="primary" href="/theoretics" variant="contained" style={{ marginRight: '25px' }}>
+              <Button color="primary" href="/#/theoretics" variant="contained" style={{ marginRight: '25px' }}>
                 Stake
               </Button>
               {/* <Button color="primary" href="/masonry" variant="contained" style={{ marginRight: '10px' }}>
@@ -225,20 +225,20 @@ const Home = () => {
               </Button> */}
               <Button
                 target="_blank"
-                href="https://spookyswap.finance/swap?outputCurrency="
+                href="https://spookyswap.finance/swap?outputCurrency=0x56EbFC2F3873853d799C155AF9bE9Cb8506b7817"
                 variant="contained"
                 style={{ marginRight: '10px' }}
                 className={classes.button}
               >
                 Buy GAME
               </Button>
-              <Button variant="contained" target="_blank" href="https://spookyswap.finance/swap?outputCurrency=" style={{ marginRight: '10px' }} className={classes.button}>
+              <Button variant="contained" target="_blank" href="https://spookyswap.finance/swap?outputCurrency=0x60787C689ddc6edfc84FCC9E7d6BD21990793f06" style={{ marginRight: '10px' }} className={classes.button}>
                 Buy THEORY
               </Button>
-              <Button variant="contained" target="_blank" href="https://dexscreener.com/fantom/" style={{ marginRight: '10px' }} className={classes.button}>
+              <Button variant="contained" target="_blank" href="https://dexscreener.com/fantom/0x168e509FE5aae456cDcAC39bEb6Fd56B6cb8912e" style={{ marginRight: '10px' }} className={classes.button}>
                 GAME Chart
               </Button>
-              <Button variant="contained" target="_blank" href="https://dexscreener.com/fantom/" className={classes.button}>
+              <Button variant="contained" target="_blank" href="https://dexscreener.com/fantom/0xF69FCB51A13D4Ca8A58d5a8D964e7ae5d9Ca8594" className={classes.button}>
                 THEORY Chart
               </Button>
             </CardContent>

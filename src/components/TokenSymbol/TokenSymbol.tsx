@@ -33,9 +33,13 @@ const logosBySymbol: { [title: string]: string } = {
   //Real tokens
   //=====================
   TOMB: tombLogo,
+  GAME: tombLogo,
   TOMBPNG: tombLogoPNG,
+  GAMEPNG: tombLogoPNG,
   TSHAREPNG: tShareLogoPNG,
   TSHARE: tShareLogo,
+  THEORY: tShareLogo,
+  THEORYPNG: tShareLogoPNG,
   HODL: tBondLogo,
   DAI: daiLogo,
   BOO: booLogo,

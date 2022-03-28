@@ -158,7 +158,7 @@ export class TombFinance {
     const tombStat = await this.getTombStat();
     const bondTombRatioBN = await Treasury.getBondPremiumRate();
     const modifier = bondTombRatioBN > BigNumber.from(10).pow(18) ? bondTombRatioBN.div(BigNumber.from(10).pow(18)).toNumber() : 1;
-    const bondPriceInFTM = (Number(tombStat.tokenInFtm) * modifier).toFixed(2);
+    const bondPriceInFTM = (Number(tombStat.tokenInFtm) * modifier).toFixed(4);
     const priceOfTBondInDollars = (Number(tombStat.priceInDollars) * modifier).toFixed(2);
     const supply = await this.HODL.displayedTotalSupply();
     return {
@@ -313,6 +313,8 @@ export class TombFinance {
     const priceOfOneFtmInDollars = await this.getDAIPriceFromPancakeswap();
     if (tokenName === 'dAI') {
       tokenPrice = priceOfOneFtmInDollars;
+    } else if (tokenName === 'DAI') {
+      tokenPrice = priceOfOneFtmInDollars;
     } else {
       console.log("token name:", tokenName)
       if (tokenName === 'GAME-DAI LP') {
@@ -331,8 +333,22 @@ export class TombFinance {
         const data = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=beluga-fi&vs_currencies=usd").then(res => res.json())
         tokenPrice = data["beluga-fi"].usd
       } else {
-        tokenPrice = await this.getTokenPriceFromPancakeswap(token);
-        tokenPrice = (Number(tokenPrice) * Number(priceOfOneFtmInDollars)).toString();
+        if(tokenName === "bFTM" || tokenName === "pFTM")
+        {
+          //Kind of cheating for bonds because we don't consider the premium.
+          tokenName = 'pFTM'
+          token = new ERC20('0x112dF7E3b4B7Ab424F07319D4E92F41e6608c48B', getDefaultProvider(), 'pFTM', 18);
+          tokenPrice = await this.getTokenPriceFromPancakeswapFTMToDAI(token);
+          tokenPrice = (Number(tokenPrice) * Number(priceOfOneFtmInDollars)).toString();
+        }
+        else if(tokenName !== "GAME" && tokenName !== "THEORY" && tokenName !== "TOMB" && tokenName !== "TSHARE" && tokenName !== "WFTM") {
+          tokenPrice = await this.getTokenPriceFromPancakeswapFTMToDAI(token);
+          tokenPrice = (Number(tokenPrice) * Number(priceOfOneFtmInDollars)).toString();
+        }
+        else {
+          tokenPrice = await this.getTokenPriceFromPancakeswap(token);
+          tokenPrice = (Number(tokenPrice) * Number(priceOfOneFtmInDollars)).toString();
+        }
       }
     }
     return tokenPrice;
@@ -520,6 +536,27 @@ export class TombFinance {
     try {
       const daiToToken = await Fetcher.fetchPairData(token, dai, this.provider);
       const priceInBUSD = new Route([daiToToken], token);
+
+      return priceInBUSD.midPrice.toFixed(4);
+    } catch (err) {
+      console.error(`Failed to fetch token price of ${tokenContract.symbol}: ${err}`);
+    }
+  }
+
+  async getTokenPriceFromPancakeswapFTMToDAI(tokenContract: ERC20): Promise<string> {
+    const ready = await this.provider.ready;
+    if (!ready) return;
+    const { chainId } = this.config;
+    const { DAI, WFTM } = this.config.externalTokens;
+
+    const dai = new Token(chainId, DAI[0], DAI[1], "DUMMY", "DUMMY Token");
+    const wftm = new Token(chainId, WFTM[0], WFTM[1], "DUMMY", "DUMMY Token");
+    const token = new Token(chainId, tokenContract.address, tokenContract.decimal, tokenContract.symbol);
+    if(dai.address === tokenContract.address) return (1).toFixed(4); //DAI is 1 to 1 with DAI.
+    try {
+      const ftmToToken = await Fetcher.fetchPairData(token, wftm, this.provider);
+      const daiToFtm = await Fetcher.fetchPairData(wftm, dai, this.provider);
+      const priceInBUSD = new Route([ftmToToken, daiToFtm], token);
 
       return priceInBUSD.midPrice.toFixed(4);
     } catch (err) {
@@ -891,6 +928,14 @@ export class TombFinance {
         this.myAccount,
       );
     }
+  }
+  async unlockGame(): Promise<TransactionResponse> {
+    const { game } = this.contracts;
+    return await game.unlock();
+  }
+  async unlockTheory(): Promise<TransactionResponse> {
+    const { theory } = this.contracts;
+    return await theory.unlock(); //TODO: NFTs
   }
   async swapTBondToTShare(tbondAmount: BigNumber): Promise<TransactionResponse> {
     const { TShareSwapper } = this.contracts;

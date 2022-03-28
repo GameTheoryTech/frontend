@@ -48,9 +48,9 @@ const Cemetery = () => {
                 Farms
               </Typography>
 
-              <Alert variant="filled" severity="info" style={{ marginTop: '50px' }}>
-                These pools will start at {(new Date('2022-03-25T12:00:00Z')).toString()}.
-              </Alert>
+              {/*<Alert variant="filled" severity="info" style={{ marginTop: '50px' }}>*/}
+              {/*  These pools will start at {(new Date('2022-03-25T12:00:00Z')).toString()}.*/}
+              {/*</Alert>*/}
 
               <Box mt={5}>
                 <div hidden={activeBanks.filter((bank) => bank.sectionInUI === 2).length === 0}>
@@ -86,13 +86,13 @@ const Cemetery = () => {
                   </Grid>
                 </div> */}
                 
-                {/*<Alert variant="filled" severity="info" style={{ marginTop: '50px' }}>*/}
-                {/*  All below pools have ended. Please unstake and collect your rewards.*/}
-                {/*</Alert>*/}
-
                 <Alert variant="filled" severity="info" style={{ marginTop: '50px' }}>
-                  {Date.now() < new Date('2022-03-22T12:00:00Z') ? `These pools will start at ${new Date('2022-03-22T12:00:00Z')}.` : `These pools have started and will end at ${new Date('2022-03-25T12:00:00Z')}.`}
+                  All below pools have ended. Please unstake and collect your rewards.
                 </Alert>
+
+                {/*<Alert variant="filled" severity="info" style={{ marginTop: '50px' }}>*/}
+                {/*  {Date.now() < new Date('2022-03-22T12:00:00Z') ? `These pools will start at ${new Date('2022-03-22T12:00:00Z')}.` : `These pools have started and will end at ${new Date('2022-03-25T12:00:00Z')}.`}*/}
+                {/*</Alert>*/}
 
                 <div hidden={activeBanks.filter((bank) => bank.sectionInUI === 0).length === 0}>
                   <Typography color="textPrimary" variant="h4" gutterBottom style={{ marginTop: '15px', marginBottom: '30px' }}>

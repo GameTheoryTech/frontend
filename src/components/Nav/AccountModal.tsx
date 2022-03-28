@@ -11,22 +11,31 @@ import useTombFinance from '../../hooks/useTombFinance';
 import TokenSymbol from '../TokenSymbol';
 import {makeStyles} from "@mui/styles";
 import Button from "../Button";
+import useTokenCanUnlockAmount from "../../hooks/useTokenCanUnlockAmount";
+import useZap from "../../hooks/useZap";
+import useUnlockGame from "../../hooks/useUnlockGame";
+import useUnlockTheory from "../../hooks/useUnlockTheory";
 
 const AccountModal: React.FC<ModalProps> = ({ onDismiss }) => {
   const tombFinance = useTombFinance();
 
   const tombBalance = useTokenBalance(tombFinance.TOMB);
   const gameLocked = useTokenLocked(tombFinance.TOMB);
+  const gameCanUnlockAmount = useTokenCanUnlockAmount(tombFinance.TOMB);
   const displayTombBalance = useMemo(() => getDisplayBalance(tombBalance), [tombBalance]);
   const displayGameLocked = useMemo(() => getDisplayBalance(gameLocked), [gameLocked]);
 
   const tshareBalance = useTokenBalance(tombFinance.TSHARE);
   const theoryLocked = useTokenLocked(tombFinance.TSHARE);
+  const theoryCanUnlockAmount = useTokenCanUnlockAmount(tombFinance.TSHARE);
   const displayTshareBalance = useMemo(() => getDisplayBalance(tshareBalance), [tshareBalance]);
   const displayTheoryLocked = useMemo(() => getDisplayBalance(theoryLocked), [theoryLocked]);
 
   const tbondBalance = useTokenBalance(tombFinance.HODL);
   const displayTbondBalance = useMemo(() => getDisplayBalance(tbondBalance), [tbondBalance]);
+
+  const { onUnlockGame } = useUnlockGame();
+  const { onUnlockTheory } = useUnlockTheory();
 
   // const useStyles = makeStyles((theme) => ({
   //   modalContent: {
@@ -57,8 +66,8 @@ const AccountModal: React.FC<ModalProps> = ({ onDismiss }) => {
           <TokenSymbol symbol="TOMB" />
           <StyledBalance>
             <StyledValue>{displayGameLocked}</StyledValue>
-            <Label text="GAME Locked" />
-            <Button disabled={true}>Unlock</Button> {/*Can only unlock after a year, so don't have to implement this immediately.*/}
+            <Label text="LGAME Locked" />
+            <Button disabled={gameCanUnlockAmount.eq(0)} onClick={onUnlockGame}>Unlock</Button> {/*Can only unlock after a year, so don't have to implement this immediately.*/}
           </StyledBalance>
         </StyledBalanceWrapper>
 
@@ -74,8 +83,8 @@ const AccountModal: React.FC<ModalProps> = ({ onDismiss }) => {
           <TokenSymbol symbol="TSHARE" />
           <StyledBalance>
             <StyledValue>{displayTheoryLocked}</StyledValue>
-            <Label text="THEORY Locked" /> {/*TODO: Link to unlock*/}
-            <Button disabled={true}>Unlock</Button> {/*Can only unlock after a year, so don't have to implement this immediately.*/}
+            <Label text="LTHEORY Locked" />
+            <Button disabled={theoryCanUnlockAmount.eq(0)} onClick={onUnlockTheory} >Unlock</Button> {/*Can only unlock after a year, so don't have to implement this immediately.*/}
           </StyledBalance>
         </StyledBalanceWrapper>
 
