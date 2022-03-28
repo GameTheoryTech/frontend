@@ -34,7 +34,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ max, onConfirm, onDismiss, 
 
   return (
     <Modal>
-      <ModalTitle text={`Buy levels using DAI. Level 1 = 100 DAI, every level after is an extra 500 DAI added to the level before it.`} />
+      <ModalTitle text={`Buy levels using DAI. Each level costs 500 DAI.`} />
       <TokenInput
         value={val}
         onSelectMax={handleSelectMax}
