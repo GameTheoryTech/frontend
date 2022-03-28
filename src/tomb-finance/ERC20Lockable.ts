@@ -340,6 +340,25 @@ const LockableABI = [
         "type": "address"
       }
     ],
+    "name": "canUnlockAmount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_holder",
+        "type": "address"
+      }
+    ],
     "name": "totalBalanceOf",
     "outputs": [
       {
