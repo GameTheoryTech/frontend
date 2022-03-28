@@ -341,7 +341,7 @@ export class TombFinance {
           tokenPrice = await this.getTokenPriceFromPancakeswapFTMToDAI(token);
           tokenPrice = (Number(tokenPrice) * Number(priceOfOneFtmInDollars)).toString();
         }
-        else if(tokenName !== "GAME" && tokenName !== "THEORY" && tokenName !== "WFTM") {
+        else if(tokenName !== "GAME" && tokenName !== "THEORY" && tokenName !== "TOMB" && tokenName !== "TSHARE" && tokenName !== "WFTM") {
           tokenPrice = await this.getTokenPriceFromPancakeswapFTMToDAI(token);
           tokenPrice = (Number(tokenPrice) * Number(priceOfOneFtmInDollars)).toString();
         }
