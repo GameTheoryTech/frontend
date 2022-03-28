@@ -3,20 +3,20 @@ import useTombFinance from './useTombFinance';
 import useHandleTransactionReceipt from './useHandleTransactionReceipt';
 import {BigNumber} from "ethers";
 
-const useUnlockTheory = () => {
+const useLevelUpTheoryUnlocker = () => {
   const tombFinance = useTombFinance();
   const handleTransactionReceipt = useHandleTransactionReceipt();
 
-  const handleUnlockTheory = useCallback(
-    (tokenId : BigNumber | number) => {
+  const handleLevelUp = useCallback(
+    (tokenId: BigNumber | number) => {
       handleTransactionReceipt(
-        tombFinance.unlockTheory(tokenId),
-        `Unlock LTHEORY to THEORY.`,
+        tombFinance.levelUpTheoryUnlocker(tokenId),
+        `Level up NFT ${tokenId}.`,
       );
     },
     [tombFinance, handleTransactionReceipt],
   );
-  return { onUnlockTheory: handleUnlockTheory };
+  return { onLevelUp: handleLevelUp };
 };
 
-export default useUnlockTheory;
+export default useLevelUpTheoryUnlocker;

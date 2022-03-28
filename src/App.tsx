@@ -17,6 +17,7 @@ import Loader from './components/Loader';
 import Popups from './components/Popups';
 import Regulations from './views/Regulations/Regulations';
 import { RefreshContextProvider } from './contexts/RefreshContext';
+import Nft from "./views/Nft";
 
 const Home = lazy(() => import('./views/Home'));
 const Farms = lazy(() => import('./views/Cemetery'));
@@ -66,6 +67,9 @@ const App: React.FC = () => {
             </Route>
             <Route path="/faq">
               <Faq />
+            </Route>
+            <Route path="/nfts">
+              <Nft />
             </Route>
             {/* <Route path="/sbs">
               <SBS />
