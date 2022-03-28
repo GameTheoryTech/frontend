@@ -24,12 +24,14 @@ const AccountModal: React.FC<ModalProps> = ({ onDismiss }) => {
   const gameCanUnlockAmount = useTokenCanUnlockAmount(tombFinance.TOMB);
   const displayTombBalance = useMemo(() => getDisplayBalance(tombBalance), [tombBalance]);
   const displayGameLocked = useMemo(() => getDisplayBalance(gameLocked), [gameLocked]);
+  const displayGameCanUnlock = useMemo(() => getDisplayBalance(gameCanUnlockAmount), [gameCanUnlockAmount]);
 
   const tshareBalance = useTokenBalance(tombFinance.TSHARE);
   const theoryLocked = useTokenLocked(tombFinance.TSHARE);
   const theoryCanUnlockAmount = useTokenCanUnlockAmount(tombFinance.TSHARE);
   const displayTshareBalance = useMemo(() => getDisplayBalance(tshareBalance), [tshareBalance]);
   const displayTheoryLocked = useMemo(() => getDisplayBalance(theoryLocked), [theoryLocked]);
+  const displayTheoryCanUnlock = useMemo(() => getDisplayBalance(theoryCanUnlockAmount), [theoryCanUnlockAmount]);
 
   const tbondBalance = useTokenBalance(tombFinance.HODL);
   const displayTbondBalance = useMemo(() => getDisplayBalance(tbondBalance), [tbondBalance]);
@@ -65,8 +67,8 @@ const AccountModal: React.FC<ModalProps> = ({ onDismiss }) => {
         <StyledBalanceWrapper>
           <TokenSymbol symbol="TOMB" />
           <StyledBalance>
-            <StyledValue>{displayGameLocked}</StyledValue>
-            <Label text="LGAME Locked" />
+            <StyledValue>{`${displayGameLocked} (${displayGameCanUnlock})`}</StyledValue>
+            <Label text="LGAME Locked (Available to Unlock)" />
             <Button disabled={gameCanUnlockAmount.eq(0)} onClick={onUnlockGame}>Unlock</Button> {/*Can only unlock after a year, so don't have to implement this immediately.*/}
           </StyledBalance>
         </StyledBalanceWrapper>
@@ -82,8 +84,8 @@ const AccountModal: React.FC<ModalProps> = ({ onDismiss }) => {
         <StyledBalanceWrapper>
           <TokenSymbol symbol="TSHARE" />
           <StyledBalance>
-            <StyledValue>{displayTheoryLocked}</StyledValue>
-            <Label text="LTHEORY Locked" />
+            <StyledValue>{`${displayTheoryLocked} (${displayTheoryCanUnlock})`}</StyledValue>
+            <Label text="LTHEORY Locked (Available to Unlock)" />
             <Button disabled={theoryCanUnlockAmount.eq(0)} onClick={onUnlockTheory} >Unlock</Button> {/*Can only unlock after a year, so don't have to implement this immediately.*/}
           </StyledBalance>
         </StyledBalanceWrapper>
