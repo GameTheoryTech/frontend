@@ -46,15 +46,15 @@ const Harvest: React.FC<HarvestProps> = ({rewardsLocked}) => {
                 <TokenSymbol symbol="TOMB" />
               </CardIcon>
               <Value value={getDisplayBalance(earnings)} />
-              <Label text={`≈ $${earnedInDollars}`} color="#5f51c2" />
+              <Label text={`≈ $${earnedInDollars}`} color="#89cff0" />
               <Label text="Total Earned" />
               <br/>
               <Value value={`${(Number(getDisplayBalance(earnings)) * (100.0-rewardsLocked) / 100.0).toFixed(4)}`} />
-              <Label text={`≈ $${(Number(earnedInDollars) * (100.0-rewardsLocked) / 100.0).toFixed(2)}`} color="#5f51c2" />
+              <Label text={`≈ $${(Number(earnedInDollars) * (100.0-rewardsLocked) / 100.0).toFixed(2)}`} color="#89cff0" />
               <Label text="GAME Earned" />
               <br/>
               <Value value={`${(Number(getDisplayBalance(earnings)) * rewardsLocked / 100.0).toFixed(4)}`} />
-              <Label text={`≈ $${(Number(earnedInDollars) * rewardsLocked / 100.0).toFixed(2)}`} color="#5f51c2" />
+              <Label text={`≈ $${(Number(earnedInDollars) * rewardsLocked / 100.0).toFixed(2)}`} color="#89cff0" />
               <Label text="LGAME Earned" />
             </StyledCardHeader>
             <StyledCardActions>

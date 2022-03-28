@@ -3,15 +3,15 @@ import useTombFinance from './useTombFinance';
 import useHandleTransactionReceipt from './useHandleTransactionReceipt';
 import {BigNumber} from "ethers";
 
-const useUnlockTheory = () => {
+const useUnlockTheoryWithNFT = () => {
   const tombFinance = useTombFinance();
   const handleTransactionReceipt = useHandleTransactionReceipt();
 
   const handleUnlockTheory = useCallback(
-    (tokenId : BigNumber | number) => {
+    (tokenId: BigNumber | number) => {
       handleTransactionReceipt(
-        tombFinance.unlockTheory(tokenId),
-        `Unlock LTHEORY to THEORY.`,
+        tombFinance.unlockTheoryWithNFT(tokenId),
+        `Unlock LTHEORY to THEORY with NFT ${tokenId}.`,
       );
     },
     [tombFinance, handleTransactionReceipt],
@@ -19,4 +19,4 @@ const useUnlockTheory = () => {
   return { onUnlockTheory: handleUnlockTheory };
 };
 
-export default useUnlockTheory;
+export default useUnlockTheoryWithNFT;

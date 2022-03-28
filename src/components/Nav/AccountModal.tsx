@@ -15,6 +15,8 @@ import useTokenCanUnlockAmount from "../../hooks/useTokenCanUnlockAmount";
 import useZap from "../../hooks/useZap";
 import useUnlockGame from "../../hooks/useUnlockGame";
 import useUnlockTheory from "../../hooks/useUnlockTheory";
+import useFetchTheoryUnlockers from "../../hooks/useFetchTheoryUnlockers";
+import {BigNumber} from "ethers";
 
 const AccountModal: React.FC<ModalProps> = ({ onDismiss }) => {
   const tombFinance = useTombFinance();
@@ -26,9 +28,13 @@ const AccountModal: React.FC<ModalProps> = ({ onDismiss }) => {
   const displayGameLocked = useMemo(() => getDisplayBalance(gameLocked), [gameLocked]);
   const displayGameCanUnlock = useMemo(() => getDisplayBalance(gameCanUnlockAmount), [gameCanUnlockAmount]);
 
+  const theoryUnlockers = useFetchTheoryUnlockers();
+  const maxTheoryUnlocker = theoryUnlockers.length == 0 ? null : theoryUnlockers.reduce((prev, current) => (prev.level > current.level) ? prev : current)
+  const maxTheoryUnlockerUnlockAmount = maxTheoryUnlocker ? maxTheoryUnlocker.unlockAmount : BigNumber.from(0);
   const tshareBalance = useTokenBalance(tombFinance.TSHARE);
   const theoryLocked = useTokenLocked(tombFinance.TSHARE);
-  const theoryCanUnlockAmount = useTokenCanUnlockAmount(tombFinance.TSHARE);
+  const naturalUnlockAmount = useTokenCanUnlockAmount(tombFinance.TSHARE);
+  const theoryCanUnlockAmount = maxTheoryUnlockerUnlockAmount.gt(naturalUnlockAmount) ? maxTheoryUnlockerUnlockAmount : naturalUnlockAmount;
   const displayTshareBalance = useMemo(() => getDisplayBalance(tshareBalance), [tshareBalance]);
   const displayTheoryLocked = useMemo(() => getDisplayBalance(theoryLocked), [theoryLocked]);
   const displayTheoryCanUnlock = useMemo(() => getDisplayBalance(theoryCanUnlockAmount), [theoryCanUnlockAmount]);
@@ -86,7 +92,7 @@ const AccountModal: React.FC<ModalProps> = ({ onDismiss }) => {
           <StyledBalance>
             <StyledValue>{`${displayTheoryLocked} (${displayTheoryCanUnlock})`}</StyledValue>
             <Label text="LTHEORY Locked (Available to Unlock)" />
-            <Button disabled={theoryCanUnlockAmount.eq(0)} onClick={onUnlockTheory} >Unlock</Button> {/*Can only unlock after a year, so don't have to implement this immediately.*/}
+            <Button disabled={theoryCanUnlockAmount.eq(0)} onClick={() => onUnlockTheory(maxTheoryUnlocker ? maxTheoryUnlocker.token_id : BigNumber.from(0))} >Unlock</Button>
           </StyledBalance>
         </StyledBalanceWrapper>
 
