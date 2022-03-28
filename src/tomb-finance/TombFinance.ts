@@ -656,9 +656,12 @@ export class TombFinance {
     return BigNumber.from(0);
   }
 
-  async getTotalStakedInMasonry(): Promise<BigNumber> {
-    const Masonry = this.currentMasonry();
-    return await Masonry.totalSupply();
+  async getTotalStakedInMasonry(): Promise<number> {
+    //const Masonry = this.currentMasonry();
+    const TSHAREPrice = (await this.getShareStat()).priceInDollars;
+    const masonrytShareBalanceOf = await this.TSHARE.balanceOf(this.currentMasonry().address);
+    const masonryTVL = Number(getDisplayBalance(masonrytShareBalanceOf, this.TSHARE.decimal)) * Number(TSHAREPrice);
+    return masonryTVL;
   }
 
   async stakeShareToMasonry(amount: string): Promise<TransactionResponse> {

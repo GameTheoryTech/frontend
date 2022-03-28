@@ -115,6 +115,9 @@ const Nav = () => {
               <Link color="textPrimary" to="/theoretics" className={classes.link}>
                 Theoretics
               </Link>
+              <Link color="textPrimary" to="/nfts" className={classes.link}>
+                NFTs
+              </Link>
               <Link color="textPrimary" to="/bonds" className={classes.link}>
                 Bonds
               </Link>
@@ -150,9 +153,6 @@ const Nav = () => {
               </a>
               <Link color="textPrimary" to="/faq" className={classes.link}>
                 FAQ
-              </Link>
-              <Link color="textPrimary" to="/nfts" className={classes.link}>
-                NFTs
               </Link>
               {/*<a href="https://2omb.finance" target="_blank" className={classes.link}>*/}
               {/*  2omb*/}
@@ -195,6 +195,7 @@ const Nav = () => {
                 <ListItemLink primary="Home" to="/" />
                 <ListItemLink primary="Farms" to="/farms" />
                 <ListItemLink primary="Theoretics" to="/theoretics" />
+                <ListItemLink primary="NFTs" to="/nfts" />
                 <ListItemLink primary="Bonds" to="/bonds" />
                 {/*<ListItemLink primary="Treasury" to="/treasury" />*/}
                 {/* <ListItemLink primary="Masonry" to="/masonry" />
@@ -215,7 +216,6 @@ const Nav = () => {
                   <ListItemText>Docs</ListItemText>
                 </ListItem>
                 <ListItemLink primary="FAQ" to="/faq" />
-                <ListItemLink primary="NFTs" to="/nfts" />
                 {/*<ListItem button component="a" href="https://2omb.finance">*/}
                 {/*  <ListItemText>2omb</ListItemText>*/}
                 {/*</ListItem>*/}

@@ -4,7 +4,7 @@ import useTombFinance from './useTombFinance';
 import useRefresh from './useRefresh';
 
 const useTotalStakedOnMasonry = () => {
-  const [totalStaked, setTotalStaked] = useState(BigNumber.from(0));
+  const [totalStaked, setTotalStaked] = useState(0);
   const tombFinance = useTombFinance();
   const { slowRefresh } = useRefresh();
   const isUnlocked = tombFinance?.isUnlocked;

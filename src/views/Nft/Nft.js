@@ -78,6 +78,11 @@ const Nft = () => {
             The colors of the NFTs are as follows: Level 1-19 = Bronze, Level 20-39: Silver, Level 40-49: Gold, Level 50: Platinum. Check the docs for the images.
           </Alert>
           <Alert variant="filled" severity="warning" style={{ marginTop: '50px' }}>
+            Each level costs 500 DAI. This means that: Level 1 = 500 DAI, Level 5 = 2,500 DAI, Level 10 = 5000 DAI, Level 15 = 7500 DAI, Level 20 = 10,000 DAI,
+            Level 25 =12,500 DAI, Level 30 = 15,000 DAI, Level 35 = 17,500 DAI, Level 40 = 20,000 DAI, Level 45 = 22,500 DAI,
+            Level 50 = 25,000 DAI.
+          </Alert>
+          <Alert variant="filled" severity="warning" style={{ marginTop: '50px' }}>
             You can only unlock NEWLY locked rewards. Once you use ANY NFT to unlock, you can no longer unlock those rewards with an NFT of the same type. Use the Unlock button in My Wallet to automatically choose the best NFT to use.
           </Alert>
           <Typography color="textPrimary" align="center" variant="h3" gutterBottom>

@@ -197,8 +197,8 @@ const Masonry = () => {
               <Grid item xs={12} md={2} lg={2}>
                 <Card className={classes.gridItem}>
                   <CardContent align="center">
-                    <Typography>THEORY Staked</Typography>
-                    <Typography>{getDisplayBalance(totalStaked)}</Typography>
+                    <Typography>TVL</Typography>
+                    <Typography>${totalStaked.toFixed(2)}</Typography>
                   </CardContent>
                 </Card>
               </Grid>
