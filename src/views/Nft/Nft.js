@@ -83,7 +83,7 @@ const Nft = () => {
             Level 50 = 25,000 DAI.
           </Alert>
           <Alert variant="filled" severity="warning" style={{ marginTop: '50px' }}>
-            You can only unlock NEWLY locked rewards. Once you use ANY NFT to unlock, you can no longer unlock those rewards with an NFT of the same type. Use the Unlock button in My Wallet to automatically choose the best NFT to use.
+            You can only unlock NEWLY locked rewards. Each level of NFT unlocks 1% of your newly locked rewards. Once you use ANY NFT to unlock, you can no longer unlock those rewards with an NFT of the same type. Use the Unlock button in My Wallet to automatically choose the best NFT to use.
           </Alert>
           <Typography color="textPrimary" align="center" variant="h3" gutterBottom>
             NFTs
