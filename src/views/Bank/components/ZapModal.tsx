@@ -16,7 +16,7 @@ import useTokenBalance from '../../../hooks/useTokenBalance';
 import useTombFinance from '../../../hooks/useTombFinance';
 import { useWallet } from 'use-wallet';
 import useApproveZapper, { ApprovalState } from '../../../hooks/useApproveZapper';
-import { TOMB_TICKER, TSHARE_TICKER, FTM_TICKER } from '../../../utils/constants';
+import { TOMB_TICKER, TSHARE_TICKER, DAI_TICKER } from '../../../utils/constants';
 import { Alert } from '@mui/lab';
 
 interface ZapProps extends ModalProps {
@@ -32,7 +32,7 @@ const ZapModal: React.FC<ZapProps> = ({ onConfirm, onDismiss, tokenName = '', de
   const tombBalance = useTokenBalance(tombFinance.TOMB);
   const tshareBalance = useTokenBalance(tombFinance.TSHARE);
   const [val, setVal] = useState('');
-  const [zappingToken, setZappingToken] = useState(FTM_TICKER);
+  const [zappingToken, setZappingToken] = useState(DAI_TICKER);
   const [zappingTokenBalance, setZappingTokenBalance] = useState(ftmBalance);
   const [estimate, setEstimate] = useState({ token0: '0', token1: '0' }); // token0 will always be FTM in this case
   const [approveZapperStatus, approveZapper] = useApproveZapper(zappingToken);
@@ -99,10 +99,9 @@ const ZapModal: React.FC<ZapProps> = ({ onConfirm, onDismiss, tokenName = '', de
         id="select"
         value={zappingToken}
       >
-        <StyledMenuItem value={FTM_TICKER}>FTM</StyledMenuItem>
-        <StyledMenuItem value={TSHARE_TICKER}>TSHARE</StyledMenuItem>
-        {/* Tomb as an input for zapping will be disabled due to issues occuring with the Gatekeeper system */}
-        {/* <StyledMenuItem value={TOMB_TICKER}>TOMB</StyledMenuItem> */}
+        <StyledMenuItem value={DAI_TICKER}>DAI</StyledMenuItem>
+          <StyledMenuItem value={TOMB_TICKER}>GAME</StyledMenuItem>
+          <StyledMenuItem value={TSHARE_TICKER}>THEORY</StyledMenuItem>
       </Select>
       <TokenInput
         onSelectMax={handleSelectMax}
@@ -118,7 +117,7 @@ const ZapModal: React.FC<ZapProps> = ({ onConfirm, onDismiss, tokenName = '', de
       </StyledDescriptionText>
       <StyledDescriptionText>
         {' '}
-        ({Number(estimate.token0)} {FTM_TICKER} / {Number(estimate.token1)}{' '}
+        ({Number(estimate.token0)} {DAI_TICKER} / {Number(estimate.token1)}{' '}
         {tokenName.startsWith(TOMB_TICKER) ? TOMB_TICKER : TSHARE_TICKER}){' '}
       </StyledDescriptionText>
       <ModalActions>
@@ -135,7 +134,7 @@ const ZapModal: React.FC<ZapProps> = ({ onConfirm, onDismiss, tokenName = '', de
 
       <StyledActionSpacer />
       <Alert variant="filled" severity="warning">
-        Beta feature. Use at your own risk!
+        Zap feature uses a contract that is outside of Game Theory's control. Game Theory neither affiliates with nor endorses mlnl.finance. Use at your own risk!
       </Alert>
     </Modal>
   );

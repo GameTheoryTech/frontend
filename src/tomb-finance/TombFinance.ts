@@ -14,7 +14,7 @@ import IUniswapV2PairABI from './IUniswapV2Pair.abi.json';
 import config, { bankDefinitions } from '../config';
 import moment from 'moment';
 import { parseUnits } from 'ethers/lib/utils';
-import { FTM_TICKER, SPOOKY_ROUTER_ADDR, TOMB_TICKER } from '../utils/constants';
+import { DAI_TICKER, SPOOKY_ROUTER_ADDR, TOMB_TICKER } from '../utils/constants';
 import axios from "axios";
 import ERC20Lockable from "./ERC20Lockable";
 /**
@@ -900,8 +900,14 @@ export class TombFinance {
     const { zapper } = this.contracts;
     const lpToken = this.externalTokens[lpName];
     let estimate;
-    if (tokenName === FTM_TICKER) {
-      estimate = await zapper.estimateZapIn(lpToken.address, SPOOKY_ROUTER_ADDR, parseUnits(amount, 18));
+    if (tokenName === DAI_TICKER) {
+      const token = this.FTM;
+      estimate = await zapper.estimateZapInToken(
+          token.address,
+          lpToken.address,
+          SPOOKY_ROUTER_ADDR,
+          parseUnits(amount, 18),
+      );
     } else {
       const token = tokenName === TOMB_TICKER ? this.TOMB : this.TSHARE;
       estimate = await zapper.estimateZapInToken(
@@ -916,11 +922,15 @@ export class TombFinance {
   async zapIn(tokenName: string, lpName: string, amount: string): Promise<TransactionResponse> {
     const { zapper } = this.contracts;
     const lpToken = this.externalTokens[lpName];
-    if (tokenName === FTM_TICKER) {
-      let overrides = {
-        value: parseUnits(amount, 18),
-      };
-      return await zapper.zapIn(lpToken.address, SPOOKY_ROUTER_ADDR, this.myAccount, overrides);
+    if (tokenName === DAI_TICKER) {
+      const token = this.FTM;
+      return await zapper.zapInToken(
+          token.address,
+          parseUnits(amount, 18),
+          lpToken.address,
+          SPOOKY_ROUTER_ADDR,
+          this.myAccount,
+      );
     } else {
       const token = tokenName === TOMB_TICKER ? this.TOMB : this.TSHARE;
       return await zapper.zapInToken(
