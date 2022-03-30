@@ -18,6 +18,7 @@ import { useWallet } from 'use-wallet';
 import useApproveZapper, { ApprovalState } from '../../../hooks/useApproveZapper';
 import { TOMB_TICKER, TSHARE_TICKER, DAI_TICKER } from '../../../utils/constants';
 import { Alert } from '@mui/lab';
+import useRefresh from "../../../hooks/useRefresh";
 
 interface ZapProps extends ModalProps {
   onConfirm: (zapAsset: string, lpName: string, amount: string) => void;
@@ -28,7 +29,7 @@ interface ZapProps extends ModalProps {
 const ZapModal: React.FC<ZapProps> = ({ onConfirm, onDismiss, tokenName = '', decimals = 18 }) => {
   const tombFinance = useTombFinance();
   const balance = useTokenBalance(tombFinance.FTM);
-  const ftmBalance = getDisplayBalance(balance, decimals);
+  const ftmBalance = getDisplayBalance(balance);
   const tombBalance = useTokenBalance(tombFinance.TOMB);
   const tshareBalance = useTokenBalance(tombFinance.TSHARE);
   const [val, setVal] = useState('');
@@ -41,6 +42,7 @@ const ZapModal: React.FC<ZapProps> = ({ onConfirm, onDismiss, tokenName = '', de
   const tombLPStats = useMemo(() => (tombFtmLpStats ? tombFtmLpStats : null), [tombFtmLpStats]);
   const tshareLPStats = useMemo(() => (tShareFtmLpStats ? tShareFtmLpStats : null), [tShareFtmLpStats]);
   const ftmAmountPerLP = tokenName.startsWith(TOMB_TICKER) ? tombLPStats?.ftmAmount : tshareLPStats?.ftmAmount;
+  if(zappingToken === DAI_TICKER && zappingTokenBalance !== ftmBalance) setZappingTokenBalance(ftmBalance);
   /**
    * Checks if a value is a valid number or not
    * @param n is the value to be evaluated for a number

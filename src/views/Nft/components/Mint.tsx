@@ -50,27 +50,27 @@ const Mint: React.FC = () => {
               </CardIcon>
 
               <Label text={`You have ${ownerSupply.toNumber()} out of ${totalSupply.toNumber()} ${totalSupply.eq(1) ? "Theory Unlocker" : "Theory Unlockers"}`} />
-                <Label text={'Mint more here:'} />
+                <Label text={'Max supply of Bronze reached. You can no longer mint for now.'} />
             </StyledCardHeader>
-            <StyledCardActions>
-              {approveStatus !== ApprovalState.APPROVED ? (
-                <Button
-                  disabled={approveStatus !== ApprovalState.NOT_APPROVED}
-                  variant="contained"
-                  color="primary"
-                  style={{ marginTop: '20px' }}
-                  onClick={approve}
-                >
-                  Approve DAI
-                </Button>
-              ) : (
-                <>
-                  <IconButton onClick={onPresentDeposit}>
-                    <AddIcon />
-                  </IconButton>
-                </>
-              )}
-            </StyledCardActions>
+            {/*<StyledCardActions>*/}
+            {/*  {approveStatus !== ApprovalState.APPROVED ? (*/}
+            {/*    <Button*/}
+            {/*      disabled={approveStatus !== ApprovalState.NOT_APPROVED}*/}
+            {/*      variant="contained"*/}
+            {/*      color="primary"*/}
+            {/*      style={{ marginTop: '20px' }}*/}
+            {/*      onClick={approve}*/}
+            {/*    >*/}
+            {/*      Approve DAI*/}
+            {/*    </Button>*/}
+            {/*  ) : (*/}
+            {/*    <>*/}
+            {/*      <IconButton onClick={onPresentDeposit}>*/}
+            {/*        <AddIcon />*/}
+            {/*      </IconButton>*/}
+            {/*    </>*/}
+            {/*  )}*/}
+            {/*</StyledCardActions>*/}
           </StyledCardContentInner>
         </CardContent>
       </Card>
