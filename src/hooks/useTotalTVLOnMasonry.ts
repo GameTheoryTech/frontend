@@ -3,8 +3,8 @@ import { BigNumber } from 'ethers';
 import useTombFinance from './useTombFinance';
 import useRefresh from './useRefresh';
 
-const useTotalStakedOnMasonry = () => {
-  const [totalStaked, setTotalStaked] = useState(BigNumber.from(0));
+const useTotalTVLOnMasonry = () => {
+  const [totalStaked, setTotalStaked] = useState(0);
   const tombFinance = useTombFinance();
   const { slowRefresh } = useRefresh();
   const isUnlocked = tombFinance?.isUnlocked;
@@ -12,7 +12,7 @@ const useTotalStakedOnMasonry = () => {
   useEffect(() => {
     async function fetchTotalStaked() {
       try {
-        setTotalStaked(await tombFinance.getTotalStakedInMasonry());
+        setTotalStaked(await tombFinance.getTotalTVLInMasonry());
       } catch(err) {
         console.error(err);
       }
@@ -25,4 +25,4 @@ const useTotalStakedOnMasonry = () => {
   return totalStaked;
 };
 
-export default useTotalStakedOnMasonry;
+export default useTotalTVLOnMasonry;

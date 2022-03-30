@@ -6699,57 +6699,78 @@
     ]
   },
   "zapper": {
-    "address": "0x8bb1fe7a50082623b372d857b4d07911c786a3e9",
+    "address": "0x2656DaB561f7c4dd0cecb87D94eE2094282B60a9",
     "abi": [
       {
-        "inputs": [{ "internalType": "address", "name": "_WNATIVE", "type": "address" }],
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "_WNATIVE",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "_fund",
+            "type": "address"
+          }
+        ],
         "stateMutability": "nonpayable",
         "type": "constructor"
       },
       {
         "anonymous": false,
         "inputs": [
-          { "indexed": false, "internalType": "address", "name": "fee_to", "type": "address" },
-          { "indexed": false, "internalType": "uint16", "name": "rate", "type": "uint16" },
-          { "indexed": false, "internalType": "uint16", "name": "min", "type": "uint16" }
-        ],
-        "name": "FeeChange",
-        "type": "event"
-      },
-      {
-        "anonymous": false,
-        "inputs": [
-          { "indexed": true, "internalType": "address", "name": "previousOwner", "type": "address" },
-          { "indexed": true, "internalType": "address", "name": "newOwner", "type": "address" }
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "previousOwner",
+            "type": "address"
+          },
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "newOwner",
+            "type": "address"
+          }
         ],
         "name": "OwnershipTransferred",
         "type": "event"
       },
       {
         "inputs": [
-          { "internalType": "address", "name": "_LP", "type": "address" },
-          { "internalType": "address", "name": "_router", "type": "address" },
-          { "internalType": "uint256", "name": "_amt", "type": "uint256" }
-        ],
-        "name": "estimateZapIn",
-        "outputs": [
-          { "internalType": "uint256", "name": "", "type": "uint256" },
-          { "internalType": "uint256", "name": "", "type": "uint256" }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          { "internalType": "address", "name": "_from", "type": "address" },
-          { "internalType": "address", "name": "_to", "type": "address" },
-          { "internalType": "address", "name": "_router", "type": "address" },
-          { "internalType": "uint256", "name": "_amt", "type": "uint256" }
+          {
+            "internalType": "address",
+            "name": "_from",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "_to",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "_router",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amountWithoutFee",
+            "type": "uint256"
+          }
         ],
         "name": "estimateZapInToken",
         "outputs": [
-          { "internalType": "uint256", "name": "", "type": "uint256" },
-          { "internalType": "uint256", "name": "", "type": "uint256" }
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
         ],
         "stateMutability": "view",
         "type": "function"
@@ -6757,16 +6778,35 @@
       {
         "inputs": [],
         "name": "owner",
-        "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+        "outputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
         "stateMutability": "view",
         "type": "function"
       },
-      { "inputs": [], "name": "renounceOwnership", "outputs": [], "stateMutability": "nonpayable", "type": "function" },
+      {
+        "inputs": [],
+        "name": "renounceOwnership",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
       {
         "inputs": [
-          { "internalType": "address", "name": "addr", "type": "address" },
-          { "internalType": "uint16", "name": "rate", "type": "uint16" },
-          { "internalType": "uint16", "name": "min", "type": "uint16" }
+          {
+            "internalType": "uint256",
+            "name": "fee",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "fund",
+            "type": "address"
+          }
         ],
         "name": "setFee",
         "outputs": [],
@@ -6775,9 +6815,21 @@
       },
       {
         "inputs": [
-          { "internalType": "address", "name": "token", "type": "address" },
-          { "internalType": "address", "name": "router", "type": "address" },
-          { "internalType": "address", "name": "bridgeToken", "type": "address" }
+          {
+            "internalType": "address",
+            "name": "token",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "router",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "bridgeToken",
+            "type": "address"
+          }
         ],
         "name": "setTokenBridgeForRouter",
         "outputs": [],
@@ -6785,7 +6837,13 @@
         "type": "function"
       },
       {
-        "inputs": [{ "internalType": "address", "name": "router", "type": "address" }],
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "router",
+            "type": "address"
+          }
+        ],
         "name": "setUseNativeRouter",
         "outputs": [],
         "stateMutability": "nonpayable",
@@ -6793,23 +6851,36 @@
       },
       {
         "inputs": [
-          { "internalType": "address", "name": "_from", "type": "address" },
-          { "internalType": "uint256", "name": "amount", "type": "uint256" },
-          { "internalType": "address", "name": "routerAddr", "type": "address" },
-          { "internalType": "address", "name": "_recipient", "type": "address" }
-        ],
-        "name": "swapToNative",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          { "internalType": "address", "name": "_from", "type": "address" },
-          { "internalType": "uint256", "name": "amount", "type": "uint256" },
-          { "internalType": "address", "name": "_to", "type": "address" },
-          { "internalType": "address", "name": "routerAddr", "type": "address" },
-          { "internalType": "address", "name": "_recipient", "type": "address" }
+          {
+            "internalType": "address",
+            "name": "_from",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "slippage",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "_to",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "routerAddr",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "_recipient",
+            "type": "address"
+          }
         ],
         "name": "swapToken",
         "outputs": [],
@@ -6817,21 +6888,45 @@
         "type": "function"
       },
       {
-        "inputs": [{ "internalType": "address", "name": "newOwner", "type": "address" }],
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "newOwner",
+            "type": "address"
+          }
+        ],
         "name": "transferOwnership",
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
       },
       {
-        "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "",
+            "type": "address"
+          }
+        ],
         "name": "useNativeRouter",
-        "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+        "outputs": [
+          {
+            "internalType": "bool",
+            "name": "",
+            "type": "bool"
+          }
+        ],
         "stateMutability": "view",
         "type": "function"
       },
       {
-        "inputs": [{ "internalType": "address", "name": "token", "type": "address" }],
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "token",
+            "type": "address"
+          }
+        ],
         "name": "withdraw",
         "outputs": [],
         "stateMutability": "nonpayable",
@@ -6839,34 +6934,36 @@
       },
       {
         "inputs": [
-          { "internalType": "address", "name": "_from", "type": "address" },
-          { "internalType": "uint256", "name": "amount", "type": "uint256" },
-          { "internalType": "address", "name": "_toRouter", "type": "address" },
-          { "internalType": "address", "name": "_recipient", "type": "address" }
-        ],
-        "name": "zapAcross",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          { "internalType": "address", "name": "_to", "type": "address" },
-          { "internalType": "address", "name": "routerAddr", "type": "address" },
-          { "internalType": "address", "name": "_recipient", "type": "address" }
-        ],
-        "name": "zapIn",
-        "outputs": [],
-        "stateMutability": "payable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          { "internalType": "address", "name": "_from", "type": "address" },
-          { "internalType": "uint256", "name": "amount", "type": "uint256" },
-          { "internalType": "address", "name": "_to", "type": "address" },
-          { "internalType": "address", "name": "routerAddr", "type": "address" },
-          { "internalType": "address", "name": "_recipient", "type": "address" }
+          {
+            "internalType": "address",
+            "name": "_from",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amountWithoutFee",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "slippage",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "_to",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "routerAddr",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "_recipient",
+            "type": "address"
+          }
         ],
         "name": "zapInToken",
         "outputs": [],
@@ -6874,31 +6971,9 @@
         "type": "function"
       },
       {
-        "inputs": [
-          { "internalType": "address", "name": "_from", "type": "address" },
-          { "internalType": "uint256", "name": "amount", "type": "uint256" },
-          { "internalType": "address", "name": "routerAddr", "type": "address" },
-          { "internalType": "address", "name": "_recipient", "type": "address" }
-        ],
-        "name": "zapOut",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          { "internalType": "address", "name": "_from", "type": "address" },
-          { "internalType": "uint256", "name": "amount", "type": "uint256" },
-          { "internalType": "address", "name": "_to", "type": "address" },
-          { "internalType": "address", "name": "routerAddr", "type": "address" },
-          { "internalType": "address", "name": "_recipient", "type": "address" }
-        ],
-        "name": "zapOutToken",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      { "stateMutability": "payable", "type": "receive" }
+        "stateMutability": "payable",
+        "type": "receive"
+      }
     ]
   },
   "SpookyRouter": {

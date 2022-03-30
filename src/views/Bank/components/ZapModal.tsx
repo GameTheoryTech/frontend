@@ -81,12 +81,12 @@ const ZapModal: React.FC<ZapProps> = ({ onConfirm, onDismiss, tokenName = '', de
   return (
     <Modal>
       <ModalTitle text={`Zap in ${tokenName}`} />
-      <Typography variant="h6" align="center">
-        Powered by{' '}
-        <a target="_blank" rel="noopener noreferrer" href="https://mlnl.finance">
-          mlnl.finance
-        </a>
-      </Typography>
+      {/*<Typography variant="h6" align="center">*/}
+      {/*  Powered by{' '}*/}
+      {/*  <a target="_blank" rel="noopener noreferrer" href="https://mlnl.finance">*/}
+      {/*    mlnl.finance*/}
+      {/*  </a>*/}
+      {/*</Typography>*/}
 
       <StyledActionSpacer />
       <InputLabel style={{ color: '#2c2560' }} id="label">
@@ -134,7 +134,7 @@ const ZapModal: React.FC<ZapProps> = ({ onConfirm, onDismiss, tokenName = '', de
 
       <StyledActionSpacer />
       <Alert variant="filled" severity="warning">
-        Zap feature uses a contract that is outside of Game Theory's control. Game Theory neither affiliates with nor endorses mlnl.finance. Use at your own risk!
+        Zapping incurs a 0.5% convenience fee and 0.5% slippage. Beta feature. Use at your own risk!
       </Alert>
     </Modal>
   );

@@ -656,12 +656,17 @@ export class TombFinance {
     return BigNumber.from(0);
   }
 
-  async getTotalStakedInMasonry(): Promise<number> {
+  async getTotalTVLInMasonry(): Promise<number> {
     //const Masonry = this.currentMasonry();
     const TSHAREPrice = (await this.getShareStat()).priceInDollars;
     const masonrytShareBalanceOf = await this.TSHARE.balanceOf(this.currentMasonry().address);
     const masonryTVL = Number(getDisplayBalance(masonrytShareBalanceOf, this.TSHARE.decimal)) * Number(TSHAREPrice);
     return masonryTVL;
+  }
+
+  async getTotalStakedInMasonry(): Promise<BigNumber> {
+    const Masonry = this.currentMasonry();
+    return await Masonry.totalSupply();
   }
 
   async stakeShareToMasonry(amount: string): Promise<TransactionResponse> {
@@ -927,6 +932,7 @@ export class TombFinance {
       return await zapper.zapInToken(
           token.address,
           parseUnits(amount, 18),
+          50,
           lpToken.address,
           SPOOKY_ROUTER_ADDR,
           this.myAccount,
@@ -936,6 +942,7 @@ export class TombFinance {
       return await zapper.zapInToken(
         token.address,
         parseUnits(amount, 18),
+        50,
         lpToken.address,
         SPOOKY_ROUTER_ADDR,
         this.myAccount,

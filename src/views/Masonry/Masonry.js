@@ -24,12 +24,14 @@ import useFetchMasonryAPR from '../../hooks/useFetchMasonryAPR';
 import useCashPriceInEstimatedTWAP from '../../hooks/useCashPriceInEstimatedTWAP';
 import useCashPriceInNextTWAP from '../../hooks/useCashPriceInNextTWAP';
 import useTreasuryAllocationTimes from '../../hooks/useTreasuryAllocationTimes';
-import useTotalStakedOnMasonry from '../../hooks/useTotalStakedOnMasonry';
+import useTotalTVLOnMasonry from '../../hooks/useTotalTVLOnMasonry';
 import useClaimRewardCheck from '../../hooks/masonry/useClaimRewardCheck';
 import useWithdrawCheck from '../../hooks/masonry/useWithdrawCheck';
 import ProgressCountdown from './components/ProgressCountdown';
 // import MasonryImage from '../../assets/img/masonry.png';
 import { createGlobalStyle } from 'styled-components';
+import useTotalStakedOnMasonry from "../../hooks/useTotalStakedOnMasonry";
+import useShareStats from "../../hooks/usetShareStats";
 
 // const BackgroundImage = createGlobalStyle`
 //   body, html {
@@ -67,6 +69,7 @@ const Masonry = () => {
   const currentEpoch = useCurrentEpoch();
   //const cashStat = useCashPriceInEstimatedTWAP();
   //const nextCashStat = useCashPriceInNextTWAP();
+  const totalTVL = useTotalTVLOnMasonry();
   const totalStaked = useTotalStakedOnMasonry();
   const { apr, dpr } = useFetchMasonryAPR();
   const canClaimReward = useClaimRewardCheck();
@@ -74,6 +77,7 @@ const Masonry = () => {
   //const scalingFactor = useMemo(() => (cashStat ? Number(cashStat.priceInDollars).toFixed(4) : null), [cashStat]);
   const { to } = useTreasuryAllocationTimes();
   const rebateStats = useTreasury()
+  const theoryStats = useShareStats();
 
   return (
     <Page>
@@ -141,6 +145,14 @@ const Masonry = () => {
               <Grid item xs={12} md={2} lg={2} className={classes.gridItem}>
                 <Card className={classes.gridItem}>
                   <CardContent align="center">
+                    <Typography>Total DPR</Typography>
+                    <Typography>{(!rebateStats.outOfBootstrap || rebateStats.tombPrice >= 1.01) ? dpr.toFixed(2) : "0.00"}%</Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={12} md={2} lg={2} className={classes.gridItem}>
+                <Card className={classes.gridItem}>
+                  <CardContent align="center">
                     <Typography>GAME APR</Typography>
                     <Typography>{(!rebateStats.outOfBootstrap || rebateStats.tombPrice >= 1.01) ? (apr*(100.0-rebateStats.rewardsLocked)/100.0).toFixed(2) : "0.00"}%</Typography>
                   </CardContent>
@@ -151,14 +163,6 @@ const Masonry = () => {
                   <CardContent align="center">
                     <Typography>LGAME APR</Typography>
                     <Typography>{(!rebateStats.outOfBootstrap || rebateStats.tombPrice >= 1.01) ? (apr*rebateStats.rewardsLocked/100.0).toFixed(2) : "0.00"}%</Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-              <Grid item xs={12} md={2} lg={2} className={classes.gridItem}>
-                <Card className={classes.gridItem}>
-                  <CardContent align="center">
-                    <Typography>Total DPR</Typography>
-                    <Typography>{(!rebateStats.outOfBootstrap || rebateStats.tombPrice >= 1.01) ? dpr.toFixed(2) : "0.00"}%</Typography>
                   </CardContent>
                 </Card>
               </Grid>
@@ -181,16 +185,56 @@ const Masonry = () => {
               <Grid item xs={12} md={2} lg={2} className={classes.gridItem}>
                 <Card className={classes.gridItem}>
                   <CardContent align="center">
-                    <Typography>Your Current Withdraw Fee</Typography>
-                    <Typography>{(rebateStats.currentWithdrawFeeOf / 100).toFixed(2)}%</Typography>
+                    <Typography>LGAME Percentage</Typography>
+                    <Typography>{(rebateStats.rewardsLocked).toFixed(2)}%</Typography>
                   </CardContent>
                 </Card>
               </Grid>
               <Grid item xs={12} md={2} lg={2} className={classes.gridItem}>
                 <Card className={classes.gridItem}>
                   <CardContent align="center">
-                    <Typography>LGAME Percentage</Typography>
-                    <Typography>{(rebateStats.rewardsLocked).toFixed(2)}%</Typography>
+                    <Typography>Next GAME APR</Typography>
+                    <Typography>{(!rebateStats.outOfBootstrap || rebateStats.tombPriceUpdated >= 1.01) ? (apr*(100.0-rebateStats.nextRewardsLocked)/100.0).toFixed(2) : "0.00"}%</Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={12} md={2} lg={2} className={classes.gridItem}>
+                <Card className={classes.gridItem}>
+                  <CardContent align="center">
+                    <Typography>Next LGAME APR</Typography>
+                    <Typography>{(!rebateStats.outOfBootstrap || rebateStats.tombPriceUpdated >= 1.01) ? (apr*rebateStats.nextRewardsLocked/100.0).toFixed(2) : "0.00"}%</Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={12} md={2} lg={2} className={classes.gridItem}>
+                <Card className={classes.gridItem}>
+                  <CardContent align="center">
+                    <Typography>Next GAME DPR</Typography>
+                    <Typography>{(!rebateStats.outOfBootstrap || rebateStats.tombPriceUpdated >= 1.01) ? (dpr*(100.0-rebateStats.nextRewardsLocked)/100.0).toFixed(2) : "0.00"}%</Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={12} md={2} lg={2} className={classes.gridItem}>
+                <Card className={classes.gridItem}>
+                  <CardContent align="center">
+                    <Typography>Next LGAME DPR</Typography>
+                    <Typography>{(!rebateStats.outOfBootstrap || rebateStats.tombPriceUpdated >= 1.01) ? (dpr*rebateStats.nextRewardsLocked/100.0).toFixed(2) : "0.00"}%</Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={12} md={2} lg={2} className={classes.gridItem}>
+                <Card className={classes.gridItem}>
+                  <CardContent align="center">
+                    <Typography>Next LGAME Percentage</Typography>
+                    <Typography>{(rebateStats.nextRewardsLocked).toFixed(2)}%</Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={12} md={2} lg={2} className={classes.gridItem}>
+                <Card className={classes.gridItem}>
+                  <CardContent align="center">
+                    <Typography>Your Current Withdraw Fee</Typography>
+                    <Typography>{(rebateStats.currentWithdrawFeeOf / 100).toFixed(2)}%</Typography>
                   </CardContent>
                 </Card>
               </Grid>
@@ -198,7 +242,23 @@ const Masonry = () => {
                 <Card className={classes.gridItem}>
                   <CardContent align="center">
                     <Typography>TVL</Typography>
-                    <Typography>${totalStaked.toFixed(2)}</Typography>
+                    <Typography>${totalTVL.toFixed(2)}</Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={12} md={2} lg={2}>
+                <Card className={classes.gridItem}>
+                  <CardContent align="center">
+                    <Typography>THEORY Staked</Typography>
+                    <Typography>{getDisplayBalance(totalStaked)}</Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={12} md={2} lg={2}>
+                <Card className={classes.gridItem}>
+                  <CardContent align="center">
+                    <Typography>THEORY Staked % (Circ.+Locked)</Typography>
+                    <Typography>{((Number(getDisplayBalance(totalStaked))/(Number(theoryStats?.circulatingSupply)/*-(28555.3529+25959.4118)*/))*100).toFixed(2)}%</Typography>
                   </CardContent>
                 </Card>
               </Grid>
