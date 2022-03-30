@@ -204,7 +204,10 @@ const Nav = () => {
                 <ListItemLink primary="Liquidity" to="/liquidity" />
                 <ListItemLink primary="Regulations" to="/regulations" /> */}
                 <ListItem button component="a" href="https://ftmscan.com/address/0x90dED1c9c35f06b7239429939832f7Ab896D0E06">
-                  <ListItemText>Treasury Wallet</ListItemText>
+                  <ListItemText>Treasury 1</ListItemText>
+                </ListItem>
+                <ListItem button component="a" href="https://ftmscan.com/address/0x113Ca1D5c26d1a2D5a08fF21B2E7ECD42b7b082B">
+                  <ListItemText>Treasury 2</ListItemText>
                 </ListItem>
                 <ListItem button component="a" href="https://ftmscan.com/address/0x29a92c81795d589b32e98fd119568e738ae5952b">
                   <ListItemText>Developer Fund</ListItemText>
