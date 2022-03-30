@@ -2346,7 +2346,7 @@ function useTreasury() {
         setMaxBondSellBN(BigNumber.from(bondsRedeemable));
         setBondBonus(+web3.utils.fromWei(bondRate));
         setTombPriceUpdated(+web3.utils.fromWei(tombPriceUpdated));
-        setNextRewardsLocked(+invLerpPercent95(gamePriceCeiling, pegMaxUnlock, tombPriceUpdated));
+        setNextRewardsLocked(95-(+invLerpPercent95(gamePriceCeiling, pegMaxUnlock, tombPriceUpdated)));
     }
 
     useEffect(() => {
