@@ -135,6 +135,9 @@ const ZapModal: React.FC<ZapProps> = ({ onConfirm, onDismiss, tokenName = '', de
       </ModalActions>
 
       <StyledActionSpacer />
+        <Alert variant="filled" severity="warning">
+            After zapping, make sure to add your LP using the + button!
+        </Alert>
       <Alert variant="filled" severity="warning">
         Zapping incurs a 0.5% convenience fee and 0.5% slippage. Beta feature. Use at your own risk!
       </Alert>
