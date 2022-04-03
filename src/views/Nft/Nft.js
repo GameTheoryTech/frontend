@@ -24,6 +24,10 @@ import useUnlockTheory from "../../hooks/useUnlockTheory";
 import useUnlockTheoryWithNFT from "../../hooks/useUnlockTheoryWithNFT";
 import useMaxLevel from "../../hooks/useMaxLevel";
 import useLevelUpTheoryUnlocker from "../../hooks/useLevelUpTheoryUnlocker";
+import useModal from "../../hooks/useModal";
+import MergeModal from "./components/MergeModal";
+import useMintTheoryUnlocker from "../../hooks/useMintTheoryUnlocker";
+import useMergeTheoryUnlocker from "../../hooks/useMergeTheoryUnlocker";
 
 // const BackgroundImage = createGlobalStyle`
 //   body, html {
@@ -54,14 +58,25 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Nft = () => {
+  let selectedId = "0";
+  const [onPresentMerge, onDismissMerge] = useModal(
+      <MergeModal
+          onConfirm={(value) => {
+            onMerge(selectedId, value);
+            onDismissMerge();
+          }}
+          tokenName={'TU'}
+      />,
+  );
   const classes = useStyles();
   const { account } = useWallet();
   const theoryUnlockers = useFetchTheoryUnlockers();
   const { onUnlockTheory } = useUnlockTheoryWithNFT();
   const { onLevelUp } = useLevelUpTheoryUnlocker();
   const maxLevel = useMaxLevel();
+  const { onMerge } = useMergeTheoryUnlocker();
 
-  return (
+    return (
     <Page>
       <BackgroundImage />
       {!!account ? (
@@ -78,7 +93,12 @@ const Nft = () => {
             The colors of the NFTs are as follows: Level 1-19 = Bronze, Level 20-39: Silver, Level 40-49: Gold, Level 50: Platinum. Check the docs for the images.
           </Alert>
           <Alert variant="filled" severity="warning" style={{ marginTop: '50px' }}>
-            You can only unlock NEWLY locked rewards. Once you use ANY NFT to unlock, you can no longer unlock those rewards with an NFT of the same type. Use the Unlock button in My Wallet to automatically choose the best NFT to use.
+            Each level costs 500 DAI. This means that: Level 1 = 500 DAI, Level 5 = 2,500 DAI, Level 10 = 5000 DAI, Level 15 = 7500 DAI, Level 20 = 10,000 DAI,
+            Level 25 =12,500 DAI, Level 30 = 15,000 DAI, Level 35 = 17,500 DAI, Level 40 = 20,000 DAI, Level 45 = 22,500 DAI,
+            Level 50 = 25,000 DAI.
+          </Alert>
+          <Alert variant="filled" severity="warning" style={{ marginTop: '50px' }}>
+            You can only unlock NEWLY locked rewards. Each level of NFT unlocks 1% of your newly locked rewards. Once you use ANY NFT to unlock, you can no longer unlock those rewards with an NFT of the same type. Use the Unlock button in My Wallet to automatically choose the best NFT to use.
           </Alert>
           <Typography color="textPrimary" align="center" variant="h3" gutterBottom>
             NFTs
@@ -116,7 +136,10 @@ const Nft = () => {
                         item.level.eq(maxLevel) ? ("Current max level reached") :
                         (item.timeLeftToLevel.eq(0) ? `Level Up to Level ${item.level.add(1).toNumber()}` : `${days.toLocaleString('en-US', {minimumIntegerDigits: 2,useGrouping: false})}:${hours.toLocaleString('en-US', {minimumIntegerDigits: 2,useGrouping: false})}:${minutes.toLocaleString('en-US', {minimumIntegerDigits: 2,useGrouping: false})} (D:H:M) left until next level up`)}</Button>
                       <StyledActionSpacer/>
-                      <Button color="primary" variant="contained" disabled={true} >{`Merge Functionality on the Website Coming Soon`}</Button>
+                      <Button color="primary" variant="contained" disabled={theoryUnlockers.length <= 1} onClick={() => {
+                        selectedId = item.token_id
+                        onPresentMerge();
+                      }} >{`Merge`}</Button>
                     </StyledCardContentInner>
                   </CardContent>
                 </Card>

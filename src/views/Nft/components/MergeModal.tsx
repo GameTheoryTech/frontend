@@ -5,21 +5,15 @@ import { Button } from '@mui/material';
 import Modal, { ModalProps } from '../../../components/Modal';
 import ModalActions from '../../../components/ModalActions';
 import ModalTitle from '../../../components/ModalTitle';
-import TokenInput from './TokenInput';
+import MergeInput from './MergeInput';
 
-import { getFullDisplayBalance } from '../../../utils/formatBalance';
-import { BigNumber } from 'ethers';
-
-interface DepositModalProps extends ModalProps {
-  max: BigNumber;
+interface MergeModalProps extends ModalProps {
   onConfirm: (amount: string) => void;
   tokenName?: string;
 }
 
-const DepositModal: React.FC<DepositModalProps> = ({ max, onConfirm, onDismiss, tokenName = '' }) => {
+const MergeModal: React.FC<MergeModalProps> = ({ onConfirm, onDismiss, tokenName = '' }) => {
   const [val, setVal] = useState('');
-
-  const fullBalance = max.toNumber().toString();
 
   const handleChange = useCallback(
     (e: React.FormEvent<HTMLInputElement>) => {
@@ -28,27 +22,21 @@ const DepositModal: React.FC<DepositModalProps> = ({ max, onConfirm, onDismiss, 
     [setVal],
   );
 
-  const handleSelectMax = useCallback(() => {
-    setVal(fullBalance);
-  }, [fullBalance, setVal]);
-
   return (
     <Modal>
-      <ModalTitle text={`Buy levels using DAI. Each level costs 500 DAI.`} />
-      <TokenInput
+      <ModalTitle text={`Select the ID of the token you wish to merge with.`} />
+      <MergeInput
         value={val}
-        onSelectMax={handleSelectMax}
         onChange={handleChange}
-        max={fullBalance}
         symbol={tokenName}
       />
       <ModalActions>
         <Button color="primary" variant="contained" onClick={() => onConfirm(val)}>
-          Mint
+          Let's Go
         </Button>
       </ModalActions>
     </Modal>
   );
 };
 
-export default DepositModal;
+export default MergeModal;

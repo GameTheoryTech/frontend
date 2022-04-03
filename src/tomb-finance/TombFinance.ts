@@ -14,7 +14,7 @@ import IUniswapV2PairABI from './IUniswapV2Pair.abi.json';
 import config, { bankDefinitions } from '../config';
 import moment from 'moment';
 import { parseUnits } from 'ethers/lib/utils';
-import { FTM_TICKER, SPOOKY_ROUTER_ADDR, TOMB_TICKER } from '../utils/constants';
+import { DAI_TICKER, SPOOKY_ROUTER_ADDR, TOMB_TICKER } from '../utils/constants';
 import axios from "axios";
 import ERC20Lockable from "./ERC20Lockable";
 /**
@@ -656,6 +656,14 @@ export class TombFinance {
     return BigNumber.from(0);
   }
 
+  async getTotalTVLInMasonry(): Promise<number> {
+    //const Masonry = this.currentMasonry();
+    const TSHAREPrice = (await this.getShareStat()).priceInDollars;
+    const masonrytShareBalanceOf = await this.TSHARE.balanceOf(this.currentMasonry().address);
+    const masonryTVL = Number(getDisplayBalance(masonrytShareBalanceOf, this.TSHARE.decimal)) * Number(TSHAREPrice);
+    return masonryTVL;
+  }
+
   async getTotalStakedInMasonry(): Promise<BigNumber> {
     const Masonry = this.currentMasonry();
     return await Masonry.totalSupply();
@@ -897,8 +905,14 @@ export class TombFinance {
     const { zapper } = this.contracts;
     const lpToken = this.externalTokens[lpName];
     let estimate;
-    if (tokenName === FTM_TICKER) {
-      estimate = await zapper.estimateZapIn(lpToken.address, SPOOKY_ROUTER_ADDR, parseUnits(amount, 18));
+    if (tokenName === DAI_TICKER) {
+      const token = this.FTM;
+      estimate = await zapper.estimateZapInToken(
+          token.address,
+          lpToken.address,
+          SPOOKY_ROUTER_ADDR,
+          parseUnits(amount, 18),
+      );
     } else {
       const token = tokenName === TOMB_TICKER ? this.TOMB : this.TSHARE;
       estimate = await zapper.estimateZapInToken(
@@ -913,16 +927,22 @@ export class TombFinance {
   async zapIn(tokenName: string, lpName: string, amount: string): Promise<TransactionResponse> {
     const { zapper } = this.contracts;
     const lpToken = this.externalTokens[lpName];
-    if (tokenName === FTM_TICKER) {
-      let overrides = {
-        value: parseUnits(amount, 18),
-      };
-      return await zapper.zapIn(lpToken.address, SPOOKY_ROUTER_ADDR, this.myAccount, overrides);
+    if (tokenName === DAI_TICKER) {
+      const token = this.FTM;
+      return await zapper.zapInToken(
+          token.address,
+          parseUnits(amount, 18),
+          50,
+          lpToken.address,
+          SPOOKY_ROUTER_ADDR,
+          this.myAccount,
+      );
     } else {
       const token = tokenName === TOMB_TICKER ? this.TOMB : this.TSHARE;
       return await zapper.zapInToken(
         token.address,
         parseUnits(amount, 18),
+        50,
         lpToken.address,
         SPOOKY_ROUTER_ADDR,
         this.myAccount,
@@ -954,6 +974,10 @@ export class TombFinance {
   async mintTheoryUnlocker(amount: string): Promise<TransactionResponse> {
     const { TheoryUnlocker } = this.contracts;
     return await TheoryUnlocker.mint(BigNumber.from(amount));
+  }
+  async mergeTheoryUnlocker(tokenId1: string, tokenId2 :string): Promise<TransactionResponse> {
+    const { TheoryUnlocker } = this.contracts;
+    return await TheoryUnlocker.merge(BigNumber.from(tokenId1), BigNumber.from(tokenId2));
   }
   async getMaxTheoryUnlockerLevel(): Promise<BigNumber> {
     const { TheoryUnlocker } = this.contracts;

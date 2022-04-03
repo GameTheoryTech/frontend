@@ -6699,7 +6699,7 @@
     ]
   },
   "zapper": {
-    "address": "0x8bb1fe7a50082623b372d857b4d07911c786a3e9",
+    "address": "0x2656DaB561f7c4dd0cecb87D94eE2094282B60a9",
     "abi": [
       {
         "inputs": [{ "internalType": "address", "name": "_WNATIVE", "type": "address" }],

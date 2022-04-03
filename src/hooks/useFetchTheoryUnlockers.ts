@@ -12,7 +12,7 @@ const useFetchTheoryUnlockers = () => {
 
   const fetchTheoryUnlockers = useCallback(async () => {
     let unlockers : Array<any> = [];
-    if(!tombFinance.isUnlocked) return unlockers;
+    if(!tombFinance?.isUnlocked) return unlockers;
     const len = (await tombFinance.getTheoryUnlockerOwnerSupply(tombFinance.myAccount)).toNumber();
     for(let i = 0; i < len; ++i) {
       const tokenId = await tombFinance.getTheoryUnlockerAtOwnerIndex(tombFinance.myAccount, i);
