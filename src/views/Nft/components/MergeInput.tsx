@@ -15,6 +15,9 @@ const MergeInput: React.FC<MergeInputProps> = ({ onChange, value }) => {
             <StyledMaxText>
                 Note that the color of the token will be of the token you clicked the merge button on first.
             </StyledMaxText>
+            <StyledMaxText>
+                The combined level of the two NFTs cannot exceed the current max level.
+            </StyledMaxText>
             <Input
                 // endAdornment={
                 //     <StyledTokenAdornmentWrapper>
