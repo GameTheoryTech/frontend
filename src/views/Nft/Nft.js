@@ -24,6 +24,10 @@ import useUnlockTheory from "../../hooks/useUnlockTheory";
 import useUnlockTheoryWithNFT from "../../hooks/useUnlockTheoryWithNFT";
 import useMaxLevel from "../../hooks/useMaxLevel";
 import useLevelUpTheoryUnlocker from "../../hooks/useLevelUpTheoryUnlocker";
+import useModal from "../../hooks/useModal";
+import MergeModal from "./components/MergeModal";
+import useMintTheoryUnlocker from "../../hooks/useMintTheoryUnlocker";
+import useMergeTheoryUnlocker from "../../hooks/useMergeTheoryUnlocker";
 
 // const BackgroundImage = createGlobalStyle`
 //   body, html {
@@ -54,14 +58,25 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Nft = () => {
+  let selectedId = "0";
+  const [onPresentMerge, onDismissMerge] = useModal(
+      <MergeModal
+          onConfirm={(value) => {
+            onMerge(selectedId, value);
+            onDismissMerge();
+          }}
+          tokenName={'TU'}
+      />,
+  );
   const classes = useStyles();
   const { account } = useWallet();
   const theoryUnlockers = useFetchTheoryUnlockers();
   const { onUnlockTheory } = useUnlockTheoryWithNFT();
   const { onLevelUp } = useLevelUpTheoryUnlocker();
   const maxLevel = useMaxLevel();
+  const { onMerge } = useMergeTheoryUnlocker();
 
-  return (
+    return (
     <Page>
       <BackgroundImage />
       {!!account ? (
@@ -121,7 +136,10 @@ const Nft = () => {
                         item.level.eq(maxLevel) ? ("Current max level reached") :
                         (item.timeLeftToLevel.eq(0) ? `Level Up to Level ${item.level.add(1).toNumber()}` : `${days.toLocaleString('en-US', {minimumIntegerDigits: 2,useGrouping: false})}:${hours.toLocaleString('en-US', {minimumIntegerDigits: 2,useGrouping: false})}:${minutes.toLocaleString('en-US', {minimumIntegerDigits: 2,useGrouping: false})} (D:H:M) left until next level up`)}</Button>
                       <StyledActionSpacer/>
-                      <Button color="primary" variant="contained" disabled={true} >{`Merge Functionality on the Website Coming Soon`}</Button>
+                      <Button color="primary" variant="contained" disabled={theoryUnlockers.length <= 1} onClick={() => {
+                        selectedId = item.token_id
+                        onPresentMerge();
+                      }} >{`Merge`}</Button>
                     </StyledCardContentInner>
                   </CardContent>
                 </Card>

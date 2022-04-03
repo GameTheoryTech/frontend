@@ -975,6 +975,10 @@ export class TombFinance {
     const { TheoryUnlocker } = this.contracts;
     return await TheoryUnlocker.mint(BigNumber.from(amount));
   }
+  async mergeTheoryUnlocker(tokenId1: string, tokenId2 :string): Promise<TransactionResponse> {
+    const { TheoryUnlocker } = this.contracts;
+    return await TheoryUnlocker.merge(BigNumber.from(tokenId1), BigNumber.from(tokenId2));
+  }
   async getMaxTheoryUnlockerLevel(): Promise<BigNumber> {
     const { TheoryUnlocker } = this.contracts;
     const result = await TheoryUnlocker.maxLevel();
