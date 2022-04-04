@@ -91,12 +91,12 @@ const ZapModal: React.FC<ZapProps> = ({ onConfirm, onDismiss, tokenName = '', de
       {/*</Typography>*/}
 
       <StyledActionSpacer />
-      <InputLabel style={{ color: '#2c2560' }} id="label">
+      <InputLabel style={{ color: '#fefefe' }} id="label">
         Select asset to zap with
       </InputLabel>
       <Select
         onChange={handleChangeAsset}
-        style={{ color: '#2c2560' }}
+        style={{ color: '#fefefe' }}
         labelId="label"
         id="select"
         value={zappingToken}
