@@ -81,6 +81,9 @@ const Nft = () => {
       <BackgroundImage />
       {!!account ? (
         <>
+          <Typography color="textPrimary" align="center" variant="h3" gutterBottom>
+            NFTs
+          </Typography>
           <Alert variant="filled" severity="info" style={{ marginTop: '50px' }}>
             You can view, mint, and merge your NFTs, as well as unlock LTHEORY using your NFTs, here.
           </Alert>
@@ -100,9 +103,7 @@ const Nft = () => {
           <Alert variant="filled" severity="warning" style={{ marginTop: '50px' }}>
             You can only unlock NEWLY locked rewards. Each level of NFT unlocks 1% of your newly locked rewards. Once you use ANY NFT to unlock, you can no longer unlock those rewards with an NFT of the same type. Use the Unlock button in My Wallet to automatically choose the best NFT to use.
           </Alert>
-          <Typography color="textPrimary" align="center" variant="h3" gutterBottom>
-            NFTs
-          </Typography>
+
 
             <Box mt={4}>
               <StyledCardWrapper>

@@ -128,7 +128,7 @@ const Nav = () => {
                 Treasury 2
               </a>
               <a href="https://ftmscan.com/address/0x29a92c81795d589b32e98fd119568e738ae5952b" target="_blank" className={classes.link}>
-                Developer Wallet
+                Dev Fund
               </a>
               {/* <Link color="textPrimary" to="/treasury" className={classes.link}>
                 Treasury
@@ -216,7 +216,7 @@ const Nav = () => {
                   <ListItemText>Treasury 2</ListItemText>
                 </ListItem>
                 <ListItem button component="a" href="https://ftmscan.com/address/0x29a92c81795d589b32e98fd119568e738ae5952b">
-                  <ListItemText>Developer Fund</ListItemText>
+                  <ListItemText>Dev Fund</ListItemText>
                 </ListItem>
                 {/*<ListItem button component="a" href="https://snapshot.org/#/forgiving.forg.eth">*/}
                 {/*  <ListItemText>Governance</ListItemText>*/}
