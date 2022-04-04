@@ -5,7 +5,7 @@ const Card: React.FC = ({ children }) => <StyledCard>{children}</StyledCard>;
 
 const StyledCard = styled.div`
   background-color: rgba(25, 25, 25 , 0.9); //${(props) => props.theme.color.grey[800]};
-  color: #2c2560 !important;
+  color: #dd3322 !important;
   display: flex;
   flex: 1;
   flex-direction: column;
