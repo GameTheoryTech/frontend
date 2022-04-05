@@ -28,6 +28,12 @@ import useModal from "../../hooks/useModal";
 import MergeModal from "./components/MergeModal";
 import useMintTheoryUnlocker from "../../hooks/useMintTheoryUnlocker";
 import useMergeTheoryUnlocker from "../../hooks/useMergeTheoryUnlocker";
+import useFetchTheoryUnlockersGen1 from "../../hooks/useFetchTheoryUnlockersGen1";
+import useLevelUpTheoryUnlockerGen1 from "../../hooks/useLevelUpTheoryUnlockerGen1";
+import useMaxLevelGen1 from "../../hooks/useMaxLevelGen1";
+import useMergeTheoryUnlockerGen1 from "../../hooks/useMergeTheoryUnlockerGen1";
+import useUnlockTheoryWithNFTGen1 from "../../hooks/useUnlockTheoryWithNFTGen1";
+//import useCostGen1 from "../../hooks/useCostGen1";
 
 // const BackgroundImage = createGlobalStyle`
 //   body, html {
@@ -68,13 +74,28 @@ const Nft = () => {
           tokenName={'TU'}
       />,
   );
+  const [onPresentMergeGen1, onDismissMergeGen1] = useModal(
+      <MergeModal
+          onConfirm={(value) => {
+            onMergeGen1(selectedId, value);
+            onDismissMerge();
+          }}
+          tokenName={'TUG1'}
+      />,
+  );
   const classes = useStyles();
   const { account } = useWallet();
   const theoryUnlockers = useFetchTheoryUnlockers();
+  const theoryUnlockersGen1 = useFetchTheoryUnlockersGen1();
   const { onUnlockTheory } = useUnlockTheoryWithNFT();
+  const onUnlockTheoryGen1 = useUnlockTheoryWithNFTGen1().onUnlockTheory;
   const { onLevelUp } = useLevelUpTheoryUnlocker();
+  const onLevelUpGen1 = useLevelUpTheoryUnlockerGen1().onLevelUp;
   const maxLevel = useMaxLevel();
+  const maxLevelGen1 = useMaxLevelGen1();
   const { onMerge } = useMergeTheoryUnlocker();
+  const onMergeGen1 = useMergeTheoryUnlockerGen1().onMerge;
+  //const costGen1 = useCostGen1(theoryUnlockersGen1);
 
     return (
     <Page>
@@ -92,13 +113,13 @@ const Nft = () => {
           </Alert>
           <Alert variant="filled" severity="warning" style={{ marginTop: '50px' }}>
             Your NFT will stay the color it was when you minted it. Certain colors will get certain perks, but you will not be limited in your unlock potential by choosing a lesser color.
-            Merging two NFTs will create an NFT that has the color of the FIRST NFT you selected.
+            Merging two NFTs will create an NFT that has the color of the FIRST NFT you selected. Gen 1 NFTs can only be merged once, and only with other Gen 1 NFTs.
             The colors of the NFTs are as follows: Level 1-19 = Bronze, Level 20-39: Silver, Level 40-49: Gold, Level 50: Platinum. Check the docs for the images.
           </Alert>
           <Alert variant="filled" severity="warning" style={{ marginTop: '50px' }}>
-            Each level costs 500 DAI. This means that: Level 1 = 500 DAI, Level 5 = 2,500 DAI, Level 10 = 5000 DAI, Level 15 = 7500 DAI, Level 20 = 10,000 DAI,
+            Each level costs 500 DAI to mint. This means that: Level 1 = 500 DAI, Level 5 = 2,500 DAI, Level 10 = 5000 DAI, Level 15 = 7500 DAI, Level 20 = 10,000 DAI,
             Level 25 =12,500 DAI, Level 30 = 15,000 DAI, Level 35 = 17,500 DAI, Level 40 = 20,000 DAI, Level 45 = 22,500 DAI,
-            Level 50 = 25,000 DAI.
+            Level 50 = 25,000 DAI. Gen 1 NFTs also cost GAME to level. The formula is as follows: Current Level + Extra, with Extra starting at 5 and doubling every 5 levels.
           </Alert>
           <Alert variant="filled" severity="warning" style={{ marginTop: '50px' }}>
             You can only unlock NEWLY locked rewards. Each level of NFT unlocks 1% of your newly locked rewards. Once you use ANY NFT to unlock, you can no longer unlock those rewards with an NFT of the same type. Use the Unlock button in My Wallet to automatically choose the best NFT to use.
@@ -112,6 +133,7 @@ const Nft = () => {
             </Box>
           {
             theoryUnlockers.map((item, index)=>{
+              //Gen 0
               let time = item.timeLeftToLevel.toNumber();
               let days        = Math.floor(time/24/60/60);
               let hoursLeft   = Math.floor((time) - (days*86400));
@@ -127,7 +149,7 @@ const Nft = () => {
                 <Card>
                   <CardContent>
                     <StyledCardContentInner>
-                      <Label text={`Theory Unlocker #${item.token_id} (${item.attributes[0].value} Level ${item.level})`} />
+                      <Label text={`[Gen 0] Theory Unlocker #${item.token_id} (${item.attributes[0].value} Level ${item.level})`} />
                       <StyledActionSpacer/>
                       <ReactPlayer url={item.animation_url} controls={false} muted={true} playing={true} loop={true} />
                       <StyledActionSpacer/>
@@ -147,6 +169,65 @@ const Nft = () => {
               </Box>
             </StyledCardWrapper>
             </Box>);})
+          }
+          {
+            //Gen 1
+            theoryUnlockersGen1.map((item, index)=>{
+              let time = item.timeLeftToLevel.toNumber();
+              let days        = Math.floor(time/24/60/60);
+              let hoursLeft   = Math.floor((time) - (days*86400));
+              let hours       = Math.floor(hoursLeft/3600);
+              let minutesLeft = Math.floor((hoursLeft) - (hours*3600));
+              let minutes     = Math.ceil(minutesLeft/60);
+              if(minutes === 0) minutes = 1; //Never show 0 minutes.
+              //let cost = costGen1 && index < costGen1.length ? getDisplayBalance(costGen1[index]) : "???";
+              //let seconds     = time % 60;
+
+              return (<Box key={index} mt={4}>
+                <StyledCardWrapper>
+                  <Box>
+                    <Card>
+                      <CardContent>
+                        <StyledCardContentInner>
+                          <Label text={`[Gen 1] Theory Unlocker #${item.token_id} (${item.attributes[0].value} Level ${item.level})`} />
+                          <StyledActionSpacer/>
+                            {
+                                (() => {
+                                    try
+                                    {
+                                        return (
+                                            <ReactPlayer url={item.animation_url} controls={false} muted={true} playing={true}
+                                                         loop={true}/>)
+                                    }
+                                    catch
+                                    {
+                                        return (
+                                            <Label text={`Image preview unavailable. Come back later.`} />
+                                        )
+                                    }
+                                })()
+                            }
+                            <StyledActionSpacer/>
+                          <Button color="primary" variant="contained" disabled={item.unlockAmount.eq(0)} onClick={()=>onUnlockTheoryGen1(item.token_id)} >{`Unlock ${getDisplayBalance(item.unlockAmount)} LTHEORY Using This NFT`}</Button>
+                          <StyledActionSpacer/>
+                          <Button color="primary" variant="contained" disabled={!item.timeLeftToLevel.eq(0) || item.level.gte(maxLevelGen1)} onClick={()=>onLevelUpGen1(item.token_id)} >{
+                            item.level.eq(maxLevelGen1) ? ("Current max level reached") :
+                                (item.timeLeftToLevel.eq(0) ? `Level Up to Level ${item.level.add(1).toNumber()} for ${getDisplayBalance(item.cost, 18, 0)} GAME` : `${days.toLocaleString('en-US', {minimumIntegerDigits: 2,useGrouping: false})}:${hours.toLocaleString('en-US', {minimumIntegerDigits: 2,useGrouping: false})}:${minutes.toLocaleString('en-US', {minimumIntegerDigits: 2,useGrouping: false})} (D:H:M) left until next level up`)}</Button>
+                          <StyledActionSpacer/>
+                            <Button color="primary" variant="contained" disabled={true} >Level Up To Specific Level Coming Soon.</Button>
+                          <StyledActionSpacer/>
+                            <Button color="primary" variant="contained" disabled={true} >Level Up To Max Coming Soon.</Button>
+                          <StyledActionSpacer/>
+                          <Button color="primary" variant="contained" disabled={item.merged || theoryUnlockersGen1.length <= 1} onClick={() => {
+                            selectedId = item.token_id
+                            onPresentMergeGen1();
+                          }} >{`Merge`}</Button>
+                        </StyledCardContentInner>
+                      </CardContent>
+                    </Card>
+                  </Box>
+                </StyledCardWrapper>
+              </Box>);})
           }
         </>
       ) : (

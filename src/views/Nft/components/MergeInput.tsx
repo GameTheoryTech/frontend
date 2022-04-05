@@ -9,7 +9,7 @@ interface MergeInputProps extends InputProps {
     onSelectMax?: () => void;
 }
 
-const MergeInput: React.FC<MergeInputProps> = ({ onChange, value }) => {
+const MergeInput: React.FC<MergeInputProps> = ({ onChange, value, symbol }) => {
     return (
         <StyledMergeInput>
             <StyledMaxText>
@@ -18,6 +18,11 @@ const MergeInput: React.FC<MergeInputProps> = ({ onChange, value }) => {
             <StyledMaxText>
                 The combined level of the two NFTs cannot exceed the current max level.
             </StyledMaxText>
+            {
+                symbol == "TUG1" ? <StyledMaxText>
+                    Gen 1 NFTs only be merged once.
+                </StyledMaxText> : ""
+            }
             <Input
                 // endAdornment={
                 //     <StyledTokenAdornmentWrapper>

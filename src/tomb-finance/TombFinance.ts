@@ -4,7 +4,7 @@ import { Fetcher } from '@spookyswap/sdk/dist';
 import { Route, Token } from '@spookyswap/sdk/dist';
 import { Configuration } from './config';
 import { ContractName, TokenStat, AllocationTime, LPStat, Bank, PoolStats, TShareSwapperStat } from './types';
-import { BigNumber, Contract, ethers, EventFilter } from 'ethers';
+import {BigNumber, BigNumberish, Contract, ethers, EventFilter} from 'ethers';
 import { decimalToBalance } from './ether-utils';
 import { TransactionResponse } from '@ethersproject/providers';
 import ERC20 from './ERC20';
@@ -954,8 +954,8 @@ export class TombFinance {
     return await game.unlock();
   }
 
-  async unlockTheory(tokenId : number | BigNumber): Promise<TransactionResponse> {
-    const { TheoryUnlocker, theory } = this.contracts;
+  async unlockTheory(isGen1 : boolean, tokenId : number | BigNumber): Promise<TransactionResponse> {
+    const { TheoryUnlocker, TheoryUnlockerGen1, theory } = this.contracts;
     if(BigNumber.from(tokenId).gt(0))
     {
       const lockAmount = await theory.lockOf(this.myAccount)
@@ -967,6 +967,7 @@ export class TombFinance {
       //When lockOf(player) == 0 - Instead of theory.unlock() [disabled on website]
       //When lockOf(player) <= theory.canUnlockAmount(player) - After theory.unlock() [to avoid revert, knew I should have listened to my gut and put a check for the second _unlock]
       //When lockOf(player) > theory.canUnlockAmount(player) - Instead of theory.unlock()
+      if(isGen1) return await TheoryUnlockerGen1.nftUnlock(tokenId);
       return await TheoryUnlocker.nftUnlock(tokenId);
     }
     return await theory.unlock();
@@ -1027,6 +1028,80 @@ export class TombFinance {
     const { TheoryUnlocker } = this.contracts;
     return await TheoryUnlocker.levelUp(tokenId);
   }
+
+  async mintTheoryUnlockerGen1(amount: string, slippage : BigNumberish): Promise<TransactionResponse> {
+    const { TheoryUnlockerGen1 } = this.contracts;
+    return await TheoryUnlockerGen1.mint(BigNumber.from(amount), BigNumber.from(slippage));
+  }
+  async mergeTheoryUnlockerGen1(tokenId1: string, tokenId2 :string): Promise<TransactionResponse> {
+    const { TheoryUnlockerGen1 } = this.contracts;
+    return await TheoryUnlockerGen1.merge(BigNumber.from(tokenId1), BigNumber.from(tokenId2));
+  }
+  async getMaxTheoryUnlockerGen1Level(): Promise<BigNumber> {
+    const { TheoryUnlockerGen1 } = this.contracts;
+    const result = await TheoryUnlockerGen1.maxLevel();
+    return result;
+  }
+  async getTheoryUnlockerGen1OwnerSupply(address: string): Promise<BigNumber> {
+    const { TheoryUnlockerGen1 } = this.contracts;
+    const result = await TheoryUnlockerGen1.balanceOf(address);
+    return result;
+  }
+  async getTheoryUnlockerGen1AtOwnerIndex(address: string, index : number | BigNumber): Promise<BigNumber> {
+    const { TheoryUnlockerGen1 } = this.contracts;
+    const result = await TheoryUnlockerGen1.tokenOfOwnerByIndex(address, index);
+    return result;
+  }
+  async getTheoryUnlockerGen1TokenUri(tokenId : BigNumber | number): Promise<string> {
+    const { TheoryUnlockerGen1 } = this.contracts;
+    const result = await TheoryUnlockerGen1.tokenURI(tokenId);
+    return result;
+  }
+  async getTheoryUnlockerGen1Level(tokenId : BigNumber | number): Promise<string> {
+    const { TheoryUnlockerGen1 } = this.contracts;
+    const result = (await TheoryUnlockerGen1.tokenInfo(tokenId)).level;
+    return result;
+  }
+  async getTheoryUnlockerGen1UnlockAmount(address : string, tokenId : BigNumber | number): Promise<string> {
+    const { TheoryUnlockerGen1 } = this.contracts;
+    const result = await TheoryUnlockerGen1.canUnlockAmount(address, tokenId);
+    return result;
+  }
+  async getTheoryUnlockerGen1TimeLeftToLevel(tokenId : BigNumber | number): Promise<BigNumber> {
+    const { TheoryUnlockerGen1 } = this.contracts;
+    const result = await TheoryUnlockerGen1.timeLeftToLevel(tokenId);
+    return result;
+  }
+  async unlockTheoryWithNFTGen1(tokenId : BigNumber | number): Promise<TransactionResponse> {
+    const { TheoryUnlockerGen1 } = this.contracts;
+    return await TheoryUnlockerGen1.nftUnlock(tokenId);
+  }
+  async getTheoryUnlockerGen1TotalMinted(level : BigNumberish): Promise<BigNumber> {
+    const { TheoryUnlockerGen1 } = this.contracts;
+    const result = await TheoryUnlockerGen1.minted(BigNumber.from(level));
+    return result;
+  }
+  async getTheoryUnlockerGen1Supply(level : BigNumberish): Promise<BigNumber> {
+    const { TheoryUnlockerGen1 } = this.contracts;
+    const result = await TheoryUnlockerGen1.supply(BigNumber.from(level));
+    return result;
+  }
+  async levelUpTheoryUnlockerGen1(tokenId : number | BigNumber): Promise<TransactionResponse> {
+    const { TheoryUnlockerGen1 } = this.contracts;
+    return await TheoryUnlockerGen1.levelUp(tokenId);
+  }
+  async getTheoryUnlockerGen1Merged(tokenId : BigNumber | number): Promise<boolean> {
+    const { TheoryUnlockerGen1 } = this.contracts;
+    return await TheoryUnlockerGen1.tokenInfo(tokenId).merged;
+  }
+  async getTheoryUnlockerGen1LevelUpCost(level : BigNumberish): Promise<BigNumber> {
+    const { TheoryUnlockerGen1 } = this.contracts;
+    const base = (await TheoryUnlockerGen1.gameCostPerLevel()).mul(BigNumber.from(level));
+    const extra = await TheoryUnlockerGen1.extraGameCost(BigNumber.from(level));
+    const result = base.add(extra);
+    return result;
+  }
+
   async swapTBondToTShare(tbondAmount: BigNumber): Promise<TransactionResponse> {
     const { TShareSwapper } = this.contracts;
     return await TShareSwapper.swapTBondToTShare(tbondAmount);

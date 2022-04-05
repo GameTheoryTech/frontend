@@ -32,6 +32,9 @@ const TokenInput: React.FC<TokenInputProps> = ({ max, symbol, onChange, onSelect
                 placeholder="0"
                 value={value}
             />
+            <StyledMaxText>
+                {`Cost: ${Number(value)*500} DAI.`}
+            </StyledMaxText>
         </StyledTokenInput>
     );
 };

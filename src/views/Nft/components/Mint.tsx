@@ -18,15 +18,25 @@ import useMintTheoryUnlocker from "../../../hooks/useMintTheoryUnlocker";
 import useMaxLevel from "../../../hooks/useMaxLevel";
 import useTheoryUnlockerTotalSupply from "../../../hooks/useTheoryUnlockerTotalSupply";
 import useTheoryUnlockerOwnerSupply from "../../../hooks/useTheoryUnlockerOwnerSupply";
+import useMintTheoryUnlockerGen1 from "../../../hooks/useMintTheoryUnlockerGen1";
+import useTheoryUnlockerGen1OwnerSupply from "../../../hooks/useTheoryUnlockerGen1OwnerSupply";
+import useTheoryUnlockerGen1TotalMinted from "../../../hooks/useTheoryUnlockerGen1TotalMinted";
+import useTheoryUnlockerGen1Supply from "../../../hooks/useTheoryUnlockerGen1Supply";
 
 const Mint: React.FC = () => {
   const tombFinance = useTombFinance();
-  const [approveStatus, approve] = useApprove(tombFinance.FTM, tombFinance.contracts.TheoryUnlocker.address);
+  //const [approveStatus, approve] = useApprove(tombFinance.FTM, tombFinance.contracts.TheoryUnlocker.address);
+  const [approveStatus, approve] = useApprove(tombFinance.FTM, tombFinance.contracts.TheoryUnlockerGen1.address);
 
-  const { onMint } = useMintTheoryUnlocker();
+  //const { onMint } = useMintTheoryUnlocker();
+  const { onMint } = useMintTheoryUnlockerGen1();
   const maxLevel = useMaxLevel();
   const ownerSupply = useTheoryUnlockerOwnerSupply();
   const totalSupply = useTheoryUnlockerTotalSupply();
+  const ownerSupplyGen1 = useTheoryUnlockerGen1OwnerSupply();
+  const totalMinted = useTheoryUnlockerGen1TotalMinted(1);
+  const supply = useTheoryUnlockerGen1Supply(1);
+
 
   const [onPresentDeposit, onDismissDeposit] = useModal(
     <DepositModal
@@ -49,28 +59,30 @@ const Mint: React.FC = () => {
                 <TokenSymbol symbol="TSHARE" />
               </CardIcon>
 
-              <Label text={`You have ${ownerSupply.toNumber()} out of ${totalSupply.toNumber()} ${totalSupply.eq(1) ? "Theory Unlocker" : "Theory Unlockers"}`} />
-                <Label text={'Max supply of Bronze reached. You can no longer mint for now.'} />
+              <Label text={`You have ${ownerSupply.toNumber()} out of ${totalSupply.toNumber()} ${totalSupply.eq(1) ? "Gen 0 Theory Unlocker" : "Gen 0 Theory Unlockers"}.`} />
+                <Label text={'Max supply of Gen 0 Bronze reached. You can no longer mint them for now.'} />
+              <Label text={`You have ${ownerSupplyGen1.toNumber()} out of 300 Bronze Gen 1 Theory Unlockers. There have been ${totalMinted.toNumber()} minted so far and the supply is now ${supply.toNumber()}.`} />
+              <Label text={'Mint them with the + button below.'} />
             </StyledCardHeader>
-            {/*<StyledCardActions>*/}
-            {/*  {approveStatus !== ApprovalState.APPROVED ? (*/}
-            {/*    <Button*/}
-            {/*      disabled={approveStatus !== ApprovalState.NOT_APPROVED}*/}
-            {/*      variant="contained"*/}
-            {/*      color="primary"*/}
-            {/*      style={{ marginTop: '20px' }}*/}
-            {/*      onClick={approve}*/}
-            {/*    >*/}
-            {/*      Approve DAI*/}
-            {/*    </Button>*/}
-            {/*  ) : (*/}
-            {/*    <>*/}
-            {/*      <IconButton onClick={onPresentDeposit}>*/}
-            {/*        <AddIcon />*/}
-            {/*      </IconButton>*/}
-            {/*    </>*/}
-            {/*  )}*/}
-            {/*</StyledCardActions>*/}
+            <StyledCardActions>
+              {approveStatus !== ApprovalState.APPROVED ? (
+                <Button
+                  disabled={approveStatus !== ApprovalState.NOT_APPROVED}
+                  variant="contained"
+                  color="primary"
+                  style={{ marginTop: '20px' }}
+                  onClick={approve}
+                >
+                  Approve DAI
+                </Button>
+              ) : (
+                <>
+                  <IconButton onClick={onPresentDeposit}>
+                    <AddIcon />
+                  </IconButton>
+                </>
+              )}
+            </StyledCardActions>
           </StyledCardContentInner>
         </CardContent>
       </Card>

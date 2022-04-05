@@ -17,6 +17,7 @@ import useUnlockGame from "../../hooks/useUnlockGame";
 import useUnlockTheory from "../../hooks/useUnlockTheory";
 import useFetchTheoryUnlockers from "../../hooks/useFetchTheoryUnlockers";
 import {BigNumber} from "ethers";
+import useFetchTheoryUnlockersGen1 from "../../hooks/useFetchTheoryUnlockersGen1";
 
 const AccountModal: React.FC<ModalProps> = ({ onDismiss }) => {
   const tombFinance = useTombFinance();
@@ -29,8 +30,14 @@ const AccountModal: React.FC<ModalProps> = ({ onDismiss }) => {
   const displayGameCanUnlock = useMemo(() => getDisplayBalance(gameCanUnlockAmount), [gameCanUnlockAmount]);
 
   const theoryUnlockers = useFetchTheoryUnlockers();
-  const maxTheoryUnlocker = theoryUnlockers.length == 0 ? null : theoryUnlockers.reduce((prev, current) => (prev.level > current.level) ? prev : current)
-  const maxTheoryUnlockerUnlockAmount = maxTheoryUnlocker ? maxTheoryUnlocker.unlockAmount : BigNumber.from(0);
+  const theoryUnlockersGen1 = useFetchTheoryUnlockersGen1();
+  const maxTheoryUnlockerGen0 = theoryUnlockers.length == 0 ? null : theoryUnlockers.reduce((prev, current) => (prev.level > current.level) ? prev : current)
+  const maxTheoryUnlockerUnlockAmountGen0 = maxTheoryUnlockerGen0 ? maxTheoryUnlockerGen0.unlockAmount : BigNumber.from(0);
+  const maxTheoryUnlockerGen1 = theoryUnlockersGen1.length == 0 ? null : theoryUnlockersGen1.reduce((prev, current) => (prev.level > current.level) ? prev : current)
+  const maxTheoryUnlockerUnlockAmountGen1 = maxTheoryUnlockerGen1 ? maxTheoryUnlockerGen1.unlockAmount : BigNumber.from(0);
+  const maxTheoryUnlockerIsGen1 = maxTheoryUnlockerUnlockAmountGen1 > maxTheoryUnlockerUnlockAmountGen0;
+  const maxTheoryUnlocker = maxTheoryUnlockerIsGen1 ? maxTheoryUnlockerGen1 : maxTheoryUnlockerGen1;
+  const maxTheoryUnlockerUnlockAmount = maxTheoryUnlockerIsGen1 ? maxTheoryUnlockerUnlockAmountGen1 : maxTheoryUnlockerUnlockAmountGen0;
   const tshareBalance = useTokenBalance(tombFinance.TSHARE);
   const theoryLocked = useTokenLocked(tombFinance.TSHARE);
   const naturalUnlockAmount = useTokenCanUnlockAmount(tombFinance.TSHARE);
@@ -92,7 +99,7 @@ const AccountModal: React.FC<ModalProps> = ({ onDismiss }) => {
           <StyledBalance>
             <StyledValue>{`${displayTheoryLocked} (${displayTheoryCanUnlock})`}</StyledValue>
             <Label text="LTHEORY Locked (Available to Unlock)" />
-            <Button disabled={theoryCanUnlockAmount.eq(0)} onClick={() => onUnlockTheory(maxTheoryUnlocker ? maxTheoryUnlocker.token_id : BigNumber.from(0))} >Unlock</Button>
+            <Button disabled={theoryCanUnlockAmount.eq(0)} onClick={() => onUnlockTheory(maxTheoryUnlockerIsGen1,maxTheoryUnlocker ? maxTheoryUnlocker.token_id : BigNumber.from(0))} >Unlock</Button>
           </StyledBalance>
         </StyledBalanceWrapper>
 
