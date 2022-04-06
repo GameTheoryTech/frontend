@@ -118,7 +118,7 @@ const Nft = () => {
           </Alert>
           <Alert variant="filled" severity="warning" style={{ marginTop: '50px' }}>
             Each level costs 500 DAI to mint. This means that: Level 1 = 500 DAI, Level 5 = 2,500 DAI, Level 10 = 5000 DAI, Level 15 = 7500 DAI, Level 20 = 10,000 DAI,
-            Level 25 =12,500 DAI, Level 30 = 15,000 DAI, Level 35 = 17,500 DAI, Level 40 = 20,000 DAI, Level 45 = 22,500 DAI,
+            Level 25 = 12,500 DAI, Level 30 = 15,000 DAI, Level 35 = 17,500 DAI, Level 40 = 20,000 DAI, Level 45 = 22,500 DAI,
             Level 50 = 25,000 DAI. Gen 1 NFTs also cost GAME to level. The formula is as follows: Current Level + Extra, with Extra starting at 5 and doubling every 5 levels.
           </Alert>
           <Alert variant="filled" severity="warning" style={{ marginTop: '50px' }}>
