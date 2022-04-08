@@ -33,6 +33,8 @@ import useLevelUpTheoryUnlockerGen1 from "../../hooks/useLevelUpTheoryUnlockerGe
 import useMaxLevelGen1 from "../../hooks/useMaxLevelGen1";
 import useMergeTheoryUnlockerGen1 from "../../hooks/useMergeTheoryUnlockerGen1";
 import useUnlockTheoryWithNFTGen1 from "../../hooks/useUnlockTheoryWithNFTGen1";
+import useTombFinance from "../../hooks/useTombFinance";
+import useApprove, {ApprovalState} from "../../hooks/useApprove";
 //import useCostGen1 from "../../hooks/useCostGen1";
 
 // const BackgroundImage = createGlobalStyle`
@@ -95,7 +97,11 @@ const Nft = () => {
   const maxLevelGen1 = useMaxLevelGen1();
   const { onMerge } = useMergeTheoryUnlocker();
   const onMergeGen1 = useMergeTheoryUnlockerGen1().onMerge;
+
   //const costGen1 = useCostGen1(theoryUnlockersGen1);
+
+    const tombFinance = useTombFinance();
+    const [approveStatus, approve] = useApprove(tombFinance.TOMB, tombFinance.contracts.TheoryUnlockerGen1.address);
 
     return (
     <Page>
@@ -210,9 +216,21 @@ const Nft = () => {
                             <StyledActionSpacer/>
                           <Button color="primary" variant="contained" disabled={item.unlockAmount.eq(0)} onClick={()=>onUnlockTheoryGen1(item.token_id)} >{`Unlock ${getDisplayBalance(item.unlockAmount)} LTHEORY Using This NFT`}</Button>
                           <StyledActionSpacer/>
-                          <Button color="primary" variant="contained" disabled={!item.timeLeftToLevel.eq(0) || item.level.gte(maxLevelGen1)} onClick={()=>onLevelUpGen1(item.token_id)} >{
-                            item.level.eq(maxLevelGen1) ? ("Current max level reached") :
-                                (item.timeLeftToLevel.eq(0) ? `Level Up to Level ${item.level.add(1).toNumber()} for ${getDisplayBalance(item.cost, 18, 0)} GAME` : `${days.toLocaleString('en-US', {minimumIntegerDigits: 2,useGrouping: false})}:${hours.toLocaleString('en-US', {minimumIntegerDigits: 2,useGrouping: false})}:${minutes.toLocaleString('en-US', {minimumIntegerDigits: 2,useGrouping: false})} (D:H:M) left until next level up`)}</Button>
+                            {approveStatus !== ApprovalState.APPROVED ? (
+                                <Button
+                                    disabled={approveStatus !== ApprovalState.NOT_APPROVED}
+                                    variant="contained"
+                                    color="primary"
+                                    style={{ marginTop: '20px' }}
+                                    onClick={approve}
+                                >
+                                    {`Approve GAME for Level Up to Level ${item.level.add(1).toNumber()} for ${getDisplayBalance(item.cost, 18, 0)} GAME`}
+                                </Button>
+                            ) : (
+                                <Button color="primary" variant="contained" disabled={!item.timeLeftToLevel.eq(0) || item.level.gte(maxLevelGen1)} onClick={()=>onLevelUpGen1(item.token_id)} >{
+                                    item.level.eq(maxLevelGen1) ? ("Current max level reached") :
+                                        (item.timeLeftToLevel.eq(0) ? `Level Up to Level ${item.level.add(1).toNumber()} for ${getDisplayBalance(item.cost, 18, 0)} GAME` : `${days.toLocaleString('en-US', {minimumIntegerDigits: 2,useGrouping: false})}:${hours.toLocaleString('en-US', {minimumIntegerDigits: 2,useGrouping: false})}:${minutes.toLocaleString('en-US', {minimumIntegerDigits: 2,useGrouping: false})} (D:H:M) left until next level up`)}</Button>
+                            )}
                           <StyledActionSpacer/>
                             <Button color="primary" variant="contained" disabled={true} >Level Up To Specific Level Coming Soon.</Button>
                           <StyledActionSpacer/>
