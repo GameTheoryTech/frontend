@@ -62,27 +62,27 @@ const Mint: React.FC = () => {
               <Label text={`You have ${ownerSupply.toNumber()} out of ${totalSupply.toNumber()} ${totalSupply.eq(1) ? "Gen 0 Theory Unlocker" : "Gen 0 Theory Unlockers"}.`} />
                 <Label text={'Max supply of Gen 0 Bronze reached. You can no longer mint them for now.'} />
               <Label text={`You have ${ownerSupplyGen1.toNumber()} out of 300 Bronze Gen 1 Theory Unlockers. There have been ${totalMinted.toNumber()} minted so far and the supply is now ${supply.toNumber()}.`} />
-              <Label text={'Mint them with the + button below.'} />
+              <Label text={'Minting has been temporarily disabled.'} />
             </StyledCardHeader>
-            <StyledCardActions>
-              {approveStatus !== ApprovalState.APPROVED ? (
-                <Button
-                  disabled={approveStatus !== ApprovalState.NOT_APPROVED}
-                  variant="contained"
-                  color="primary"
-                  style={{ marginTop: '20px' }}
-                  onClick={approve}
-                >
-                  Approve DAI
-                </Button>
-              ) : (
-                <>
-                  <IconButton onClick={onPresentDeposit}>
-                    <AddIcon />
-                  </IconButton>
-                </>
-              )}
-            </StyledCardActions>
+            {/*<StyledCardActions>*/}
+            {/*  {approveStatus !== ApprovalState.APPROVED ? (*/}
+            {/*    <Button*/}
+            {/*      disabled={approveStatus !== ApprovalState.NOT_APPROVED}*/}
+            {/*      variant="contained"*/}
+            {/*      color="primary"*/}
+            {/*      style={{ marginTop: '20px' }}*/}
+            {/*      onClick={approve}*/}
+            {/*    >*/}
+            {/*      Approve DAI*/}
+            {/*    </Button>*/}
+            {/*  ) : (*/}
+            {/*    <>*/}
+            {/*      <IconButton onClick={onPresentDeposit}>*/}
+            {/*        <AddIcon />*/}
+            {/*      </IconButton>*/}
+            {/*    </>*/}
+            {/*  )}*/}
+            {/*</StyledCardActions>*/}
           </StyledCardContentInner>
         </CardContent>
       </Card>
