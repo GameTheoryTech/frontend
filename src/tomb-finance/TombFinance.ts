@@ -614,10 +614,10 @@ export class TombFinance {
 
     const TSHAREPrice = (await this.getShareStat()).priceInDollars;
     const TOMBPrice = (await this.getTombStat()).priceInDollars;
-    const epochRewardsPerShare = lastRewardsReceived / 1e18;
+    const epochRewardsTotal = lastRewardsReceived / 1e18;
 
     //Mgod formula
-    const amountOfRewardsPerDay = epochRewardsPerShare * Number(TOMBPrice) * 4;
+    const amountOfRewardsPerDay = epochRewardsTotal * Number(TOMBPrice) * 4;
     const masonrytShareBalanceOf = await this.TSHARE.balanceOf(Masonry.address);
     const masonryTVL = Number(getDisplayBalance(masonrytShareBalanceOf, this.TSHARE.decimal)) * Number(TSHAREPrice);
     const realAPR = ((amountOfRewardsPerDay * 100) / masonryTVL);
