@@ -2,17 +2,21 @@ import { useCallback } from 'react';
 import useTombFinance from './useTombFinance';
 import useHandleTransactionReceipt from './useHandleTransactionReceipt';
 
-const useStakeToMasonry = () => {
+const useWithdrawFromDungeon = () => {
   const tombFinance = useTombFinance();
   const handleTransactionReceipt = useHandleTransactionReceipt();
 
-  const handleStake = useCallback(
+  //TODO: Second part
+  const handleWithdraw = useCallback(
     (amount: string) => {
-      handleTransactionReceipt(tombFinance.stakeShareToMasonry(amount), `Stake ${amount} THEORY to the Theoretics `);
+      handleTransactionReceipt(
+        tombFinance.requestWithdrawShareFromDungeon(amount),
+        `Request sell ${amount} MASTER to THEORY`,
+      );
     },
     [tombFinance, handleTransactionReceipt],
   );
-  return { onStake: handleStake };
+  return { onWithdraw: handleWithdraw };
 };
 
-export default useStakeToMasonry;
+export default useWithdrawFromDungeon;
