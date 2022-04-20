@@ -1,12 +1,7 @@
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
-import { Button, Card, CardContent } from '@mui/material';
-// import Button from '../../../components/Button';
-// import Card from '../../../components/Card';
-// import CardContent from '../../../components/CardContent';
+import { Button, Card, CardContent, Box, Typography } from '@mui/material';
 import CardIcon from '../../../components/CardIcon';
-import Label from '../../../components/Label';
 import Value from '../../../components/Value';
 
 import useEarnings from '../../../hooks/useEarnings';
@@ -21,9 +16,10 @@ import useShareStats from '../../../hooks/usetShareStats';
 interface HarvestProps {
   bank: Bank;
   rewardsLocked : number;
+  classname: string;
 }
 
-const Harvest: React.FC<HarvestProps> = ({ bank, rewardsLocked }) => {
+const Harvest: React.FC<HarvestProps> = ({ bank, rewardsLocked, classname }) => {
   const earnings = useEarnings(bank.contract, bank.earnTokenName, bank.poolId);
   const { onReward } = useHarvest(bank);
   const tombStats = useTombStats();
@@ -36,55 +32,60 @@ const Harvest: React.FC<HarvestProps> = ({ bank, rewardsLocked }) => {
     [tokenStats],
   );
   const earnedInDollars = (Number(tokenPriceInDollars) * Number(getDisplayBalance(earnings))).toFixed(2);
+
+  classname = classname || '';
+
   return (
-    <Card style={{ boxShadow: 'none !important'}}>
+    <Card className={classname}>
       <CardContent>
-        <StyledCardContentInner>
-          <StyledCardHeader>
-            <CardIcon>
-              <TokenSymbol symbol={bank.earnToken.symbol} />
-            </CardIcon>
-            <Value value={getDisplayBalance(earnings)} />
-            <Label text={`≈ $${earnedInDollars}`} color="#89cff0" />
-            <Label text={`Total Earned`} />
-            <br/>
-            <Value value={`${(Number(getDisplayBalance(earnings)) * (100.0-rewardsLocked) / 100.0).toFixed(4)}`} />
-            <Label text={`≈ $${(Number(earnedInDollars) * (100.0-rewardsLocked) / 100.0).toFixed(2)}`} color="#89cff0" />
-            <Label text={`${tokenName} Earned`} />
-            <br/>
+        <Box style={{marginBottom: '20px'}}>
+          <CardIcon>
+            <TokenSymbol symbol={bank.earnToken.symbol} />
+          </CardIcon>
+        </Box>
+
+        <Typography variant="h4">
+          <Value value={getDisplayBalance(earnings)} />
+        </Typography>
+        <Typography variant="h4" component="p" color="var(--extra-color-2)">
+            ${earnedInDollars}
+        </Typography>
+        <Typography variant="body1" component="p" className="textGlow" style={{marginBottom: '20px'}}>
+            Total Earned
+        </Typography>
+
+        <Typography variant="h4">
+          <Value value={`${(Number(getDisplayBalance(earnings)) * (100.0-rewardsLocked) / 100.0).toFixed(4)}`} />
+        </Typography>
+        <Typography variant="h4" component="p" color="var(--extra-color-2)">
+          ${(Number(earnedInDollars) * (100.0-rewardsLocked) / 100.0).toFixed(2)}
+        </Typography>
+        <Typography variant="body1" component="p" className="textGlow" style={{marginBottom: '20px'}}>
+          {tokenName} Earned
+        </Typography>
+
+        <Typography variant="h4">
             <Value value={`${(Number(getDisplayBalance(earnings)) * rewardsLocked / 100.0).toFixed(4)}`} />
-            <Label text={`≈ $${(Number(earnedInDollars) * rewardsLocked / 100.0).toFixed(2)}`} color="#89cff0" />
-            <Label text={`L${tokenName} Earned`} />
-          </StyledCardHeader>
-          <StyledCardActions>
-            <Button onClick={onReward} disabled={earnings.eq(0)} color="primary" variant="contained">
-              Claim
-            </Button>
-          </StyledCardActions>
-        </StyledCardContentInner>
+        </Typography>
+        <Typography variant="h4" component="p" color="var(--extra-color-2)">
+            ${(Number(earnedInDollars) * rewardsLocked / 100.0).toFixed(2)}
+        </Typography>
+        <Typography variant="body1" component="p" className="textGlow" style={{marginBottom: '20px'}}>
+          L{tokenName} Earned
+        </Typography>
+
+        <Box className="buttonWrap">
+          <Button
+            onClick={onReward}
+            variant="contained"
+            disabled={earnings.eq(0)}
+          >
+            Claim Rewards
+          </Button>
+        </Box>
       </CardContent>
     </Card>
   );
 };
-
-const StyledCardHeader = styled.div`
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-`;
-const StyledCardActions = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: ${(props) => props.theme.spacing[6]}px;
-  width: 100%;
-`;
-
-const StyledCardContentInner = styled.div`
-  align-items: center;
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: space-between;
-`;
 
 export default Harvest;

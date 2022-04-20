@@ -15,7 +15,7 @@
     "@mui/styles": "^5.5.0",
     "@reduxjs/toolkit": "^1.4.0",
     "@spiritswap/sdk": "https://github.com/Layer3Org/spiritswap-sdk",
-    "@spookyswap/sdk": "file:../spookyswap-sdk",
+    "@spookyswap/sdk": "https://github.com/GameTheoryTech/spookyswap-sdk",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
@@ -47,6 +47,7 @@
     "react-spring": "^8.0.27",
     "redux-localstorage-simple": "^2.3.1",
     "styled-components": "^5.1.1",
+    "swiper": "^8.1.1",
     "typescript": "^3.9.7",
     "use-wallet": "OGBoogieTomb/use-wallet",
     "web3": "^1.2.11"
@@ -68,6 +69,9 @@
     "env": {
       "browser": true,
       "node": true
+    },
+    "rules": {
+      "no-unused-vars": "off"
     }
   },
   "browserslist": {

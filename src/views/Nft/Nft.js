@@ -2,13 +2,20 @@ import React, { useMemo } from 'react';
 import { useWallet } from 'use-wallet';
 import moment from 'moment';
 import styled from 'styled-components';
-import Spacer from '../../components/Spacer';
 import Mint from './components/Mint';
 import { makeStyles } from '@mui/styles';
 
-import { Box, Card, CardContent, Button, Typography, Grid } from '@mui/material';
+import NftCards from './components/nftCards';
 
-import { Alert } from '@mui/lab';
+import { Paper, Box, Card, CardContent, Button, Typography, Grid, Container, AccordionDetails } from '@mui/material';
+import MuiAccordion from '@mui/material/Accordion';
+import MuiAccordionSummary from '@mui/material/AccordionSummary';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableRow from '@mui/material/TableRow';
+
 import ReactPlayer from 'react-player';
 
 import UnlockWallet from '../../components/UnlockWallet';
@@ -17,7 +24,6 @@ import Page from '../../components/Page';
 import { createGlobalStyle } from 'styled-components';
 import axios from "axios";
 import useFetchTheoryUnlockers from "../../hooks/useFetchTheoryUnlockers";
-import Label from "../../components/Label";
 import useTokenCanUnlockAmount from "../../hooks/useTokenCanUnlockAmount";
 import {getDisplayBalance} from "../../utils/formatBalance";
 import useUnlockTheory from "../../hooks/useUnlockTheory";
@@ -33,37 +39,115 @@ import useLevelUpTheoryUnlockerGen1 from "../../hooks/useLevelUpTheoryUnlockerGe
 import useMaxLevelGen1 from "../../hooks/useMaxLevelGen1";
 import useMergeTheoryUnlockerGen1 from "../../hooks/useMergeTheoryUnlockerGen1";
 import useUnlockTheoryWithNFTGen1 from "../../hooks/useUnlockTheoryWithNFTGen1";
-import useTombFinance from "../../hooks/useTombFinance";
-import useApprove, {ApprovalState} from "../../hooks/useApprove";
-//import useCostGen1 from "../../hooks/useCostGen1";
+import AddIcon from '@mui/icons-material/Add';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import { ExpandMore as ChevronDownIcon } from '@mui/icons-material';
 
-// const BackgroundImage = createGlobalStyle`
-//   body, html {
-//     background: url(${MasonryImage}) no-repeat !important;
-//     background-size: cover !important;
-//   }
-// `;
+import { Swiper, SwiperSlide } from 'swiper/react/swiper-react'
+import { Pagination } from 'swiper';
+import 'swiper/swiper-bundle.css'
 
-const BackgroundImage = createGlobalStyle`
-  body {
-    background-color: var(--black);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='32' viewBox='0 0 16 32'%3E%3Cg fill='%231D1E1F' fill-opacity='0.4'%3E%3Cpath fill-rule='evenodd' d='M0 24h4v2H0v-2zm0 4h6v2H0v-2zm0-8h2v2H0v-2zM0 0h4v2H0V0zm0 4h2v2H0V4zm16 20h-6v2h6v-2zm0 4H8v2h8v-2zm0-8h-4v2h4v-2zm0-20h-6v2h6V0zm0 4h-4v2h4V4zm-2 12h2v2h-2v-2zm0-8h2v2h-2V8zM2 8h10v2H2V8zm0 8h10v2H2v-2zm-2-4h14v2H0v-2zm4-8h6v2H4V4zm0 16h6v2H4v-2zM6 0h2v2H6V0zm0 24h2v2H6v-2z'/%3E%3C/g%3E%3C/svg%3E");
-}
+const Accordion = ((props) => (
+  <MuiAccordion disableGutters elevation={0} square {...props} />
+));
 
-* {
-    border-radius: 0 !important;
-    box-shadow: none !important;
-}
-`;
+const AccordionSummary = ((props) => (
+  <MuiAccordionSummary
+    expandIcon={<AddIcon style={{color: "#fff"}} />}
+    {...props}
+  />
+));
 
 const useStyles = makeStyles((theme) => ({
-  gridItem: {
-    height: '100%',
-    [theme.breakpoints.up('md')]: {
-      height: '90px',
+  slider: {
+    overflow: 'initial!important',
+    '& .swiper-slide': {
+      transform: 'scale(.85) translateZ(0)',
+      filter: 'blur(5px)',
+      transition: 'all .3s ease-out',
+    },
+    '& .swiper-slide-active': {
+      transform: 'scale(1) translateZ(0)',
+      filter: 'blur(0px)',
+    },
+    '& .swiper-pagination': {
+      position: 'relative',
+      bottom: '0',
+      marginTop: '20px',
+      '& .swiper-pagination-bullet': {
+        width: '12px',
+        height: '12px',
+        background: 'rgba(47,240,221,0.3)',
+        margin: '0 6px',
+        opacity: '1',
+        transform: 'scale(0.8) translateZ(0)',
+        transition: 'all .2s ease-out',
+        '&.swiper-pagination-bullet-active': {
+          background: 'rgba(47,240,221,1)',
+          transform: 'scale(1) translateZ(0)',
+          boxShadow: '0px 0px 10px 1px rgba(47,240,221,1)',
+        },
+      }
+    }
+  },
+  slideItem: {
+    border: '1px solid #fff',
+    borderRadius: '20px',
+    backgroundColor: '#fff',
+    '& > .video': {
+      position: 'relative',
+      width: '100%!important',
+      height: '0!important',
+      paddingBottom: '56.25%',
+      '& > video': {
+        position: 'absolute',
+        top: '0',
+        left: '0',
+        width: '100%',
+        height: '100%',
+        borderTopLeftRadius: '20px',
+        borderTopRightRadius: '20px',
+        backgroundColor: '#000',
+      },
+    },
+    '& .bottom-meta': {
+      padding: '20px',
+      color: "#172137"
     },
   },
+  advanced: {
+    width: '100%',
+    textAlign: 'center',
+    '& .advanced-toggle' : {
+      paddingTop: '20px',
+      paddingBottom: '20px',
+    },
+    '& .advanced-info' : {
+      display: 'none',
+      marginBottom: '20px'
+    },
+    '&.open' : {
+      '& .advanced-info' : {
+        display: 'block',
+      },
+      '& .advanced-toggle' : {
+        '& svg' : {
+          transform: 'rotate(180deg)'
+        }
+      }
+    }
+  },
+  button : {
+    width: '2em',
+    height: '2em',
+    fontSize: '14px',
+    padding: '0',
+    minWidth: 'auto'
+  },
 }));
+
+import Modal, { ModalProps } from '../../components/Modal';
+import ModalActions from '../../components/ModalActions';
 
 const Nft = () => {
   let selectedId = "0";
@@ -97,215 +181,803 @@ const Nft = () => {
   const maxLevelGen1 = useMaxLevelGen1();
   const { onMerge } = useMergeTheoryUnlocker();
   const onMergeGen1 = useMergeTheoryUnlockerGen1().onMerge;
-
   //const costGen1 = useCostGen1(theoryUnlockersGen1);
 
-    const tombFinance = useTombFinance();
-    const [approveStatus, approve] = useApprove(tombFinance.TOMB, tombFinance.contracts.TheoryUnlockerGen1.address);
+  const [expanded, setExpanded] = React.useState('panel1');
+  const handleChange = (panel) => (event, newExpanded) => {
+    setExpanded(newExpanded ? panel : false);
+  };
+
+  const [AdvancedOpen, setAdvancedOpen] = React.useState(false);
+
+  const handleAdvancedOpen = () => {
+    (AdvancedOpen === false) ? setAdvancedOpen(true) : setAdvancedOpen(false);
+  };
+
+  const handleStatsClose = () => {
+    onCloseStats();
+  };
+  
+  const [onHandleStats, onCloseStats] = useModal(
+    <Modal text="Advanced Stats" onDismiss={handleStatsClose}>
+      <Typography variant="h6" color="#fff" style={{fontWeight: '500'}}>
+      <strong>Generation</strong><br />The generation number of the NFT.<br /><br />
+      
+      <strong>Tier</strong><br />The Color of the NFT.<br /><br />
+      <strong>Current Level</strong><br />The current level of the NFT (The original minted level, combined with any additional levels added by levelling up).<br /><br />
+      <strong>Serial Number</strong><br />Which number this NFT is in the series (based on the Generation and Tier).<br /><br />
+      <strong>Total Available</strong><br />How many of this type of NFT (generation and tier) are available versus how many exist in total.<br /><br />
+      <strong>Merges Available</strong><br />How many times remaining this NFT can be merged with other NFT's. See below for more details.
+      </Typography>
+      <ModalActions>
+        <Button color="primary" variant="contained" onClick={handleStatsClose} fullWidth>
+          Close
+        </Button>
+      </ModalActions>
+    </Modal>
+  );
+
+  const overallTime = (item) => {
+    let time        = item.timeLeftToLevel.toNumber();
+    let days        = Math.floor(time/24/60/60);
+    let hoursLeft   = Math.floor((time) - (days*86400));
+    let hours       = Math.floor(hoursLeft/3600);
+    let minutesLeft = Math.floor((hoursLeft) - (hours*3600));
+    let minutes     = Math.ceil(minutesLeft/60);
+    if(minutes === 0) minutes = 1; //Never show 0 minutes.
+    //let seconds     = time % 60;
+
+    days = days.toLocaleString('en-US', {minimumIntegerDigits: 2,useGrouping: false});
+    hours = hours.toLocaleString('en-US', {minimumIntegerDigits: 2,useGrouping: false});
+    minutes = minutes.toLocaleString('en-US', {minimumIntegerDigits: 2,useGrouping: false});
+
+    return (days + ":" + hours + ":" + minutes);
+  };
+
+  console.log(theoryUnlockers);
+
+  // get slider current slide index
+  const [sliderIndex, setSliderIndex] = React.useState(0);
+  const onSlideChange = (swiper) => {
+    setSliderIndex(swiper.realIndex);
+  };
 
     return (
     <Page>
-      <BackgroundImage />
       {!!account ? (
         <>
-          <Typography color="textPrimary" align="center" variant="h3" gutterBottom>
-            NFTs
-          </Typography>
-          <Alert variant="filled" severity="info" style={{ marginTop: '50px' }}>
-            You can view, mint, and merge your NFTs, as well as unlock LTHEORY using your NFTs, here.
-          </Alert>
-          <Alert variant="filled" severity="info" style={{ marginTop: '50px' }}>
-            Every 15 days starting on {(new Date('2022-03-28T12:00:00Z')).toString()}, 5 more levels will be unlocked until max level 50.
-          </Alert>
-          <Alert variant="filled" severity="warning" style={{ marginTop: '50px' }}>
-            Your NFT will stay the color it was when you minted it. Certain colors will get certain perks, but you will not be limited in your unlock potential by choosing a lesser color.
-            Merging two NFTs will create an NFT that has the color of the FIRST NFT you selected. Gen 1 NFTs can only be merged once, and only with other Gen 1 NFTs.
-            The colors of the NFTs are as follows: Level 1-19 = Bronze, Level 20-39: Silver, Level 40-49: Gold, Level 50: Platinum. Check the docs for the images.
-          </Alert>
-          <Alert variant="filled" severity="warning" style={{ marginTop: '50px' }}>
-            Each level costs 500 DAI to mint. This means that: Level 1 = 500 DAI, Level 5 = 2,500 DAI, Level 10 = 5000 DAI, Level 15 = 7500 DAI, Level 20 = 10,000 DAI,
-            Level 25 = 12,500 DAI, Level 30 = 15,000 DAI, Level 35 = 17,500 DAI, Level 40 = 20,000 DAI, Level 45 = 22,500 DAI,
-            Level 50 = 25,000 DAI. Gen 1 NFTs also cost GAME to level. The formula is as follows: Current Level + Extra, with Extra starting at 5 and doubling every 5 levels.
-          </Alert>
-          <Alert variant="filled" severity="warning" style={{ marginTop: '50px' }}>
-            You can only unlock NEWLY locked rewards. Each level of NFT unlocks 1% of your newly locked rewards. Once you use ANY NFT to unlock, you can no longer unlock those rewards with an NFT of the same type. Use the Unlock button in My Wallet to automatically choose the best NFT to use.
-          </Alert>
+            {(theoryUnlockers.length > 0 || theoryUnlockersGen1.length > 0) && (
+              <>
+              <Grid className="section" container spacing={3} align="center" justifyItems="center" style={{paddingBottom: '0'}}>
+                <Grid item xs={12}>
+                  <Typography align="center" variant="h2" className="textGlow pink" style={{marginBottom: '50px'}}>
+                    My NFT Collection
+                  </Typography>
+                </Grid>
+
+                <Grid item xs={6}>
+                  <Typography variant="body1" className="textGlow">
+                    Current Max Level
+                  </Typography>
+                  <Typography variant="h4">
+                    {maxLevel.toNumber()}
+                  </Typography>
+                </Grid>
+
+                <Grid item xs={6}>
+                  <Typography variant="body1" className="textGlow">
+                    New Levels Available
+                  </Typography>
+                  <Typography variant="h4">
+                    {overallTime(theoryUnlockers[0])}
+                  </Typography>
+                </Grid>
+
+                <Grid item xs={12} style={{marginTop: '20px'}}>
+
+                  <Swiper
+                    modules={[Pagination]}
+                    direction="horizontal"
+                    slidesPerView={1}
+                    spaceBetween={15}
+                    loop={false}
+                    centeredSlides={true}
+                    breakpoints={{ 
+                      767: {
+                        slidesPerView: 2,
+                        spaceBetween: 30 
+                      },
+                    }}
+                    pagination={{
+                      el: '.swiper-pagination',
+                      clickable: true,
+                    }}
+                    className={classes.slider}
+                    onSlideChange={onSlideChange}
+                    grabCursor={true}
+                  >
+                    {
+                    theoryUnlockers.map((item, index) => {
+
+                      return (
+                        <SwiperSlide key={index}>
+                          <div className={`${classes.slideItem} ${item.attributes[0].value.toLowerCase()}`}>
+                            <ReactPlayer className="video" url={item.animation_url} controls={false} muted={true} playing={true} loop={true} />
+                            <Grid container className="bottom-meta" justify="center" alignItems="center">
+
+                              <Grid item xs={4}>
+                                <Typography variant="body1">
+                                  Generation
+                                </Typography>
+                                <Typography variant="h4">
+                                  0
+                                </Typography>
+                              </Grid>
+
+                              <Grid item xs={4}>
+                                <Typography variant="body1">
+                                  Tier
+                                </Typography>
+                                <Typography variant="h4">
+                                  {item.attributes[0].value}
+                                </Typography>
+                              </Grid>
+
+                              <Grid item xs={4}>
+                                <Typography variant="body1">
+                                  Level
+                                </Typography>
+                                <Typography variant="h4">
+                                  {item.level.toNumber()}
+                                </Typography>
+                              </Grid>
+
+                            </Grid>
+                          </div>
+                        </SwiperSlide>
+                      );
+                    })
+                    }     
+                    <div className="swiper-pagination" />
+                  </Swiper>
+                </Grid>
+              </Grid>
+            </>
+          )}
+
+          {theoryUnlockers.map((item, index) => {
+
+            return (
+              <>
+              {sliderIndex === index && (
+                <>
+                <Grid container className="bottom-meta" align="center" justifyContent="center" style={{marginTop: '20px'}}>
+                  <Grid item xs={12} sm={6}>
+                    <Grid container align="center" justifyContent="center">
+                    <div className={`${classes.advanced} ${AdvancedOpen ? 'open' : ''}`}>
+                <div className='advanced-toggle' onClick={handleAdvancedOpen}>
+                  <Typography align="center" style={{display: 'inline-block',cursor: 'pointer',fontWeight: '700'}} className='textGlow pink'>
+                    <span style={{verticalAlign: 'middle'}}>{AdvancedOpen ? "Hide Advanced" : "Show Advanced"}</span>
+                    <ChevronDownIcon style={{verticalAlign: 'middle'}} />
+                  </Typography>
+                </div>
+                <div className="advanced-info">
+                  <Card>
+                    <CardContent align="center">
+                      <Typography variant='h4' className="kallisto" style={{marginBottom: '10px'}}>
+                        Advanced Stats
+                        <Button variant="contained" className={classes.button} aria-label="Advanced stats info" style={{ marginLeft: '10px' }} onClick={onHandleStats}>
+                          <QuestionMarkIcon fontSize='inherit' />
+                        </Button>
+                      </Typography>
+                      <Grid container justifyContent="center">
+                        <TableContainer component={Paper} style={{width: 'initial'}}>
+                          <Table aria-label="advanced info table">
+                            <TableBody>
+
+                              <TableRow>
+                                <TableCell align="right">
+                                  <Typography variant="body1" component="p" className="textGlow">
+                                    Generation
+                                  </Typography>
+                                </TableCell>
+                                <TableCell>
+                                  <Typography>
+                                    0
+                                  </Typography>
+                                </TableCell>
+                              </TableRow>
+
+                              <TableRow>
+                                <TableCell align="right">
+                                  <Typography variant="body1" component="p" className="textGlow">
+                                    Tier
+                                  </Typography>
+                                </TableCell>
+                                <TableCell>
+                                  <Typography>
+                                    {item.attributes[0].value}
+                                  </Typography>
+                                </TableCell>
+                              </TableRow>
+
+                              <TableRow>
+                                <TableCell align="right">
+                                  <Typography variant="body1" component="p" className="textGlow">
+                                    Current Level
+                                  </Typography>
+                                </TableCell>
+                                <TableCell>
+                                  <Typography>
+                                    {item.level.toNumber()}
+                                  </Typography>
+                                </TableCell>
+                              </TableRow>
+
+                              <TableRow>
+                                <TableCell align="right">
+                                  <Typography variant="body1" component="p" className="textGlow">
+                                    Serial Number
+                                  </Typography>
+                                </TableCell>
+                                <TableCell>
+                                  <Typography>
+                                    #{item.token_id.toNumber()}
+                                  </Typography>
+                                </TableCell>
+                              </TableRow>
+
+                              <TableRow>
+                                <TableCell align="right">
+                                  <Typography variant="body1" component="p" className="textGlow">
+                                    Total Available
+                                  </Typography>
+                                </TableCell>
+                                <TableCell>
+                                  <Typography>
+                                    5 of 10
+                                  </Typography>
+                                </TableCell>
+                              </TableRow>
+
+                              <TableRow>
+                                <TableCell align="right">
+                                  <Typography variant="body1" component="p" className="textGlow">
+                                    Merges Available
+                                  </Typography>
+                                </TableCell>
+                                <TableCell>
+                                  <Typography>
+                                    Unlimited
+                                  </Typography>
+                                </TableCell>
+                              </TableRow>
+
+                            </TableBody>
+                          </Table>
+                        </TableContainer>
+                      </Grid>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+                    </Grid>
+                    <Button color="primary" variant="contained" fullWidth disabled={item.unlockAmount.eq(0)} onClick={()=>onUnlockTheory(item.token_id)} style={{marginBottom: '20px'}}>{`Unlock ${getDisplayBalance(item.unlockAmount)} LTHEORY Using This NFT`}</Button>
+                    <Typography variant="body1" className="textGlow" component="p" style={{marginBottom: '20px'}}>
+                      LTHEORY Tokens can only be unlocked once using NFTs.
+                    </Typography>
+                    <Button color="primary" variant="contained" fullWidth disabled={!item.timeLeftToLevel.eq(0) || item.level.gte(maxLevel)} onClick={() => onLevelUp(item.token_id)} style={{marginBottom: '20px'}}> { item.level.eq(maxLevel) ? ("Current max level reached") : ("Level Up") }
+                    </Button>
+                    <Button color="primary" variant="contained" fullWidth disabled={theoryUnlockers.length <= 1} onClick={() => {
+                      selectedId = item.token_id
+                      onPresentMerge();
+                    }} >
+                      {`Merge`}
+                    </Button>
+                  </Grid>
+                </Grid>
+                </>
+              )}
+            </>
+            )
+          })}
+
+{/* Generation 1 NFTs to purchase*/}
+<Grid className="section" container justify="center" align="center" spacing={3}>
+
+<Grid item xs={12} style={{marginBottom: '50px'}}>
+<Typography align="center" variant="h2" className="textGlow pink" style={{marginBottom: '20px'}}>
+Generation 1 NFTs
+</Typography>
+<Typography align="center" variant="h5" component="p" style={{fontWeight: '500'}}>
+LTHEORY Unlockers available to Mint
+</Typography>
+</Grid>
+
+<Grid item xs={12} sm={6} md={3}>
+<NftCards card="bronze" />
+<TableContainer component={Paper} style={{marginTop: '20px'}}>
+<Table aria-label="Bronze card table">
+<TableBody>
+
+  <TableRow>
+    <TableCell align="right">
+      <Typography variant="body1" component="p" className="textGlow">
+        Generation
+      </Typography>
+    </TableCell>
+    <TableCell>
+      <Typography>
+        1
+      </Typography>
+    </TableCell>
+  </TableRow>
+
+  <TableRow>
+    <TableCell align="right">
+      <Typography variant="body1" component="p" className="textGlow">
+        Total Available
+      </Typography>
+    </TableCell>
+    <TableCell>
+      <Typography>
+        300 of 300
+      </Typography>
+    </TableCell>
+  </TableRow>
+
+  <TableRow>
+    <TableCell align="right">
+      <Typography variant="body1" component="p" className="textGlow">
+        Mint Level
+      </Typography>
+    </TableCell>
+    <TableCell>
+      <Typography>
+        1 - 19
+      </Typography>
+    </TableCell>
+  </TableRow>
+
+  <TableRow>
+    <TableCell align="right">
+      <Typography variant="body1" component="p" className="textGlow">
+        Floor Price
+      </Typography>
+    </TableCell>
+    <TableCell>
+      <Typography>
+        500 DAI
+      </Typography>
+    </TableCell>
+  </TableRow>
+
+  <TableRow>
+    <TableCell align="right">
+      <Typography variant="body1" component="p" className="textGlow">
+        Merge Limit
+      </Typography>
+    </TableCell>
+    <TableCell>
+      <Typography>
+        1 Merge
+      </Typography>
+    </TableCell>
+  </TableRow>
+
+  <TableRow>
+    <TableCell align="right">
+      <Typography variant="body1" component="p" className="textGlow">
+        Level Up Price
+      </Typography>
+    </TableCell>
+    <TableCell>
+      <Typography>
+        See Below
+      </Typography>
+    </TableCell>
+  </TableRow>
+
+</TableBody>
+</Table>
+</TableContainer>
+<Mint name="Bronze" minValue={1} maxValue={19} />
+</Grid>
+
+<Grid item xs={12} sm={6} md={3}>
+<NftCards card="silver" />
+<TableContainer component={Paper} style={{marginTop: '20px'}}>
+<Table aria-label="Silver card table">
+<TableBody>
+
+  <TableRow>
+    <TableCell align="right">
+      <Typography variant="body1" component="p" className="textGlow">
+        Generation
+      </Typography>
+    </TableCell>
+    <TableCell>
+      <Typography>
+        1
+      </Typography>
+    </TableCell>
+  </TableRow>
+
+  <TableRow>
+    <TableCell align="right">
+      <Typography variant="body1" component="p" className="textGlow">
+        Total Available
+      </Typography>
+    </TableCell>
+    <TableCell>
+      <Typography>
+        100 of 100
+      </Typography>
+    </TableCell>
+  </TableRow>
+
+  <TableRow>
+    <TableCell align="right">
+      <Typography variant="body1" component="p" className="textGlow">
+        Mint Level
+      </Typography>
+    </TableCell>
+    <TableCell>
+      <Typography>
+        20 - 39
+      </Typography>
+    </TableCell>
+  </TableRow>
+
+  <TableRow>
+    <TableCell align="right">
+      <Typography variant="body1" component="p" className="textGlow">
+        Floor Price
+      </Typography>
+    </TableCell>
+    <TableCell>
+      <Typography>
+        10,000 DAI
+      </Typography>
+    </TableCell>
+  </TableRow>
+
+  <TableRow>
+    <TableCell align="right">
+      <Typography variant="body1" component="p" className="textGlow">
+        Merge Limit
+      </Typography>
+    </TableCell>
+    <TableCell>
+      <Typography>
+        1 Merge
+      </Typography>
+    </TableCell>
+  </TableRow>
+
+  <TableRow>
+    <TableCell align="right">
+      <Typography variant="body1" component="p" className="textGlow">
+        Level Up Price
+      </Typography>
+    </TableCell>
+    <TableCell>
+      <Typography>
+        See Below
+      </Typography>
+    </TableCell>
+  </TableRow>
+
+</TableBody>
+</Table>
+</TableContainer>
+<Mint name="Silver" minValue={20} maxValue={39} />
+</Grid>
+
+<Grid item xs={12} sm={6} md={3}>
+<NftCards card="gold" />
+<TableContainer component={Paper} style={{marginTop: '20px'}}>
+<Table aria-label="Gold card table">
+<TableBody>
+
+  <TableRow>
+    <TableCell align="right">
+      <Typography variant="body1" component="p" className="textGlow">
+        Generation
+      </Typography>
+    </TableCell>
+    <TableCell>
+      <Typography>
+        1
+      </Typography>
+    </TableCell>
+  </TableRow>
+
+  <TableRow>
+    <TableCell align="right">
+      <Typography variant="body1" component="p" className="textGlow">
+        Total Available
+      </Typography>
+    </TableCell>
+    <TableCell>
+      <Typography>
+        20 of 20
+      </Typography>
+    </TableCell>
+  </TableRow>
+
+  <TableRow>
+    <TableCell align="right">
+      <Typography variant="body1" component="p" className="textGlow">
+        Mint Level
+      </Typography>
+    </TableCell>
+    <TableCell>
+      <Typography>
+        40 - 49
+      </Typography>
+    </TableCell>
+  </TableRow>
+
+  <TableRow>
+    <TableCell align="right">
+      <Typography variant="body1" component="p" className="textGlow">
+        Floor Price
+      </Typography>
+    </TableCell>
+    <TableCell>
+      <Typography>
+        20,000 DAI
+      </Typography>
+    </TableCell>
+  </TableRow>
+
+  <TableRow>
+    <TableCell align="right">
+      <Typography variant="body1" component="p" className="textGlow">
+        Merge Limit
+      </Typography>
+    </TableCell>
+    <TableCell>
+      <Typography>
+        1 Merge
+      </Typography>
+    </TableCell>
+  </TableRow>
+
+  <TableRow>
+    <TableCell align="right">
+      <Typography variant="body1" component="p" className="textGlow">
+        Level Up Price
+      </Typography>
+    </TableCell>
+    <TableCell>
+      <Typography>
+        See Below
+      </Typography>
+    </TableCell>
+  </TableRow>
+
+</TableBody>
+</Table>
+</TableContainer>
+<Mint name="Gold" minValue={40} maxValue={49} />
+</Grid>
+
+<Grid item xs={12} sm={6} md={3}>
+<NftCards card="platinum" />
+<TableContainer component={Paper} style={{marginTop: '20px'}}>
+<Table aria-label="Platinum card table">
+<TableBody>
+
+  <TableRow>
+    <TableCell align="right">
+      <Typography variant="body1" component="p" className="textGlow">
+        Generation
+      </Typography>
+    </TableCell>
+    <TableCell>
+      <Typography>
+        1
+      </Typography>
+    </TableCell>
+  </TableRow>
+
+  <TableRow>
+    <TableCell align="right">
+      <Typography variant="body1" component="p" className="textGlow">
+        Total Available
+      </Typography>
+    </TableCell>
+    <TableCell>
+      <Typography>
+        10 of 10
+      </Typography>
+    </TableCell>
+  </TableRow>
+
+  <TableRow>
+    <TableCell align="right">
+      <Typography variant="body1" component="p" className="textGlow">
+        Mint Level
+      </Typography>
+    </TableCell>
+    <TableCell>
+      <Typography>
+        50
+      </Typography>
+    </TableCell>
+  </TableRow>
+
+  <TableRow>
+    <TableCell align="right">
+      <Typography variant="body1" component="p" className="textGlow">
+        Floor Price
+      </Typography>
+    </TableCell>
+    <TableCell>
+      <Typography>
+        25,000 DAI
+      </Typography>
+    </TableCell>
+  </TableRow>
+
+  <TableRow>
+    <TableCell align="right">
+      <Typography variant="body1" component="p" className="textGlow">
+        Merge Limit
+      </Typography>
+    </TableCell>
+    <TableCell>
+      <Typography>
+        1 Merge
+      </Typography>
+    </TableCell>
+  </TableRow>
+
+  <TableRow>
+    <TableCell align="right">
+      <Typography variant="body1" component="p" className="textGlow">
+        Level Up Price
+      </Typography>
+    </TableCell>
+    <TableCell>
+      <Typography>
+        See Below
+      </Typography>
+    </TableCell>
+  </TableRow>
+
+</TableBody>
+</Table>
+</TableContainer>
+<Mint name="Platinum" minValue={50} maxValue={50} />
+</Grid>
+
+</Grid>
+
+<Grid className="section" container justify="center" align="center" style={{paddingTop: '0'}} spacing={3}>
+
+  <Grid item xs={12}>
+    <Typography align="center" variant="h2" className="textGlow pink" style={{marginBottom: '20px'}}>
+      NFT Marketplace
+    </Typography>
+    <Typography align="center" variant="h5" component="p" style={{fontWeight: '500'}}>
+      Coming soon
+    </Typography>
+  </Grid>
+</Grid>
+
+          <Grid id="faq" className="section" container spacing={3} style={{paddingTop: '0'}}>
+        {/* Explanation text */}
+        <Grid item xs={12}>
+            <Typography variant="h2" className='textGlow pink' style={{textAlign:'center',marginBottom: '20px'}}>About Game Theory NFTs</Typography>
+            <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+              <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
+                <Typography variant="h5" color="var(--extra-color-1)">What is an NFT?</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography variant="body2">
+                  An NFT or non-fungible token is a one-of-a-kind digital collectable that is owned exclusively by the person who purchased it.
+                </Typography>
+                </AccordionDetails>
+              </Accordion>
+              <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
+              <AccordionSummary aria-controls="panel2d-content" id="panel2d-header">
+                <Typography variant="h5" color="var(--extra-color-1)">What are the benefits of Game Theory NFTs?</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography variant="body2">
+                  Game Theory NFTs can be used in the following ways:<br /><br />
+                  <ol>
+                    <li>
+                      They can unlock a percentage of locked THEORY (LTHEORY) rewards owned by the user.
+                    </li>
+                    <li>
+                      They will allow the user access to exclusive perks, items and events in the "Brutal Network" game.
+                    </li>
+                    <li>
+                      The NFTs can be bought and sold on the NFT marketplace.
+                    </li>
+                  </ol>
+                </Typography>
+                </AccordionDetails>
+              </Accordion>
+              <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
+              <AccordionSummary aria-controls="panel3d-content" id="panel3d-header">
+                <Typography variant="h5" color="var(--extra-color-1)">How much LTHEORY can I unlock with an NFT?</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography variant="body2">
+                  The level of your NFT can unlock the corresponding percentage of LTHEORY you have. ie. If you have a level 10 NFT, it will have the ability to unlock 10% of your LTHEORY rewards. As you level up your NFT, the percentage of LTHEORY rewards you can unlock will also increase.<br /><br />
+
+                  IMPORTANT: While an NFT can be used multiple times, the LTHEORY tokens you use the NFT on, can only be unlocked with an NFT once. ie. If you have 100 LTHEORY tokens in your wallet and a level 10 NFT, you can unlock 10 of those tokens, but those remaining 90 LTHEORY tokens can now no longer be unlocked with an NFT.
+                </Typography>
+                </AccordionDetails>
+              </Accordion>
+              <Accordion expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
+              <AccordionSummary aria-controls="panel4d-content" id="panel4d-header">
+                <Typography variant="h5" color="var(--extra-color-1)">How much do Game Theory NFTs cost?</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography variant="body2" style={{fontWeight: '500'}}>
+                  <strong>Price of Minting NFTs</strong><br />
+                  Game Theory tokens cost 500 DAI per level when minting an NFT. When you choose to mint an NFT, you can select the level you would like to mint it at, and the total price of minting will be the level number x 500 DAI.<br /><br />
+
+                  <strong>Price of NFTs on the Marketplace</strong><br />
+                  The price of purchasing or selling existing NFTs in the marketplace will be determined based on what people are prepared to sell or pay for them (based on rarity, level, supply and demand).
+                </Typography>
+                </AccordionDetails>
+              </Accordion>
+              <Accordion expanded={expanded === 'panel5'} onChange={handleChange('panel5')}>
+              <AccordionSummary aria-controls="panel5d-content" id="panel5d-header">
+                <Typography variant="h5" color="var(--extra-color-1)">How can I level up my NFTs?</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography variant="body2">
+                  The maximum level available to level up an NFT will increase by 5 levels every 15 days.<br /><br/>
+
+                  Generation 0 NFTs can be levelled up for free, while Generation 1 NFTs have a fee in GAME to level up.<br /><br/>
+
+                  The GAME fees to level up Gen 1 NFTs are as follows can be <a href="https://docs.gametheory.tech/" target="_blank" style={{color:'var(--accent)'}}>found in the docs</a>.
+                </Typography>
+                </AccordionDetails>
+              </Accordion>
+              <Accordion expanded={expanded === 'panel6'} onChange={handleChange('panel6')}>
+              <AccordionSummary aria-controls="panel6d-content" id="panel6d-header">
+                <Typography variant="h5" color="var(--extra-color-1)">How can I merge my NFTs?</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography variant="body2">
+                  NFTs can only be merged with NFTs of the same generation number. ie. Gen 0 NFTs can only be merged with other Gen 0 NFTs, Gen1 NFTs can only be merged with other Gen 1 NFTs.<br /><br />
+
+                  Gen 0 NFTs can be merged an unlimited amount of times, Gen 1 NFTs can only be merged once.<br /><br />
+
+                  Merging NFTs will combine the levels of the NFTs, and the new NFT will become the highest tier (or color) out of the two merged NFTs.
+                </Typography>
+                </AccordionDetails>
+              </Accordion>
+              <Accordion expanded={expanded === 'panel7'} onChange={handleChange('panel7')}>
+              <AccordionSummary aria-controls="panel7d-content" id="panel7d-header">
+                <Typography variant="h5" color="var(--extra-color-1)">Can I use my NFT to unlock LGAME?</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography variant="body2">
+                  No, the NFTs only unlock LTHEORY. LGAME tokens unlock linearly over 365 days after they are claimed.
+                </Typography>
+                </AccordionDetails>
+              </Accordion>
+        </Grid>
+      </Grid>
 
 
-            <Box mt={4}>
-              <StyledCardWrapper>
-                <Mint />
-              </StyledCardWrapper>
-            </Box>
-          {
-            theoryUnlockers.map((item, index)=>{
-              //Gen 0
-              let time = item.timeLeftToLevel.toNumber();
-              let days        = Math.floor(time/24/60/60);
-              let hoursLeft   = Math.floor((time) - (days*86400));
-              let hours       = Math.floor(hoursLeft/3600);
-              let minutesLeft = Math.floor((hoursLeft) - (hours*3600));
-              let minutes     = Math.ceil(minutesLeft/60);
-              if(minutes === 0) minutes = 1; //Never show 0 minutes.
-              //let seconds     = time % 60;
-
-              return (<Box key={index} mt={4}>
-            <StyledCardWrapper>
-              <Box>
-                <Card>
-                  <CardContent>
-                    <StyledCardContentInner>
-                      <Label text={`[Gen 0] Theory Unlocker #${item.token_id} (${item.attributes[0].value} Level ${item.level})`} />
-                      <StyledActionSpacer/>
-                      <ReactPlayer url={item.animation_url} controls={false} muted={true} playing={true} loop={true} />
-                      <StyledActionSpacer/>
-                      <Button color="primary" variant="contained" disabled={item.unlockAmount.eq(0)} onClick={()=>onUnlockTheory(item.token_id)} >{`Unlock ${getDisplayBalance(item.unlockAmount)} LTHEORY Using This NFT`}</Button>
-                      <StyledActionSpacer/>
-                      <Button color="primary" variant="contained" disabled={!item.timeLeftToLevel.eq(0) || item.level.gte(maxLevel)} onClick={()=>onLevelUp(item.token_id)} >{
-                        item.level.eq(maxLevel) ? ("Current max level reached") :
-                        (item.timeLeftToLevel.eq(0) ? `Level Up to Level ${item.level.add(1).toNumber()}` : `${days.toLocaleString('en-US', {minimumIntegerDigits: 2,useGrouping: false})}:${hours.toLocaleString('en-US', {minimumIntegerDigits: 2,useGrouping: false})}:${minutes.toLocaleString('en-US', {minimumIntegerDigits: 2,useGrouping: false})} (D:H:M) left until next level up`)}</Button>
-                      <StyledActionSpacer/>
-                      <Button color="primary" variant="contained" disabled={theoryUnlockers.length <= 1} onClick={() => {
-                        selectedId = item.token_id
-                        onPresentMerge();
-                      }} >{`Merge`}</Button>
-                    </StyledCardContentInner>
-                  </CardContent>
-                </Card>
-              </Box>
-            </StyledCardWrapper>
-            </Box>);})
-          }
-          {
-            //Gen 1
-            theoryUnlockersGen1.map((item, index)=>{
-              let time = item.timeLeftToLevel.toNumber();
-              let days        = Math.floor(time/24/60/60);
-              let hoursLeft   = Math.floor((time) - (days*86400));
-              let hours       = Math.floor(hoursLeft/3600);
-              let minutesLeft = Math.floor((hoursLeft) - (hours*3600));
-              let minutes     = Math.ceil(minutesLeft/60);
-              if(minutes === 0) minutes = 1; //Never show 0 minutes.
-              //let cost = costGen1 && index < costGen1.length ? getDisplayBalance(costGen1[index]) : "???";
-              //let seconds     = time % 60;
-
-              return (<Box key={index} mt={4}>
-                <StyledCardWrapper>
-                  <Box>
-                    <Card>
-                      <CardContent>
-                        <StyledCardContentInner>
-                          <Label text={`[Gen 1] Theory Unlocker #${item.token_id} (${item.attributes[0].value} Level ${item.level})`} />
-                          <StyledActionSpacer/>
-                            {
-                                (() => {
-                                    try
-                                    {
-                                        return (
-                                            <ReactPlayer url={item.animation_url} controls={false} muted={true} playing={true}
-                                                         loop={true}/>)
-                                    }
-                                    catch
-                                    {
-                                        return (
-                                            <Label text={`Image preview unavailable. Come back later.`} />
-                                        )
-                                    }
-                                })()
-                            }
-                            <StyledActionSpacer/>
-                          <Button color="primary" variant="contained" disabled={item.unlockAmount.eq(0)} onClick={()=>onUnlockTheoryGen1(item.token_id)} >{`Unlock ${getDisplayBalance(item.unlockAmount)} LTHEORY Using This NFT`}</Button>
-                          <StyledActionSpacer/>
-                            {approveStatus !== ApprovalState.APPROVED ? (
-                                <Button
-                                    disabled={approveStatus !== ApprovalState.NOT_APPROVED}
-                                    variant="contained"
-                                    color="primary"
-                                    style={{ marginTop: '20px' }}
-                                    onClick={approve}
-                                >
-                                    {`Approve GAME for Level Up to Level ${item.level.add(1).toNumber()} for ${getDisplayBalance(item.cost, 18, 0)} GAME`}
-                                </Button>
-                            ) : (
-                                <Button color="primary" variant="contained" disabled={!item.timeLeftToLevel.eq(0) || item.level.gte(maxLevelGen1)} onClick={()=>onLevelUpGen1(item.token_id)} >{
-                                    item.level.eq(maxLevelGen1) ? ("Current max level reached") :
-                                        (item.timeLeftToLevel.eq(0) ? `Level Up to Level ${item.level.add(1).toNumber()} for ${getDisplayBalance(item.cost, 18, 0)} GAME` : `${days.toLocaleString('en-US', {minimumIntegerDigits: 2,useGrouping: false})}:${hours.toLocaleString('en-US', {minimumIntegerDigits: 2,useGrouping: false})}:${minutes.toLocaleString('en-US', {minimumIntegerDigits: 2,useGrouping: false})} (D:H:M) left until next level up`)}</Button>
-                            )}
-                          <StyledActionSpacer/>
-                            <Button color="primary" variant="contained" disabled={true} >Level Up To Specific Level Coming Soon.</Button>
-                          <StyledActionSpacer/>
-                            <Button color="primary" variant="contained" disabled={true} >Level Up To Max Coming Soon.</Button>
-                          <StyledActionSpacer/>
-                          <Button color="primary" variant="contained" disabled={item.merged || theoryUnlockersGen1.length <= 1} onClick={() => {
-                            selectedId = item.token_id
-                            onPresentMergeGen1();
-                          }} >{`Merge`}</Button>
-                        </StyledCardContentInner>
-                      </CardContent>
-                    </Card>
-                  </Box>
-                </StyledCardWrapper>
-              </Box>);})
-          }
         </>
       ) : (
         <UnlockWallet />
       )}
+
     </Page>
   );
 };
-
-const StyledBoardroom = styled.div`
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  @media (max-width: 768px) {
-    width: 100%;
-  }
-`;
-
-const StyledCardsWrapper = styled.div`
-  display: flex;
-  width: 600px;
-  @media (max-width: 768px) {
-    width: 100%;
-    flex-flow: column nowrap;
-    align-items: center;
-  }
-`;
-
-const StyledCardHeader = styled.div`
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-`;
-const StyledCardActions = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 28px;
-  width: 100%;
-`;
-
-const StyledActionSpacer = styled.div`
-  height: ${(props) => props.theme.spacing[4]}px;
-  width: ${(props) => props.theme.spacing[4]}px;
-`;
-
-const StyledCardContentInner = styled.div`
-  align-items: center;
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: space-between;
-`;
-
-const StyledCardWrapper = styled.div`
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  @media (max-width: 768px) {
-    width: 80%;
-  }
-`;
 
 export default Nft;

@@ -1,10 +1,8 @@
 import React, { useCallback, useMemo, useState } from 'react';
 
 import { Button } from '@mui/material';
-// import Button from '../../../components/Button'
 import Modal, { ModalProps } from '../../../components/Modal';
 import ModalActions from '../../../components/ModalActions';
-import ModalTitle from '../../../components/ModalTitle';
 import MergeInput from './MergeInput';
 
 interface MergeModalProps extends ModalProps {
@@ -23,8 +21,7 @@ const MergeModal: React.FC<MergeModalProps> = ({ onConfirm, onDismiss, tokenName
   );
 
   return (
-    <Modal>
-      <ModalTitle text={`Select the ID of the token you wish to merge with.`} />
+    <Modal text={`Merge NFTs`} onDismiss={onDismiss}>
       <MergeInput
         value={val}
         onChange={handleChange}

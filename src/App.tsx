@@ -15,7 +15,6 @@ import config from './config';
 import Updaters from './state/Updaters';
 import Loader from './components/Loader';
 import Popups from './components/Popups';
-import Regulations from './views/Regulations/Regulations';
 import { RefreshContextProvider } from './contexts/RefreshContext';
 
 const Home = lazy(() => import('./views/Home'));
@@ -24,9 +23,8 @@ const Boardroom = lazy(() => import('./views/Masonry'));
 //const Rebates = lazy(() => import('./views/Rebates'));
 const Bonds = lazy(() => import('./views/Pit'));
 const Treasury = lazy(() => import('./views/Treasury'));
-const Faq = lazy(() => import('./views/Faq'));
+const About = lazy(() => import('./views/About'));
 const Nft = lazy(() => import('./views/Nft'));
-const Dungeon = lazy(() => import('./views/Dungeon'));
 // const SBS = lazy(() => import('./views/Sbs'));
 // const Liquidity = lazy(() => import('./views/Liquidity'));
 
@@ -66,14 +64,11 @@ const App: React.FC = () => {
             <Route path="/treasury">
               <Treasury />
             </Route>
-            <Route path="/faq">
-              <Faq />
+            <Route path="/about">
+              <About />
             </Route>
             <Route path="/nfts">
               <Nft />
-            </Route>
-            <Route path="/dungeon">
-              <Dungeon />
             </Route>
             {/* <Route path="/sbs">
               <SBS />

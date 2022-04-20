@@ -405,10 +405,8 @@ export class TombFinance {
     const TSHAREPrice = (await this.getShareStat()).priceInDollars;
     const masonrytShareBalanceOf = await this.TSHARE.balanceOf(this.currentMasonry().address);
     const masonryTVL = Number(getDisplayBalance(masonrytShareBalanceOf, this.TSHARE.decimal)) * Number(TSHAREPrice);
-    const masonryMasterToTheoryTvl = await this.contracts.Master.masterToTheory(await this.contracts.Master.totalSupply());
-    const dungeonTVL = Number(getDisplayBalance(masonryMasterToTheoryTvl, this.TSHARE.decimal)) * Number(TSHAREPrice);
 
-    return totalValue + masonryTVL + dungeonTVL;
+    return totalValue + masonryTVL;
   }
 
   /**
@@ -616,10 +614,10 @@ export class TombFinance {
 
     const TSHAREPrice = (await this.getShareStat()).priceInDollars;
     const TOMBPrice = (await this.getTombStat()).priceInDollars;
-    const epochRewardsTotal = lastRewardsReceived / 1e18;
+    const epochRewardsPerShare = lastRewardsReceived / 1e18;
 
     //Mgod formula
-    const amountOfRewardsPerDay = epochRewardsTotal * Number(TOMBPrice) * 4;
+    const amountOfRewardsPerDay = epochRewardsPerShare * Number(TOMBPrice) * 4;
     const masonrytShareBalanceOf = await this.TSHARE.balanceOf(Masonry.address);
     const masonryTVL = Number(getDisplayBalance(masonrytShareBalanceOf, this.TSHARE.decimal)) * Number(TSHAREPrice);
     const realAPR = ((amountOfRewardsPerDay * 100) / masonryTVL);
@@ -713,102 +711,6 @@ export class TombFinance {
     return await Masonry.exit();
   }
 
-  async getDungeonDPR() {
-    const { Master } = this.contracts;
-    const Masonry = this.currentMasonry();
-
-    const latestSnapshotIndex = await Masonry.latestSnapshotIndex();
-    const latestRPS = (await Masonry.theoreticsHistory(latestSnapshotIndex))[2];
-    const storedRPS = (await Masonry.theoreticsHistory(latestSnapshotIndex.sub(1)))[2];
-
-    const lastRewardsReceived = (await Masonry.balanceOf(Master.address)).mul(latestRPS.sub(storedRPS)).div(BigNumber.from(10).pow(18));
-    //await Master.expectedClaimableGameThisEpoch(); //Broken
-
-    const TSHAREPrice = (await this.getShareStat()).priceInDollars;
-    const TOMBPrice = (await this.getTombStat()).priceInDollars;
-    const epochRewardsTotal = lastRewardsReceived / 1e18;
-
-    //Mgod formula
-    const amountOfRewardsPerDay = epochRewardsTotal * Number(TOMBPrice) * 4;
-    const masonryMasterToTheoryTvl = await this.contracts.Master.masterToTheory(await this.contracts.Master.totalSupply());
-    const dungeonTVL = Number(getDisplayBalance(masonryMasterToTheoryTvl, this.TSHARE.decimal)) * Number(TSHAREPrice);
-    const realAPR = ((amountOfRewardsPerDay * 100) / dungeonTVL);
-    return realAPR;
-  }
-
-  async getDungeonAPR() {
-    return (await this.getDungeonDPR()) * 365;
-  }
-
-  async canUserUnstakeFromDungeon(): Promise<boolean> {
-    const { Master } = this.contracts;
-    const nextTimestamp = (await Master.userInfo(this.myAccount)).lockToTime;
-    const toDate = new Date(nextTimestamp * 1000);
-    const stakedAmount = await this.getStakedSharesOnDungeon();
-    const notStaked = Number(getDisplayBalance(stakedAmount, this.TSHARE.decimal)) === 0;
-    const fromDate = new Date(Date.now());
-    const result = notStaked ? false : fromDate >= toDate;
-    return result;
-  }
-
-  async getTotalTVLInDungeon(): Promise<number> {
-    //const Masonry = this.currentMasonry();
-    const TSHAREPrice = (await this.getShareStat()).priceInDollars;
-    const masonryMasterToTheoryTvl = await this.contracts.Master.masterToTheory(await this.contracts.Master.totalSupply());
-    const dungeonTVL = Number(getDisplayBalance(masonryMasterToTheoryTvl, this.TSHARE.decimal)) * Number(TSHAREPrice);
-    return dungeonTVL;
-  }
-
-  async getTotalStakedInDungeon(): Promise<BigNumber> {
-    const { Master } = this.contracts;
-    return await Master.totalSupply();
-  }
-
-  async stakeShareToDungeon(amount: string): Promise<TransactionResponse> {
-    const { Master } = this.contracts;
-    return await Master.buyFromTheory(decimalToBalance(amount), 0);
-  }
-
-  async getStakedSharesOnDungeon(): Promise<BigNumber> {
-    const { Master } = this.contracts;
-    return await Master.balanceOf(this.myAccount);
-  }
-
-  async getStakedSharesInTheoryOnDungeon(): Promise<BigNumber> {
-    const { Master } = this.contracts;
-    return await Master.masterToTheory(await Master.balanceOf(this.myAccount));
-  }
-
-  async getPriceOfMasterInTheory(): Promise<BigNumber> {
-    const { Master } = this.contracts;
-    return await Master.masterToTheory(BigNumber.from(10).pow(18));
-  }
-
-  async getPriceOfTheoryInMaster(): Promise<BigNumber> {
-    const { Master } = this.contracts;
-    return await Master.theoryToMaster(BigNumber.from(10).pow(18));
-  }
-
-  async getEarningsOnDungeon(): Promise<BigNumber> {
-    const { Master } = this.contracts;
-    return await Master.earned(this.myAccount);
-  }
-
-  async requestWithdrawShareFromDungeon(amount: string): Promise<TransactionResponse> {
-    const { Master } = this.contracts;
-    return await Master.requestSellToTheory(decimalToBalance(amount), false);
-  }
-
-  async withdrawShareFromDungeon(): Promise<TransactionResponse> {
-    const { Master } = this.contracts;
-    return await Master.sellToTheory();
-  }
-
-  async harvestCashFromDungeon(): Promise<TransactionResponse> {
-    const { Master } = this.contracts;
-    return await Master.claimGame();
-  }
-
   async getTreasuryNextAllocationTime(): Promise<AllocationTime> {
     const { Treasury } = this.contracts;
     const nextEpochTimestamp: BigNumber = await Treasury.nextEpochPoint();
@@ -883,48 +785,36 @@ export class TombFinance {
     }
   }
 
-  async getUserUnstakeTimeDungeon(): Promise<AllocationTime> {
-    const { Master } = this.contracts;
-    const nextTimestamp = (await Master.userInfo(this.myAccount)).lockToTime;
-    const fromDate = new Date(Date.now());
-    const toDate = new Date(nextTimestamp * 1000);
-    if (fromDate <= toDate) {
-      return { from: fromDate, to: fromDate };
-    } else {
-      return { from: fromDate, to: toDate };
+  async watchAssetInMetamask(assetName: string): Promise<boolean> {
+    const { ethereum } = window as any;
+    if (ethereum && ethereum.networkVersion === config.chainId.toString()) {
+      let asset;
+      let assetUrl;
+      if (assetName === 'TOMB') {
+        asset = this.TOMB;
+        assetUrl = 'https://tomb.finance/presskit/tomb_icon_noBG.png';
+      } else if (assetName === 'TSHARE') {
+        asset = this.TSHARE;
+        assetUrl = 'https://tomb.finance/presskit/tshare_icon_noBG.png';
+      } else if (assetName === 'HODL') {
+        asset = this.HODL;
+        assetUrl = 'https://tomb.finance/presskit/tbond_icon_noBG.png';
+      }
+      await ethereum.request({
+        method: 'wallet_watchAsset',
+        params: {
+          type: 'ERC20',
+          options: {
+            address: asset.address,
+            symbol: asset.symbol,
+            decimals: 18,
+            image: assetUrl,
+          },
+        },
+      });
     }
+    return true;
   }
-
-  // async watchAssetInMetamask(assetName: string): Promise<boolean> {
-  //   const { ethereum } = window as any;
-  //   if (ethereum && ethereum.networkVersion === config.chainId.toString()) {
-  //     let asset;
-  //     let assetUrl;
-  //     if (assetName === 'TOMB') {
-  //       asset = this.TOMB;
-  //       assetUrl = 'https://tomb.finance/presskit/tomb_icon_noBG.png';
-  //     } else if (assetName === 'TSHARE') {
-  //       asset = this.TSHARE;
-  //       assetUrl = 'https://tomb.finance/presskit/tshare_icon_noBG.png';
-  //     } else if (assetName === 'HODL') {
-  //       asset = this.HODL;
-  //       assetUrl = 'https://tomb.finance/presskit/tbond_icon_noBG.png';
-  //     }
-  //     await ethereum.request({
-  //       method: 'wallet_watchAsset',
-  //       params: {
-  //         type: 'ERC20',
-  //         options: {
-  //           address: asset.address,
-  //           symbol: asset.symbol,
-  //           decimals: 18,
-  //           image: assetUrl,
-  //         },
-  //       },
-  //     });
-  //   }
-  //   return true;
-  // }
 
   async quoteFromSpooky(tokenAmount: string, tokenName: string): Promise<string> {
     const { SpookyRouter } = this.contracts;

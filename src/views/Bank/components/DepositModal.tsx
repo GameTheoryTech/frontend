@@ -1,10 +1,8 @@
 import React, { useCallback, useMemo, useState } from 'react';
 
-import { Button } from '@mui/material';
-// import Button from '../../../components/Button'
+import { Button, Typography } from '@mui/material';
 import Modal, { ModalProps } from '../../../components/Modal';
 import ModalActions from '../../../components/ModalActions';
-import ModalTitle from '../../../components/ModalTitle';
 import TokenInput from '../../../components/TokenInput';
 
 import { getFullDisplayBalance } from '../../../utils/formatBalance';
@@ -36,8 +34,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ max, decimals, onConfirm, o
   }, [fullBalance, setVal]);
 
   return (
-    <Modal>
-      <ModalTitle text={`Deposit ${tokenName}`} />
+    <Modal text={`Deposit ${tokenName} Tokens`} onDismiss={onDismiss}>
       <TokenInput
         value={val}
         onSelectMax={handleSelectMax}
@@ -48,9 +45,12 @@ const DepositModal: React.FC<DepositModalProps> = ({ max, decimals, onConfirm, o
       <ModalActions>
         {/* <Button color="secondary" variant="outlined" onClick={onDismiss}>Cancel</Button> */}
         <Button color="primary" variant="contained" onClick={() => onConfirm(val)}>
-          Confirm
+          Deposit
         </Button>
       </ModalActions>
+      <Typography variant="body2" align="center" className="textGlow" style={{marginTop: '40px'}}>
+        Your rewards will be claimed whenever you deposit or withdraw tokens from the pool
+      </Typography>
     </Modal>
   );
 };

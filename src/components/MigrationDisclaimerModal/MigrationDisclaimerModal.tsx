@@ -1,9 +1,8 @@
 import React, { useCallback } from 'react';
 
-import Button from '../Button';
+import { Button } from '@mui/material';
 import Modal, { ModalProps } from '..//Modal';
 import ModalActions from '..//ModalActions';
-import ModalTitle from '..//ModalTitle';
 import styled from 'styled-components';
 
 interface MigrationDisclaimerModalProps extends ModalProps {
@@ -19,8 +18,7 @@ const MigrationDisclaimerModal: React.FC<MigrationDisclaimerModalProps> = ({ onC
   const handleDismiss = useCallback(() => onDismiss(), [onDismiss]);
 
   return (
-    <Modal>
-      <ModalTitle text={`Migration Disclaimer`} />
+    <Modal text={`Migration Disclaimer`} onDismiss={onDismiss}>
       <div>
         <StyledText>
           Due to the upgrade, all Masonry functionalities other than [Settle and withdraw] has been disabled for users
@@ -28,8 +26,8 @@ const MigrationDisclaimerModal: React.FC<MigrationDisclaimerModalProps> = ({ onC
         </StyledText>
       </div>
       <ModalActions>
-        <Button text="Cancel" variant="secondary" onClick={handleDismiss} />
-        <Button text="I understand" onClick={handleConfirm} />
+        <Button variant="contained" onClick={handleDismiss}>Cancel</Button>
+        <Button variant='contained' onClick={handleConfirm}>I understand</Button>
       </ModalActions>
     </Modal>
   );

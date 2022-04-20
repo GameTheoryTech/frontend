@@ -66,8 +66,6 @@ export default function PopupItem({
     };
   }, [removeAfterMs, removeThisPopup]);
 
-  const theme = useContext(ThemeContext);
-
   let popupContent;
   if ('txn' in content) {
     const {
@@ -90,7 +88,7 @@ export default function PopupItem({
 
   return (
     <Popup>
-      <StyledClose color={theme.text2} onClick={removeThisPopup} />
+      <StyledClose color="var(--accent)" onClick={removeThisPopup} />
       {popupContent}
       {removeAfterMs !== null ? <AnimatedFader style={faderStyle} /> : null}
     </Popup>

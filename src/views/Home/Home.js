@@ -1,11 +1,6 @@
 import React, { useMemo } from 'react';
 import Page from '../../components/Page';
-import HomeImage from '../../assets/img/home.png';
-import CashImage from '../../assets/img/GAME.svg';
-import Image from 'mui-image';
-import styled from 'styled-components';
-import { Alert } from '@mui/material';
-import { createGlobalStyle } from 'styled-components';
+import { Typography } from '@mui/material';
 import CountUp from 'react-countup';
 import CardIcon from '../../components/CardIcon';
 import TokenSymbol from '../../components/TokenSymbol';
@@ -28,23 +23,38 @@ import ZapModal from '../Bank/components/ZapModal';
 import { makeStyles } from '@mui/styles';
 import useTombFinance from '../../hooks/useTombFinance';
 
-const BackgroundImage = createGlobalStyle`
-  body {
-    background-color: var(--black);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='32' viewBox='0 0 16 32'%3E%3Cg fill='%231D1E1F' fill-opacity='0.4'%3E%3Cpath fill-rule='evenodd' d='M0 24h4v2H0v-2zm0 4h6v2H0v-2zm0-8h2v2H0v-2zM0 0h4v2H0V0zm0 4h2v2H0V4zm16 20h-6v2h6v-2zm0 4H8v2h8v-2zm0-8h-4v2h4v-2zm0-20h-6v2h6V0zm0 4h-4v2h4V4zm-2 12h2v2h-2v-2zm0-8h2v2h-2V8zM2 8h10v2H2V8zm0 8h10v2H2v-2zm-2-4h14v2H0v-2zm4-8h6v2H4V4zm0 16h6v2H4v-2zM6 0h2v2H6V0zm0 24h2v2H6v-2z'/%3E%3C/g%3E%3C/svg%3E");
+const numImg = {
+  1: require('../../assets/img/01.png'),
+  2: require('../../assets/img/02.png'),
+  3: require('../../assets/img/03.png'),
 }
-
-* {
-    border-radius: 0 !important;
-}
-`;
 
 const useStyles = makeStyles((theme) => ({
   button: {
-    [theme.breakpoints.down('415')]: {
-      marginTop: '10px',
-    },
+    width: '100%',
+    display: 'block',
+    marginTop: '40px'
   },
+  section: {
+    padding: '100px 0',
+    '@media (max-width: 767px)': {
+      padding: '40px 0'
+    }
+  },
+  heading: {
+    maxWidth: '100%',
+    width: '500px',
+    margin: '0 auto',
+    fontWeight: '500'
+  },
+  box: {
+    '& > *': {
+      display: 'inline-block',
+      width: '60px',
+      borderRadius: '100%',
+      boxShadow: '0px 0px 20px 0px var(--extra-color-1)'
+    }
+  }
 }));
 
 const Home = () => {
@@ -62,12 +72,13 @@ const Home = () => {
 
   let tomb;
   let tShare;
-  if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-    tomb = tombTesting;
-    tShare = tShareTesting;
-  } else {
-    tomb = tombProd;
-    tShare = tShareProd;
+  // if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+     tomb = tombTesting;
+     tShare = tShareTesting;
+  // } else
+  {
+    //tomb = tombProd;
+    //tShare = tShareProd;
   }
 
   const buyTombAddress = 'https://spookyswap.finance/swap?outputCurrency=' + tomb.address;
@@ -80,8 +91,8 @@ const Home = () => {
     [tombStats],
   );
   const tombPriceInFTM = useMemo(() => (tombStats ? Number(tombStats.tokenInFtm).toFixed(4) : null), [tombStats]);
-  const tombCirculatingSupply = useMemo(() => (tombStats ? String(tombStats.circulatingSupply) : null), [tombStats]);
-  const tombTotalSupply = useMemo(() => (tombStats ? String(tombStats.totalSupply) : null), [tombStats]);
+  const tombCirculatingSupply = useMemo(() => (tombStats ? Number(tombStats.circulatingSupply): null), [tombStats]);
+  const tombTotalSupply = useMemo(() => (tombStats ? Number(tombStats.totalSupply) : null), [tombStats]);
 
   const tSharePriceInDollars = useMemo(
     () => (tShareStats ? Number(tShareStats.priceInDollars).toFixed(2) : null),
@@ -111,12 +122,6 @@ const Home = () => {
   const tombLpZap = useZap({ depositTokenName: 'GAME-DAI-LP' });
   const tshareLpZap = useZap({ depositTokenName: 'THEORY-DAI-LP' });
 
-  const StyledLink = styled.a`
-    font-weight: 700;
-    text-decoration: none;
-    color: var(--accent-light);
-  `;
-
   const [onPresentTombZap, onDissmissTombZap] = useModal(
     <ZapModal
       decimals={18}
@@ -141,305 +146,208 @@ const Home = () => {
     />,
   );
 
+  // function to convert string to number with commas
+  const numberWithCommas = (x) => {
+    if(x === null) return x;
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
   return (
     <Page>
-      <BackgroundImage />
-      <Grid container spacing={3}>
-        {/* Logo */}
-        <Grid container item xs={12} sm={4} justifyContent="center">
-          {/* <Paper>xs=6 sm=3</Paper> */}
-          <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: '100%',
-                margin: '0'
-              }}
-          >
-            <img src={CashImage} width="75%" height="75%"/>
-          </div>
-        </Grid>
-        {/* Explanation text */}
-        <Grid item xs={12} sm={8}>
-          <Paper style={{ backgroundColor: "transparent", boxShadow: "none", border: "1px solid var(--white)" }}>
-            <Box p={4}>
-              <h2>Welcome to Game Theory! (TESTNET VERSION)</h2>
-              <p>Game Theory is building a 2D RPG that is currently in development on the Fantom Opera blockchain. It is combining the best attributes of Tomb Finance and Defi Kingdoms to bootstrap liquidity for the launch of the game. $THEORY holders will be able to vote on aspects of the game and be share-holders in its revenue. $GAME will be in the in-game currency and LP providers will earn fees from the game and other promotions. </p>
-              <p>For more information, check out the <StyledLink href="https://docs.gametheory.tech/">Docs</StyledLink> and <StyledLink href="/#/faq">FAQ</StyledLink>. The treasury wallet is used for marketing, community actions, allocating seigniorage, and funding development of the game. The developer wallet is used for paying the developer and the team.</p>
-              <p>During the genesis phase, stake your tokens to earn $GAME. There is a small 1% deposit fee on each pool to fund the protocol and to be distributed as rewards to the community.</p>
-              <p>
-                After the genesis pools are over, use your acquired $GAME to create and stake $GAME-$DAI LP in the <StyledLink href="/#/farms">Farms</StyledLink> to earn $THEORY rewards.
-                Then you can either stake your earned $THEORY in the <StyledLink href="/#/theoretics">Theoretics</StyledLink>, create $THEORY-$DAI LP and farm more $THEORY, or hold your rewards to avoid lockup. The choice is yours.
-              </p>
-            </Box>
-          </Paper>
+        {/* Logo & bio */}
+        <Grid container justifyContent="center" className="section" spacing={3}>
+          <Grid item xs={12} style={{textAlign: 'center', marginBottom: '50px'}}>
+            <Typography variant="h2" component="h1" className='textGlow pink' style={{marginBottom: '10px', textTransform: 'uppercase'}}>Game Theory</Typography>
+            <Typography variant="h5" component="p" className={classes.heading}>The Revolutionary 'Play and Earn' Platform, Created by AAA Game Developers, Taking DeFi and Gaming to the Next Level!</Typography>
+          </Grid>
 
-
-
+          {/* TVL */}
+          <Grid item xs={12} sm={4}>
+            <Card>
+              <CardContent align="center" style={{paddingBottom: '25px'}}>
+                <Typography variant="h5" style={{marginBottom: '0'}}>Total Value Locked</Typography>
+                <Typography variant="h2" style={{fontFamily: '"forma-djr-micro", sans-serif', fontWeight: '700', color: 'var(--extra-color-2)'}}><CountUp end={totalTVL} separator="," prefix="$" /></Typography>
+              </CardContent>
+            </Card>
+          </Grid>
         </Grid>
 
-        <Grid container justifyContent="center">
-            <Box mt={3} style={{ width: '1000px' }}>
-            <Alert variant="filled" severity="warning">
-              DO NOT INVEST MORE THAN YOU ARE WILLING TO LOSE. Do your own research before investing. Investing is risky and may result in monetary loss. By using Game Theory or any of its products, you agree that the Game Theory team is not responsible for any financial losses.
-            </Alert>
-            </Box>
-        </Grid>
-
-        {/* <Grid container spacing={3}>
-    <Grid item  xs={12} sm={12} justifyContent="center"  style={{ margin: '12px', display: 'flex' }}>
-            <Alert severity="warning" style={{ backgroundColor: "transparent", border: "1px solid var(--white)" }}>
-              <b>
-      Please visit our <StyledLink target="_blank" href="https://docs.tomb.finance">documentation</StyledLink> before purchasing TOMB or TSHARE!</b>
-            </Alert>
-        </Grid>
-        </Grid> */}
-
-        {/* TVL */}
-        <Grid item xs={12} sm={4}>
-          <Card style={{ backgroundColor: "transparent", boxShadow: "none", border: "1px solid var(--white)" }}>
+        <Grid container spacing={3} justifyContent="center">
+        {/* TOMB */}
+        <Grid item xs={12} md={4}>
+          <Card className="boxed">
             <CardContent align="center">
-              <h2>Total Value Locked</h2>
-              <CountUp style={{ fontSize: '25px' }} end={totalTVL} separator="," prefix="$" />
-            </CardContent>
-          </Card>
-        </Grid>
-
-        {/* Wallet */}
-        <Grid item xs={12} sm={8}>
-          <Card style={{ height: '100%', backgroundColor: "transparent", boxShadow: "none", border: "1px solid var(--white)", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-            <CardContent align="center">
-              {/* <h2 style={{ marginBottom: '20px' }}>Wallet Balance</h2> */}
-              <Button color="primary" href="/#/farms" variant="contained" style={{ marginRight: '10px' }}>
-                Farms
-              </Button>
-              <Button color="primary" href="/#/theoretics" variant="contained" style={{ marginRight: '25px' }}>
-                Stake
-              </Button>
-              {/* <Button color="primary" href="/masonry" variant="contained" style={{ marginRight: '10px' }}>
-                Stake Now
-              </Button> */}
-              {/* <Button href="/cemetery" variant="contained" style={{ marginRight: '10px' }}>
-                Farm Now
-              </Button> */}
+              <Box style={{marginBottom: '20px'}}>
+                <CardIcon>
+                  <TokenSymbol symbol="TOMB" />
+                </CardIcon>
+              </Box>
+              <Typography variant="h3" component="h4" className="kallisto" style={{marginBottom: '20px'}}>GAME</Typography>
+              <Typography variant="body1" component="p" className="textGlow">Current Price</Typography>
+              <Typography variant="h3" component="h4" style={{marginBottom: '20px', color: 'var(--extra-color-2)'}}>
+                  USD ${tombPriceInDollars ? tombPriceInDollars : '-.--'}
+              </Typography>
+              <Typography variant="body1" component="p" className="textGlow">Liquidity</Typography>
+              <Typography variant="h3" component="h4" style={{marginBottom: '20px', color: 'var(--extra-color-2)'}}>
+                  ${numberWithCommas(tombLPStats?.totalLiquidity ? tombLPStats.totalLiquidity : '-.--')}
+              </Typography>
+              <Typography variant="body1" component="p" className="textGlow">Circulating Supply</Typography>
+              <Typography variant="h3" component="h4" style={{marginBottom: '20px', color: 'var(--extra-color-2)'}}>
+                {numberWithCommas(tombCirculatingSupply)}
+              </Typography>
+              <Typography variant="body1" component="p" className="textGlow">Total Supply</Typography>
+              <Typography variant="h3" component="h4" style={{marginBottom: '20px', color: 'var(--extra-color-2)'}}>
+              {numberWithCommas(tombTotalSupply)}
+              </Typography>
               <Button
                 target="_blank"
                 href="https://spookyswap.finance/swap?outputCurrency=0x56EbFC2F3873853d799C155AF9bE9Cb8506b7817"
                 variant="contained"
-                style={{ marginRight: '10px' }}
                 className={classes.button}
               >
                 Buy GAME
               </Button>
-              <Button variant="contained" target="_blank" href="https://spookyswap.finance/swap?outputCurrency=0x60787C689ddc6edfc84FCC9E7d6BD21990793f06" style={{ marginRight: '10px' }} className={classes.button}>
-                Buy THEORY
-              </Button>
-              <Button variant="contained" target="_blank" href="https://dexscreener.com/fantom/0x168e509FE5aae456cDcAC39bEb6Fd56B6cb8912e" style={{ marginRight: '10px' }} className={classes.button}>
-                GAME Chart
-              </Button>
-              <Button variant="contained" target="_blank" href="https://dexscreener.com/fantom/0xF69FCB51A13D4Ca8A58d5a8D964e7ae5d9Ca8594" className={classes.button}>
-                THEORY Chart
-              </Button>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        {/* TOMB */}
-        <Grid item xs={12} sm={3}>
-          <Card style={{ backgroundColor: "transparent", boxShadow: "none", border: "1px solid var(--white)" }}>
-            <CardContent align="center" style={{ position: 'relative' }}>
-              <h2>DAI</h2>
-              <Box mt={2} style={{ backgroundColor: "transparent !important" }}>
-                <CardIcon style={{ backgroundColor: "transparent !important" }}>
-                  <TokenSymbol symbol="dAI" style={{ backgroundColor: "transparent !important" }} />
-                </CardIcon>
-              </Box>
-              Current Price
-              <Box>
-                <span style={{ fontSize: '30px' }}>${ftmPrice ? ftmPrice : '-.----'} USD</span>
-              </Box>
-              <span style={{ fontSize: '12px' }}>
-                Market Cap: ${ftmMarketCap} <br />
-                Price Change 24h: {ftmPriceChange.toFixed(2)}% <br />
-                <br />
-                <br />
-              </span>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        {/* TOMB */}
-        <Grid item xs={12} sm={3}>
-          <Card style={{ backgroundColor: "transparent", boxShadow: "none", border: "1px solid var(--white)" }}>
-            <CardContent align="center" style={{ position: 'relative' }}>
-              <h2>GAME</h2>
-              {/* <Button
-                onClick={() => {
-                  tombFinance.watchAssetInMetamask('TOMB');
-                }}
-                color="secondary"
-                variant="outlined"
-                style={{ position: 'absolute', top: '10px', right: '10px', borderColor: "var(--accent-light)" }}
-              >
-                +&nbsp;
-                <img alt="metamask fox" style={{ width: '20px' }} src={MetamaskFox} />
-              </Button> */}
-              <Box mt={2} style={{ backgroundColor: "transparent !important" }}>
-                <CardIcon style={{ backgroundColor: "transparent !important" }}>
-                  <TokenSymbol symbol="TOMB" style={{ backgroundColor: "transparent !important" }} />
-                </CardIcon>
-              </Box>
-              Current Price
-              <Box>
-                <span style={{ fontSize: '30px' }}>{tombPriceInFTM ? tombPriceInFTM : '-.----'} DAI</span>
-              </Box>
-              <Box>
-                <span style={{ fontSize: '16px', alignContent: 'flex-start' }}>
-                  ${tombPriceInDollars ? tombPriceInDollars : '-.--'}
-                </span>
-              </Box>
-              <span style={{ fontSize: '12px' }}>
-                Market Cap (Including Locked): ${(tombCirculatingSupply * tombPriceInDollars).toFixed(2)} <br />
-                Circulating Supply (Including Locked): {tombCirculatingSupply} <br />
-                Total Supply: {tombTotalSupply}
-              </span>
             </CardContent>
           </Card>
         </Grid>
 
         {/* TSHARE */}
-        <Grid item xs={12} sm={3}>
-          <Card style={{ backgroundColor: "transparent", boxShadow: "none", border: "1px solid var(--white)" }}>
-            <CardContent align="center" style={{ position: 'relative' }}>
-              <h2>THEORY</h2>
-              {/* <Button
-                onClick={() => {
-                  tombFinance.watchAssetInMetamask('TSHARE');
-                }}
-                color="secondary"
-                variant="outlined"
-                style={{ position: 'absolute', top: '10px', right: '10px', borderColor: "var(--accent-light)" }}
-              >
-                +&nbsp;
-                <img alt="metamask fox" style={{ width: '20px' }} src={MetamaskFox} />
-              </Button> */}
-              <Box mt={2}>
+        <Grid item xs={12} md={4}>
+          <Card className="boxed">
+            <CardContent align="center">
+              <Box style={{marginBottom: '20px'}}>
                 <CardIcon>
                   <TokenSymbol symbol="TSHARE" />
                 </CardIcon>
               </Box>
-              Current Price
-              <Box>
-                <span style={{ fontSize: '30px' }}>{tSharePriceInFTM ? tSharePriceInFTM : '-.----'} DAI</span>
-              </Box>
-              <Box>
-                <span style={{ fontSize: '16px' }}>${tSharePriceInDollars ? tSharePriceInDollars : '-.--'}</span>
-              </Box>
-              <span style={{ fontSize: '12px' }}>
-                Market Cap (Including Locked): ${(tShareCirculatingSupply * tSharePriceInDollars).toFixed(2)} <br />
-                Circulating Supply (Including Locked): {tShareCirculatingSupply} <br />
-                Total Supply: {tShareTotalSupply}
-              </span>
+              <Typography variant="h3" component="h4" className="kallisto" style={{marginBottom: '20px'}}>THEORY</Typography>
+              <Typography variant="body1" component="p" className="textGlow">Current Price</Typography>
+              <Typography variant="h3" component="h4" style={{marginBottom: '20px', color: 'var(--extra-color-2)'}}>
+                  USD ${tSharePriceInDollars ? tSharePriceInDollars : '-.--'}
+              </Typography>
+              <Typography variant="body1" component="p" className="textGlow">Liquidity</Typography>
+              <Typography variant="h3" component="h4" style={{marginBottom: '20px', color: 'var(--extra-color-2)'}}>
+                  ${numberWithCommas(tshareLPStats?.totalLiquidity ? tshareLPStats.totalLiquidity : '-.--')}
+              </Typography>
+              <Typography variant="body1" component="p" className="textGlow">Circulating Supply</Typography>
+              <Typography variant="h3" component="h4" style={{marginBottom: '20px', color: 'var(--extra-color-2)'}}>
+                {numberWithCommas(tShareCirculatingSupply)}
+              </Typography>
+              <Typography variant="body1" component="p" className="textGlow">Total Supply</Typography>
+              <Typography variant="h3" component="h4" style={{marginBottom: '20px', color: 'var(--extra-color-2)'}}>
+                {numberWithCommas(tShareTotalSupply)}
+              </Typography>
+              <Button variant="contained" target="_blank" href="https://spookyswap.finance/swap?outputCurrency=0x60787C689ddc6edfc84FCC9E7d6BD21990793f06" className={classes.button}>
+                Buy THEORY
+              </Button>
             </CardContent>
           </Card>
         </Grid>
 
-        {/* HODL */}
-        <Grid item xs={12} sm={3}>
-          <Card style={{ backgroundColor: "transparent", boxShadow: "none", border: "1px solid var(--white)" }}>
-            <CardContent align="center" style={{ position: 'relative' }}>
-              <h2>HODL</h2>
-              {/* <Button
-                onClick={() => {
-                  tombFinance.watchAssetInMetamask('HODL');
-                }}
-                color="secondary"
-                variant="outlined"
-                style={{ position: 'absolute', top: '10px', right: '10px', borderColor: "var(--accent-light)" }}
-              >
-                +&nbsp;
-                <img alt="metamask fox" style={{ width: '20px' }} src={MetamaskFox} />
-              </Button> */}
-              <Box mt={2}>
+        {/* HODL
+        <Grid item xs={12} sm={4}>
+          <Card className="boxed">
+            <CardContent align="center">
+              <Box style={{marginBottom: '20px'}}>
                 <CardIcon>
                   <TokenSymbol symbol="HODL" />
                 </CardIcon>
               </Box>
-              Current Price
-              <Box>
-                <span style={{ fontSize: '30px' }}>{tBondPriceInFTM ? tBondPriceInFTM : '-.----'} DAI</span>
+              <Typography variant="h3" component="h4" style={{marginBottom: '20px'}}>HODL</Typography>
+              <Typography variant="body1" component="p" className="textGlow">Current Price</Typography>
+              <Typography variant="h3" component="h4" style={{marginBottom: '20px'}}>
+                  USD ${tBondPriceInDollars ? tBondPriceInDollars : '-.--'}
+              </Typography>
+              <Typography variant="body1" component="p" className="textGlow">Market Cap</Typography>
+              <Typography variant="h3" component="h4" style={{marginBottom: '20px'}}>
+                  ${numberWithCommas((tBondCirculatingSupply * tBondPriceInDollars))}
+              </Typography>
+              <Typography variant="body1" component="p" className="textGlow">Circulating Supply</Typography>
+              <Typography variant="h3" component="h4" style={{marginBottom: '20px'}}>
+                {numberWithCommas(tBondCirculatingSupply)}
+              </Typography>
+              <Typography variant="body1" component="p" className="textGlow">Total Supply</Typography>
+              <Typography variant="h3" component="h4" style={{marginBottom: '20px'}}>
+                {numberWithCommas(tBondTotalSupply)}
+              </Typography>
+              <Button variant="contained" href="/hodl" className={classes.button}>
+                Buy HODL
+              </Button>
+            </CardContent>
+          </Card>
+        </Grid>*/}
+      </Grid>
+
+        {/* Explanation text */}
+        <Grid container className="section" justifyContent="center" align="center" style={{paddingBottom: '0'}}>
+          <Grid item xs={12} sm={8}>
+            <Box>
+              <Typography variant="h2" className="textGlow pink" style={{marginBottom:'20px'}}>About Game Theory</Typography>
+              <Typography variant='body2'>Game Theory combines an innovative and highly profitable decentralised finance platform with a premium online gaming experience. On top of the opportunity to stake tokens to earn high yields, players will be able to play a variety of exciting blockchain games that unlock additional financial rewards and exclusive content.</Typography>
               </Box>
-              <Box>
-                <span style={{ fontSize: '16px' }}>${tBondPriceInDollars ? tBondPriceInDollars : '-.--'}</span>
+          </Grid>
+        </Grid>
+
+        <Grid container className="section" spacing={3} align="center" style={{paddingBottom: '0'}}>
+        <Grid item xs={12} style={{marginBottom: '40px'}}>
+          <Typography variant="h2" component="h1" className='textGlow pink' style={{marginBottom: '10px'}}>How To Play</Typography>
+          <Typography variant="h5" component="p" style={{fontWeight: '500'}}>Here is a strategy that new players can use to play GAME THEORY.</Typography>
+        </Grid>
+
+        <Grid item xs={12} sm={4}>
+          <Card className="boxed">
+            <CardContent align="center">
+              <Box className={classes.box} style={{marginBottom: '20px'}}>
+                <img src={numImg[1].default} />
               </Box>
-              <span style={{ fontSize: '12px' }}>
-                Market Cap: ${(tBondCirculatingSupply * tBondPriceInDollars).toFixed(2)} <br />
-                Circulating Supply: {tBondCirculatingSupply} <br />
-                Total Supply: {tBondTotalSupply}
-              </span>
+              <Typography variant="body2" component="p">Use DAI tokens to create GAME-DAI LP tokens and stake them to start earning daily THEORY token rewards</Typography>
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <Card style={{ backgroundColor: "transparent", boxShadow: "none", border: "1px solid var(--white)" }}>
+
+        <Grid item xs={12} sm={4}>
+          <Card className="boxed">
             <CardContent align="center">
-              <h2>GAME-DAI LP</h2>
-              <Box mt={2}>
-                <CardIcon>
-                  <TokenSymbol symbol="GAME-DAI-LP" />
-                </CardIcon>
+              <Box className={classes.box} style={{marginBottom: '20px'}}>
+                <img src={numImg[2].default} />
               </Box>
-              {/*
-              <Box mt={2}>
-                <Button color="primary" disabled={true} onClick={onPresentTombZap} variant="contained">
-                  Zap In
-                </Button>
-              </Box>*/}
-              <Box mt={2}>
-                <span style={{ fontSize: '26px' }}>
-                  {tombLPStats?.tokenAmount ? tombLPStats?.tokenAmount : '-.--'} GAME /{' '}
-                  {tombLPStats?.ftmAmount ? tombLPStats?.ftmAmount : '-.--'} DAI
-                </span>
-              </Box>
-              <Box>${tombLPStats?.priceOfOne ? tombLPStats.priceOfOne : '-.--'}</Box>
-              <span style={{ fontSize: '12px' }}>
-                Liquidity: ${tombLPStats?.totalLiquidity ? tombLPStats.totalLiquidity : '-.--'} <br />
-                Total supply: {tombLPStats?.totalSupply ? tombLPStats.totalSupply : '-.--'}
-              </span>
+              <Typography variant="body2" component="p">Claim your THEORY rewards and stake them in the 'Theoretics Pool' to earn more GAME tokens each 'round' (6 hours)</Typography>
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <Card style={{ backgroundColor: "transparent", boxShadow: "none", border: "1px solid var(--white)" }}>
+
+        <Grid item xs={12} sm={4}>
+          <Card className="boxed">
             <CardContent align="center">
-              <h2>THEORY-DAI LP</h2>
-              <Box mt={2}>
-                <CardIcon>
-                  <TokenSymbol symbol="THEORY-DAI-LP" />
-                </CardIcon>
+              <Box className={classes.box} style={{marginBottom: '20px'}}>
+                <img src={numImg[3].default} />
               </Box>
-              {/*<Box mt={2}>
-                <Button color="primary" onClick={onPresentTshareZap} variant="contained">
-                  Zap In
-                </Button>
-            </Box>*/}
-              <Box mt={2}>
-                <span style={{ fontSize: '26px' }}>
-                  {tshareLPStats?.tokenAmount ? tshareLPStats?.tokenAmount : '-.--'} THEORY /{' '}
-                  {tshareLPStats?.ftmAmount ? tshareLPStats?.ftmAmount : '-.--'} DAI
-                </span>
-              </Box>
-              <Box>${tshareLPStats?.priceOfOne ? tshareLPStats.priceOfOne : '-.--'}</Box>
-              <span style={{ fontSize: '12px' }}>
-                Liquidity: ${tshareLPStats?.totalLiquidity ? tshareLPStats.totalLiquidity : '-.--'}
-                <br />
-                Total supply: {tshareLPStats?.totalSupply ? tshareLPStats.totalSupply : '-.--'}
-              </span>
+              <Typography variant="body2" component="p">After the round ends, claim your GAME rewards and put 60% back in GAME-DAI, 30% in THEORY-DAI and keep 10% profit</Typography>
             </CardContent>
           </Card>
+        </Grid>
+        <Grid item xs={12} style={{marginTop: '40px'}}>
+          <Typography variant="body1" component="p" style={{color:'var(--accent)', marginBottom: '20px'}}>
+            <em>Game Theory does not offer financial advice. <strong>DO NOT INVEST MORE THAN YOU ARE WILLING TO LOSE</strong>. Do your own research before investing. Investing is risky and may result in monetary loss. By using Game Theory or any of its products, you agree that the Game Theory team is not responsible for any financial losses.</em>
+          </Typography>
         </Grid>
       </Grid>
+
+        <Grid container className="section" justifyContent="center" align="center">
+          <Grid item xs={12} sm={8}>
+            <Box>
+              <Typography variant="h2" className="textGlow pink" style={{marginBottom:'20px'}}>New to Crypto?</Typography>
+              <Typography variant='body2'>If you're just getting started with crypto or DeFi, please watch the video instructions below on how to buy and transfer tokens on an exchange, use the Metamask wallet and buy DAI tokens on the Fantom Opera blockchain.</Typography>
+            </Box>
+            <div className="wistia_responsive_padding" style={{padding:'56.25% 0 0 0', boxShadow: '0px 0px 10px 0px var(--extra-color-1)', position:'relative', marginTop: '50px', borderRadius: '20px'}}>
+              <div className="wistia_responsive_wrapper" style={{height: '100%', left: '0', position: 'absolute', top: '0', width: '100%'}}>
+                <iframe src="https://fast.wistia.net/embed/iframe/t5mwooeubw?videoFoam=true" title="Set Up Metamask wallet and buy Fantom Video" allow="autoplay; fullscreen" allowtransparency="true" frameBorder="0" scrolling="no" className="wistia_embed" name="wistia_embed" msallowfullscreen="true" width="100%" height="100%" style={{borderRadius: '20px'}}></iframe>
+              </div>
+            </div>
+          </Grid>
+        </Grid>
+
+
     </Page>
   );
 };

@@ -54,7 +54,6 @@ const Modals: React.FC = ({ children }) => {
 };
 
 const StyledModalWrapper = styled.div`
-  align-items: center;
   display: flex;
   justify-content: center;
   position: fixed;
@@ -62,10 +61,12 @@ const StyledModalWrapper = styled.div`
   right: 0;
   bottom: 0;
   left: 0;
+  z-index: 10;
 `;
 
 const StyledModalBackdrop = styled.div`
-  background-color: #00000088;
+  background-color: rgba(10,16,28,0.8);
+  backdrop-filter: blur(5px);
   position: absolute;
   top: 0;
   right: 0;

@@ -1,30 +1,35 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import clsx from 'clsx';
-import { Link } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
+
 import {
   AppBar,
   Box,
+  Grid,
   Drawer,
-  IconButton,
   Toolbar,
   Typography,
   useMediaQuery,
   List,
   ListItem,
   ListItemText,
-  Divider,
+  Container,
+  Button
 } from '@mui/material';
-import styled from "styled-components";
-
 
 import ListItemLink from '../ListItemLink';
 
-import { Menu as MenuIcon } from '@mui/icons-material';
-import { ChevronLeft as ChevronLeftIcon } from '@mui/icons-material';
-import { ChevronRight as ChevronRightIcon } from '@mui/icons-material';
+//import { Menu as MenuIcon } from '@mui/icons-material';
+import CloseIcon from '@mui/icons-material/Close';
+import MenuIcon from '../../assets/img/menu-icon.svg';
+import { ExpandMore as ChevronDownIcon } from '@mui/icons-material';
 import { makeStyles, useTheme } from '@mui/styles';
 import AccountButton from './AccountButton';
+import useTombStats from '../../hooks/useTombStats';
+import usetShareStats from '../../hooks/usetShareStats';
+import useBondStats from '../../hooks/useBondStats';
 
+import BackgroundImage from '../../assets/img/bg.jpg'
 
 const useStyles = makeStyles((theme : any) => ({
   '@global': {
@@ -32,59 +37,161 @@ const useStyles = makeStyles((theme : any) => ({
       margin: 0,
       padding: 0,
       listStyle: 'none',
-    },
+      '& a': {
+        '&:hover': {
+          textDecoration: 'none',
+          color: 'var(--extra-color-1)',
+          textShadow: '0px 0px 20px var(--extra-color-1)'
+        },
+        '&.active:not(.about)': {
+          textDecoration: 'none',
+          color: 'var(--extra-color-1)',
+          textShadow: '0px 0px 20px var(--extra-color-1)'
+        }
+      }
+    }
   },
   appBar: {
-    color: 'var(--white)',
-    'background-color': '#ff494922',
-    'backdrop-filter': "blur(2px)",
-    // borderBottom: `1px solid ${theme.palette.divider}`,
-    padding: '0 10px',
-    marginBottom: '3rem',
+    fontFamily: '"kallisto", sans-serif',
+    color: '#fff',
+    'background-color': 'transparent',
+    position: 'relative',
+    zIndex: '10'
+  },
+  secondBar: {
+    borderTop: '1px solid rgba(255,255,255,.1)',
+    paddingTop: '15px'
   },
   drawer: {
     width: 240,
     flexShrink: 0,
+    fontFamily: '"kallisto", sans-serif',
   },
   drawerPaper: {
     width: 240,
+    backgroundColor: '#0A142A',
   },
   hide: {
     display: 'none',
   },
   toolbar: {
     flexWrap: 'wrap',
-  },
-  toolbarTitle: {
-    fontFamily: '"Gilroy"',
-    fontSize: '30px',
-    flexGrow: 1,
+    justifyContent: 'space-between'
   },
   link: {
-    textTransform: 'uppercase',
-    color: 'var(--white)',
-    fontSize: '14px',
-    margin: theme.spacing(1, 2),
+    color: '#fff',
+    margin: '0 15px',
+    fontWeight: '700',
     textDecoration: 'none',
     '&:hover': {
       textDecoration: 'none',
+      color: 'var(--extra-color-1)',
+      textShadow: '0px 0px 20px var(--extra-color-1)'
     },
+    '&.active:not(.about)': {
+      textDecoration: 'none',
+      color: 'var(--extra-color-1)',
+      textShadow: '0px 0px 20px var(--extra-color-1)'
+    }
   },
   brandLink: {
+    textTransform: 'uppercase',
+    fontFamily: '"kallisto", sans-serif',
+    fontWeight: '500',
     textDecoration: 'none',
     color: 'var(--white)',
+    textShadow: '0px 0px 10px #fff',
+    overflow: 'initial',
     '&:hover': {
       textDecoration: 'none',
-    },
+    }
   },
+  dropdownContent: {
+    display: 'none',
+    position: 'absolute',
+    top: '100%',
+    left: theme.spacing(2),
+    paddingTop: theme.spacing(2),
+    zIndex: 10,
+  },
+  dropdownInner: {
+    minWidth: '170px',
+    padding: theme.spacing(2),
+    backgroundColor: '#0A101C',
+    color: '#fff'
+  },
+  dropdownButton: {
+    display: 'inline',
+    position: 'relative',
+    cursor: 'pointer',
+    '&:before': {
+      content: '""',
+    },
+    '&.open': {
+      '& $link': {
+        textDecoration: 'none',
+        color: 'var(--extra-color-1)',
+        textShadow: '0px 0px 20px var(--extra-color-1)',
+      },
+      '& $dropdownContent': {
+        display: 'block'
+      },
+      '& $dropdownChevron': {
+        transform: 'rotate(180deg)'
+      }
+    }
+  },
+  dropdownLink: {
+    display: 'block',
+    marginBottom: theme.spacing(2),
+    color: '#fff',
+    fontWeight: '700',
+    textDecoration: 'none',
+    '&:last-child': {
+      marginBottom: 0
+    },
+    '&:hover': {
+      textDecoration: 'none',
+      color: 'var(--extra-color-1)',
+      textShadow: '0px 0px 20px var(--extra-color-1)'
+    },
+    '&.active:not(.about)': {
+      textDecoration: 'none',
+      color: 'var(--extra-color-1)',
+      textShadow: '0px 0px 20px var(--extra-color-1)'
+    }
+  },
+  dropdownChevron: {
+    position: 'relative',
+    top: '-2px',
+    display: 'inline',
+    verticalAlign: 'middle'
+  },
+  button: {
+    fontSize: '14px',
+    '& span': {
+      marginLeft: '10px',
+    },
+    '@media (max-width: 767px)': {
+      '& span': {
+        display: 'none',
+      },
+      padding: '10px 0',
+    }
+  }
+
 }));
 
 const Nav = () => {
-  const matches = useMediaQuery('(min-width:900px)');
+  const matches = useMediaQuery('(min-width:767px)');
   const theme = useTheme() as any;
   const classes = useStyles(theme);
   const [open, setOpen] = React.useState(false);
   const [isOpen, setIsOpen] = React.useState(false);
+  const tombStats = useTombStats();
+  const tShareStats = usetShareStats();
+  const tBondStats = useBondStats();
+  const location = useLocation();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -94,92 +201,103 @@ const Nav = () => {
     setOpen(false);
   };
 
+  // create dropdown hover effect
+  const handleMouseEnter = () => {
+    setIsOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsOpen(false);
+  };
+
+  const tombPriceInDollars = useMemo(
+    () => (tombStats ? Number(tombStats.priceInDollars).toFixed(2) : null),
+    [tombStats],
+  );
+
+  const tSharePriceInDollars = useMemo(
+    () => (tShareStats ? Number(tShareStats.priceInDollars).toFixed(2) : null),
+    [tShareStats],
+  );
+
+  const tBondPriceInDollars = useMemo(
+    () => (tBondStats ? Number(tBondStats.priceInDollars).toFixed(2) : null),
+    [tBondStats],
+  );
+
   return (
+    <>
     <AppBar position="static" elevation={0} className={classes.appBar}>
+      <Container maxWidth="lg">
       <Toolbar className={classes.toolbar}>
         {matches ? (
           <>
-            <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
+            <Typography variant="h5" color="inherit" noWrap>
               {/* <a className={ classes.brandLink } href="/">2omb Finance</a> */}
-              <Link to="/" color="inherit" className={classes.brandLink}>
+              <NavLink to="/" color="inherit" className={classes.brandLink}>
                 Game Theory
-              </Link>
+              </NavLink>
             </Typography>
-            <Box mr={5}>
-              <Link color="color" to="/" className={classes.link}>
+            <Box>
+              <NavLink exact activeClassName="active" color="color" to="/" className={classes.link}>
                 Home
-              </Link>
-              <Link color="textPrimary" to="/farms" className={classes.link}>
-                Farms
-              </Link>
-              <Link color="textPrimary" to="/theoretics" className={classes.link}>
-                Theoretics
-              </Link>
-              <Link color="textPrimary" to="/nfts" className={classes.link}>
+              </NavLink>
+              <NavLink activeClassName="active" color="textPrimary" to="/farms" className={classes.link}>
+                Staking Pools
+              </NavLink>
+              <NavLink activeClassName="active" color="textPrimary" to="/nfts" className={classes.link}>
                 NFTs
-              </Link>
-              <Link color="textPrimary" to="/dungeon" className={classes.link}>
-                Dungeon
-              </Link>
-              <Link color="textPrimary" to="/bonds" className={classes.link}>
-                Bonds
-              </Link>
-              <a href="https://ftmscan.com/address/0x90dED1c9c35f06b7239429939832f7Ab896D0E06" target="_blank" className={classes.link}>
-                Treasury 1
-              </a>
-              <a href="https://ftmscan.com/address/0x113Ca1D5c26d1a2D5a08fF21B2E7ECD42b7b082B" target="_blank" className={classes.link}>
-                Treasury 2
-              </a>
-              <a href="https://ftmscan.com/address/0x29a92c81795d589b32e98fd119568e738ae5952b" target="_blank" className={classes.link}>
-                Dev Fund
-              </a>
-              {/* <Link color="textPrimary" to="/treasury" className={classes.link}>
-                Treasury
-              </Link>
-              <a href="/" target="_blank" className={classes.link}>
-                Vaults
-              </a> */}
-              {/* <Link color="textPrimary" to="/sbs" className={classes.link}>
-                SBS
-              </Link>
-              <Link color="textPrimary" to="/liquidity" className={classes.link}>
-                Liquidity
-              </Link>
-              <Link color="textPrimary" to="/regulations" className={classes.link}>
-                Regulations
-              </Link> */}
-              {/*<a href="https://beluga.fi" target="_blank" className={classes.link}>*/}
-              {/*  Vaults*/}
-              {/*</a>*/}
-              {/*<a href="https://snapshot.org/#/forgiving.forg.eth" target="_blank" className={classes.link}>*/}
-              {/*  Governance*/}
-              {/*</a>*/}
-              <a href="https://docs.gametheory.tech" target="_blank" className={classes.link}>
-                Docs
-              </a>
-              <Link color="textPrimary" to="/faq" className={classes.link}>
-                FAQ
-              </Link>
-              {/*<a href="https://2omb.finance" target="_blank" className={classes.link}>*/}
-              {/*  2omb*/}
-              {/*</a>*/}
+              </NavLink>
+              <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} style={{display: "inline"}} className={`${classes.dropdownButton} ${isOpen ? 'open' : ''}`}>
+                <a className={classes.link}>
+                  More
+                  <ChevronDownIcon className={classes.dropdownChevron} />
+                </a>
+                <div className={`${classes.dropdownContent}`}>
+                  <div className={classes.dropdownInner}>
+                    <a href="https://docs.gametheory.tech" target="_blank" className={classes.dropdownLink}>
+                      Documentation
+                    </a>
+                    <a href="https://dexscreener.com/fantom/0x168e509FE5aae456cDcAC39bEb6Fd56B6cb8912e" target="_blank" className={classes.dropdownLink}>
+                      GAME Chart
+                    </a>
+                    <a href="https://dexscreener.com/fantom/0xF69FCB51A13D4Ca8A58d5a8D964e7ae5d9Ca8594" target="_blank" className={classes.dropdownLink}>
+                      THEORY Chart
+                    </a>
+                    <NavLink color="textPrimary" to="/about" className={classes.dropdownLink}>
+                      About Game Theory
+                    </NavLink>
+                    <NavLink exact color="textPrimary" to="/about#community" className={`about ${classes.dropdownLink}`}>
+                      Community
+                    </NavLink>
+                    <NavLink exact color="textPrimary" to="/about#walletAddresses" className={`about ${classes.dropdownLink}`}>
+                      Wallet Addresses
+                    </NavLink>
+                  </div>
+                </div>
+              </div>
+              
             </Box>
             <AccountButton text="Connect" />
           </>
         ) : (
           <>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
+            <Button
+              variant="contained"
               onClick={handleDrawerOpen}
-              edge="start"
-              className={clsx(open && classes.hide)}
+              className={`${clsx(open)}` + ' ' + classes.button}
+              style={{height: '44px'}}
             >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" noWrap>
-              Game Theory
+              <img src={MenuIcon} style={{height: '18px'}} />
+            </Button>
+
+            <Typography variant="h5" color="inherit" noWrap>
+              <NavLink to="/" color="inherit" className={classes.brandLink}>
+                Game Theory
+              </NavLink>
             </Typography>
+
+            <AccountButton text="Connect" />
 
             <Drawer
               className={classes.drawer}
@@ -191,53 +309,68 @@ const Nav = () => {
                 paper: classes.drawerPaper,
               }}
             >
-              <div>
-                <IconButton onClick={handleDrawerClose}>
-                  {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                </IconButton>
+              <div style={{paddingLeft: '10px',paddingRight: '10px', paddingTop: '10px'}}>
+                <CloseIcon onClick={handleDrawerClose} className="textGlow pink" style={{cursor: 'pointer', fontSize: '35px'}} />
               </div>
-              <Divider />
               <List>
                 <ListItemLink primary="Home" to="/" />
-                <ListItemLink primary="Farms" to="/farms" />
-                <ListItemLink primary="Theoretics" to="/theoretics" />
+                <ListItemLink primary="Staking Pools" to="/farms" />
                 <ListItemLink primary="NFTs" to="/nfts" />
-                <ListItemLink primary="Dungeon" to="/dungeon" />
-                <ListItemLink primary="Bonds" to="/bonds" />
-                {/*<ListItemLink primary="Treasury" to="/treasury" />*/}
-                {/* <ListItemLink primary="Masonry" to="/masonry" />
-                <ListItemLink primary="Pit" to="/pit" />
-                <ListItemLink primary="SBS" to="/sbs" />
-                <ListItemLink primary="Liquidity" to="/liquidity" />
-                <ListItemLink primary="Regulations" to="/regulations" /> */}
-                <ListItem button component="a" href="https://ftmscan.com/address/0x90dED1c9c35f06b7239429939832f7Ab896D0E06">
-                  <ListItemText>Treasury 1</ListItemText>
-                </ListItem>
-                <ListItem button component="a" href="https://ftmscan.com/address/0x113Ca1D5c26d1a2D5a08fF21B2E7ECD42b7b082B">
-                  <ListItemText>Treasury 2</ListItemText>
-                </ListItem>
-                <ListItem button component="a" href="https://ftmscan.com/address/0x29a92c81795d589b32e98fd119568e738ae5952b">
-                  <ListItemText>Dev Fund</ListItemText>
-                </ListItem>
-                {/*<ListItem button component="a" href="https://snapshot.org/#/forgiving.forg.eth">*/}
-                {/*  <ListItemText>Governance</ListItemText>*/}
-                {/*</ListItem>*/}
                 <ListItem button component="a" href="https://docs.gametheory.tech">
-                  <ListItemText>Docs</ListItemText>
+                  <ListItemText>Documentation</ListItemText>
                 </ListItem>
-                <ListItemLink primary="FAQ" to="/faq" />
-                {/*<ListItem button component="a" href="https://2omb.finance">*/}
-                {/*  <ListItemText>2omb</ListItemText>*/}
-                {/*</ListItem>*/}
-                <ListItem style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <AccountButton text="Connect" />
+                <ListItem button component="a" href="https://dexscreener.com/fantom/0x168e509FE5aae456cDcAC39bEb6Fd56B6cb8912e">
+                  <ListItemText>GAME Chart</ListItemText>
                 </ListItem>
+                <ListItem button component="a" href="https://dexscreener.com/fantom/0xF69FCB51A13D4Ca8A58d5a8D964e7ae5d9Ca8594">
+                  <ListItemText>THEORY Chart</ListItemText>
+                </ListItem>
+                <ListItemLink primary="About Game Theory" to="/about" />
+                <ListItemLink primary="Community" to="/about#community" classname="about" />
+                <ListItemLink primary="Wallet Addresses" to="/about#walletAddresses" classname="about" />
               </List>
             </Drawer>
           </>
         )}
       </Toolbar>
+      {location.pathname !== '/' && (
+      <Toolbar className={classes.secondBar} style={{minHeight: '0', textAlign: 'center'}}>
+        <Grid container columnSpacing={4} justifyContent="center">
+          
+          <Grid item xs={'auto'}>
+            <a href="https://spookyswap.finance/swap?outputCurrency=0x56EbFC2F3873853d799C155AF9bE9Cb8506b7817" target="_blank" style={{textDecoration: 'none', fontWeight: '700'}}>
+              <span className="textGlow">GAME</span>
+              <Typography variant="body1" color="var(--white)">
+                ${tombPriceInDollars ? tombPriceInDollars : '-.--'}
+              </Typography>
+            </a>
+          </Grid>
+
+          <Grid item xs={'auto'}>
+            <a href="https://spookyswap.finance/swap?outputCurrency=0x60787C689ddc6edfc84FCC9E7d6BD21990793f06" target="_blank" style={{textDecoration: 'none', fontWeight: '700'}}>
+              <span className="textGlow">THEORY</span>
+              <Typography variant="body1" color="var(--white)">
+                ${tSharePriceInDollars ? tSharePriceInDollars : '-.--'}
+              </Typography>
+            </a>
+          </Grid>
+
+          <Grid item xs={'auto'}>
+            <NavLink to="/bonds" style={{textDecoration: 'none', fontWeight: '700'}}>
+              <span className="textGlow">HODL</span>
+              <Typography variant="body1" color="var(--white)">
+                ${tBondPriceInDollars ? tBondPriceInDollars : '-.--'}
+              </Typography>
+            </NavLink>
+          </Grid>
+
+        </Grid>
+      </Toolbar>
+      )}
+      </Container>
     </AppBar>
+    <div className="image-bg" style={{backgroundImage: "url("+BackgroundImage+")"}} ></div>
+    </>
   );
 };
 

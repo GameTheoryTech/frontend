@@ -1,10 +1,8 @@
 import React, { useCallback, useMemo, useState } from 'react';
 
 import { Button } from '@mui/material';
-// import Button from '../../../components/Button'
 import Modal, { ModalProps } from '../../../components/Modal';
 import ModalActions from '../../../components/ModalActions';
-import ModalTitle from '../../../components/ModalTitle';
 import TokenInput from '../../../components/TokenInput';
 
 import { getFullDisplayBalance } from '../../../utils/formatBalance';
@@ -35,8 +33,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ max, onConfirm, onDismiss, 
   }, [fullBalance, setVal]);
 
   return (
-    <Modal>
-      <ModalTitle text={`Deposit ${tokenName}`} />
+    <Modal text={`Deposit ${tokenName}`} onDismiss={onDismiss}>
       <TokenInput
         value={val}
         onSelectMax={handleSelectMax}

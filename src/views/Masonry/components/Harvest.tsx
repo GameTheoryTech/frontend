@@ -18,9 +18,10 @@ import { getDisplayBalance } from '../../../utils/formatBalance';
 export interface HarvestProps
 {
   rewardsLocked : number
+  classname: string
 }
 
-const Harvest: React.FC<HarvestProps> = ({rewardsLocked}) => {
+const Harvest: React.FC<HarvestProps> = ({rewardsLocked, classname}) => {
   const tombStats = useTombStats();
   const { onReward } = useHarvestFromMasonry();
   const earnings = useEarningsOnMasonry();
@@ -35,39 +36,56 @@ const Harvest: React.FC<HarvestProps> = ({rewardsLocked}) => {
 
   const { from, to } = useClaimRewardTimerMasonry();
 
+  classname = classname || '';
 
   return (
-    <Box>
-      <Card>
+    <>
+      <Card className={classname}>
         <CardContent>
-          <StyledCardContentInner>
-            <StyledCardHeader>
-              <CardIcon>
-                <TokenSymbol symbol="TOMB" />
-              </CardIcon>
-              <Value value={getDisplayBalance(earnings)} />
-              <Label text={`≈ $${earnedInDollars}`} color="#89cff0" />
-              <Label text="Total Earned" />
-              <br/>
-              <Value value={`${(Number(getDisplayBalance(earnings)) * (100.0-rewardsLocked) / 100.0).toFixed(4)}`} />
-              <Label text={`≈ $${(Number(earnedInDollars) * (100.0-rewardsLocked) / 100.0).toFixed(2)}`} color="#89cff0" />
-              <Label text="GAME Earned" />
-              <br/>
-              <Value value={`${(Number(getDisplayBalance(earnings)) * rewardsLocked / 100.0).toFixed(4)}`} />
-              <Label text={`≈ $${(Number(earnedInDollars) * rewardsLocked / 100.0).toFixed(2)}`} color="#89cff0" />
-              <Label text="LGAME Earned" />
-            </StyledCardHeader>
-            <StyledCardActions>
-              <Button
-                onClick={onReward}
-                color="primary"
-                variant="contained"
-                disabled={earnings.eq(0) || !canClaimReward}
-              >
-                Claim Reward
-              </Button>
-            </StyledCardActions>
-          </StyledCardContentInner>
+          <Box style={{marginBottom: '20px'}}>
+            <CardIcon>
+              <TokenSymbol symbol="TOMB" />
+            </CardIcon>
+          </Box>
+
+          <Typography variant="h4">
+            <Value value={getDisplayBalance(earnings)} />
+          </Typography>
+          <Typography variant="h4" component="p" color="var(--extra-color-2)">
+            ${earnedInDollars}
+          </Typography>
+          <Typography variant="body1" component="p" className="textGlow" style={{marginBottom: '20px'}}>
+            Total Earned
+          </Typography>
+
+          <Typography variant="h4">
+            <Value value={`${(Number(getDisplayBalance(earnings)) * (100.0-rewardsLocked) / 100.0).toFixed(4)}`} />
+          </Typography>
+          <Typography variant="h4" component="p" color="var(--extra-color-2)">
+            ${(Number(earnedInDollars) * (100.0-rewardsLocked) / 100.0).toFixed(2)}
+          </Typography>
+          <Typography variant="body1" component="p" className="textGlow" style={{marginBottom: '20px'}}>
+            GAME Earned
+          </Typography>
+          
+          <Typography variant="h4">
+            <Value value={`${(Number(getDisplayBalance(earnings)) * rewardsLocked / 100.0).toFixed(4)}`} />
+          </Typography>
+          <Typography variant="h4" component="p" color="var(--extra-color-2)">
+            ${(Number(earnedInDollars) * rewardsLocked / 100.0).toFixed(2)}
+          </Typography>
+          <Typography variant="body1" component="p" className="textGlow" style={{marginBottom: '20px'}}>
+            LGAME Earned
+          </Typography>
+          <Box className="buttonWrap">
+            <Button
+              onClick={onReward}
+              variant="contained"
+              disabled={earnings.eq(0) || !canClaimReward}
+            >
+              Claim Rewards
+            </Button>
+          </Box>
         </CardContent>
       </Card>
       <Box mt={2} style={{ color: '#FFF' }}>
@@ -82,28 +100,8 @@ const Harvest: React.FC<HarvestProps> = ({rewardsLocked}) => {
           </Card>
         )}
       </Box>
-    </Box>
+    </>
   );
 };
-
-const StyledCardHeader = styled.div`
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-`;
-const StyledCardActions = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: ${(props) => props.theme.spacing[6]}px;
-  width: 100%;
-`;
-
-const StyledCardContentInner = styled.div`
-  align-items: center;
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: space-between;
-`;
 
 export default Harvest;
