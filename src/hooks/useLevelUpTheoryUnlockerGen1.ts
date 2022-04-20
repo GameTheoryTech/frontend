@@ -10,7 +10,7 @@ const useLevelUpTheoryUnlockerGen1 = () => {
   const handleLevelUp = useCallback(
     (tokenId: BigNumber | number) => {
       handleTransactionReceipt(
-        tombFinance.levelUpTheoryUnlockerGen1(tokenId),
+        tombFinance?.levelUpTheoryUnlockerGen1(tokenId),
         `Level up Gen 1 NFT ${tokenId}.`,
       );
     },

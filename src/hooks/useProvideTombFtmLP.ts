@@ -11,7 +11,7 @@ const useProvideTombFtmLP = () => {
     (ftmAmount: string, tombAmount: string) => {
       const tombAmountBn = parseUnits(tombAmount);
       // handleTransactionReceipt(
-      //   tombFinance.provideTombFtmLP(ftmAmount, tombAmountBn),
+      //   tombFinance?.provideTombFtmLP(ftmAmount, tombAmountBn),
       //   `Provide Tomb-FTM LP ${tombAmount} ${ftmAmount}`,
       // );
     },

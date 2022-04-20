@@ -49,13 +49,13 @@ const Stake: React.FC<StakeProps> = ({withdrawPercentage, classname}) => {
   const classes = useStyles();
 
   const tombFinance = useTombFinance();
-  const [approveStatus, approve] = useApprove(tombFinance.TSHARE, tombFinance.contracts.Theoretics.address);
+  const [approveStatus, approve] = useApprove(tombFinance?.TSHARE, tombFinance?.contracts.Theoretics.address);
 
-  const tokenBalance = useTokenBalance(tombFinance.TSHARE);
+  const tokenBalance = useTokenBalance(tombFinance?.TSHARE);
   const stakedBalance = useStakedBalanceOnMasonry();
   const { from, to } = useUnstakeTimerMasonry();
 
-  const stakedTokenPriceInDollars = useStakedTokenPriceInDollars('THEORY', tombFinance.TSHARE);
+  const stakedTokenPriceInDollars = useStakedTokenPriceInDollars('THEORY', tombFinance?.TSHARE);
   const tokenPriceInDollars = useMemo(
     () =>
       stakedTokenPriceInDollars

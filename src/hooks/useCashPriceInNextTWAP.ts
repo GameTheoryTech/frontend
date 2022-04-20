@@ -11,7 +11,7 @@ const useCashPriceInNextTWAP = () => {
   useEffect(() => {
     async function fetchCashPrice() {
       try {
-        setStat(await tombFinance.getTombStatInNextTWAP());
+        setStat(await tombFinance?.getTombStatInNextTWAP());
       }catch(err) {
         console.error(err);
       }

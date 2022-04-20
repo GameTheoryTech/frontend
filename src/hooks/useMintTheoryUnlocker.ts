@@ -8,7 +8,7 @@ const useMintTheoryUnlocker = () => {
 
   const handleMint = useCallback(
     (amount: string) => {
-      handleTransactionReceipt(tombFinance.mintTheoryUnlocker(amount), `Mint level ${amount} Theory Unlocker.`);
+      handleTransactionReceipt(tombFinance?.mintTheoryUnlocker(amount), `Mint level ${amount} Theory Unlocker.`);
     },
     [tombFinance, handleTransactionReceipt],
   );

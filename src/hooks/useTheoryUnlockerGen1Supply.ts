@@ -12,7 +12,7 @@ const useSupplyGen1 = (level : BigNumberish) => {
   useEffect(() => {
     async function getSupply() {
       try {
-        setSupply(await tombFinance.getTheoryUnlockerGen1Supply(level));
+        setSupply(await tombFinance?.getTheoryUnlockerGen1Supply(level));
       } catch (err) {
         console.error(err);
       }

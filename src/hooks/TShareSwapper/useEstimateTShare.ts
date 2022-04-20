@@ -11,7 +11,7 @@ const useEstimateTShare = (tbondAmount: string) => {
 
   const estimateAmountOfTShare = useCallback(async () => {
     const tbondAmountBn = parseUnits(tbondAmount);
-    const amount = await tombFinance.estimateAmountOfTShare(tbondAmountBn.toString());
+    const amount = await tombFinance?.estimateAmountOfTShare(tbondAmountBn.toString());
     setEstimateAmount(amount);
   }, [account]);
 

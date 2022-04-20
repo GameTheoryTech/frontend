@@ -11,7 +11,7 @@ const useStakedBalance = (poolName: ContractName, poolId: Number) => {
   const isUnlocked = tombFinance?.isUnlocked;
 
   const fetchBalance = useCallback(async () => {
-    const balance = await tombFinance.stakedBalanceOnBank(poolName, poolId, tombFinance.myAccount);
+    const balance = await tombFinance?.stakedBalanceOnBank(poolName, poolId, tombFinance?.myAccount);
     setBalance(balance);
   }, [poolName, poolId, tombFinance]);
 

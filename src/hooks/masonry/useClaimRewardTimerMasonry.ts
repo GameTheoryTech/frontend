@@ -11,7 +11,7 @@ const useClaimRewardTimerMasonry = () => {
 
   useEffect(() => {
     if (tombFinance) {
-      tombFinance.getUserClaimRewardTime().then(setTime);
+      tombFinance?.getUserClaimRewardTime().then(setTime);
     }
   }, [tombFinance]);
   return time;

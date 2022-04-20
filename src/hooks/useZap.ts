@@ -10,7 +10,7 @@ const useZap = (bank: Bank) => {
   const handleZap = useCallback(
     (zappingToken: string, tokenName: string, amount: string) => {
       handleTransactionReceipt(
-        tombFinance.zapIn(zappingToken, tokenName, amount),
+        tombFinance?.zapIn(zappingToken, tokenName, amount),
         `Zap ${amount} in ${bank.depositTokenName}.`,
       );
     },

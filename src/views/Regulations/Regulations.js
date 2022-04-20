@@ -53,7 +53,7 @@ const Regulations = () => {
   }
   useEffect(() => {
     if (tombFinance) {
-      const thisData = tombFinance.listenForRegulationsEvents();
+      const thisData = tombFinance?.listenForRegulationsEvents();
       thisData.then((elements) => {
         setRows(
           elements

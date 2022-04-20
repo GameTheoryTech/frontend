@@ -8,7 +8,7 @@ const useCashPriceInLastTWAP = () => {
   const tombFinance = useTombFinance();
 
   const fetchCashPrice = useCallback(async () => {
-    setPrice(await tombFinance.getTombPriceInLastTWAP());
+    setPrice(await tombFinance?.getTombPriceInLastTWAP());
   }, [tombFinance]);
 
   useEffect(() => {

@@ -9,8 +9,8 @@ const useGameLocked = () => {
   const isUnlocked = tombFinance?.isUnlocked;
 
   const fetchBalance = useCallback(async () => {
-    setBalance(await tombFinance.lockOfGame(tombFinance.myAccount));
-  }, [tombFinance.myAccount]);
+    setBalance(await tombFinance?.lockOfGame(tombFinance?.myAccount));
+  }, [tombFinance?.myAccount]);
 
   useEffect(() => {
     if (isUnlocked) {

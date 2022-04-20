@@ -8,7 +8,7 @@ const useRedeem = (bank: Bank) => {
   const handleTransactionReceipt = useHandleTransactionReceipt();
 
   const handleRedeem = useCallback(() => {
-    handleTransactionReceipt(tombFinance.exit(bank.contract, bank.poolId), `Redeem ${bank.contract}`);
+    handleTransactionReceipt(tombFinance?.exit(bank.contract, bank.poolId), `Redeem ${bank.contract}`);
   }, [bank, tombFinance, handleTransactionReceipt]);
 
   return { onRedeem: handleRedeem };

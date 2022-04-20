@@ -8,7 +8,7 @@ const useMergeTheoryUnlocker = () => {
 
   const handleMerge = useCallback(
     (tokenId1: string, tokenId2: string) => {
-      handleTransactionReceipt(tombFinance.mergeTheoryUnlocker(tokenId1, tokenId2), `Merge Theory Unlocker ${tokenId1} with Theory Unlocker ${tokenId2}.`);
+      handleTransactionReceipt(tombFinance?.mergeTheoryUnlocker(tokenId1, tokenId2), `Merge Theory Unlocker ${tokenId1} with Theory Unlocker ${tokenId2}.`);
     },
     [tombFinance, handleTransactionReceipt],
   );

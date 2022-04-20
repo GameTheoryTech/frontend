@@ -13,19 +13,19 @@ const useFetchTheoryUnlockersGen1 = () => {
   const fetchTheoryUnlockers = useCallback(async () => {
     let unlockers : Array<any> = [];
     if(!tombFinance?.isUnlocked) return unlockers;
-    const len = (await tombFinance.getTheoryUnlockerGen1OwnerSupply(tombFinance.myAccount)).toNumber();
+    const len = (await tombFinance?.getTheoryUnlockerGen1OwnerSupply(tombFinance?.myAccount)).toNumber();
     for(let i = 0; i < len; ++i) {
-      const tokenId = await tombFinance.getTheoryUnlockerGen1AtOwnerIndex(tombFinance.myAccount, i);
-      const tokenUri = (await tombFinance.getTheoryUnlockerGen1TokenUri(tokenId)).replace("ipfs://", "https://ipfs.io/ipfs/");
+      const tokenId = await tombFinance?.getTheoryUnlockerGen1AtOwnerIndex(tombFinance?.myAccount, i);
+      const tokenUri = (await tombFinance?.getTheoryUnlockerGen1TokenUri(tokenId)).replace("ipfs://", "https://ipfs.io/ipfs/");
         const json = (await axios(tokenUri, {timeout: 30000})).data;
       json.token_id = tokenId;
       json.image = json.image.replace("ipfs://", "https://ipfs.io/ipfs/");
       json.animation_url = json.animation_url.replace("ipfs://", "https://ipfs.io/ipfs/");
-      json.level = await tombFinance.getTheoryUnlockerGen1Level(tokenId);
-      json.unlockAmount = await tombFinance.getTheoryUnlockerGen1UnlockAmount(tombFinance.myAccount, tokenId);
-      json.timeLeftToLevel = await tombFinance.getTheoryUnlockerGen1TimeLeftToLevel(tokenId);
-      json.cost = await tombFinance.getTheoryUnlockerGen1LevelUpCost(json.level);
-      json.merged = await tombFinance.getTheoryUnlockerGen1Merged(json.level);
+      json.level = await tombFinance?.getTheoryUnlockerGen1Level(tokenId);
+      json.unlockAmount = await tombFinance?.getTheoryUnlockerGen1UnlockAmount(tombFinance?.myAccount, tokenId);
+      json.timeLeftToLevel = await tombFinance?.getTheoryUnlockerGen1TimeLeftToLevel(tokenId);
+      json.cost = await tombFinance?.getTheoryUnlockerGen1LevelUpCost(json.level);
+      json.merged = await tombFinance?.getTheoryUnlockerGen1Merged(json.level);
       unlockers.push(json);
     }
     setTheoryUnlockers(unlockers);

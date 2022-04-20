@@ -52,7 +52,7 @@ const Pit: React.FC = () => {
 
   const handleBuyBonds = useCallback(
     async (amount: string) => {
-      const tx = await tombFinance.buyBonds(amount);
+      const tx = await tombFinance?.buyBonds(amount);
       addTransaction(tx, {
         summary: `Buy ${Number(amount).toFixed(2)} HODL with ${amount} TOMB`,
       });
@@ -62,7 +62,7 @@ const Pit: React.FC = () => {
 
   const handleRedeemBonds = useCallback(
     async (amount: string) => {
-      const tx = await tombFinance.redeemBonds(amount);
+      const tx = await tombFinance?.redeemBonds(amount);
       addTransaction(tx, { summary: `Redeem ${amount} HODL` });
     },
     [tombFinance, addTransaction],
@@ -112,9 +112,9 @@ const Pit: React.FC = () => {
 
                 <ExchangeCard
                   action="Purchase"
-                  fromToken={tombFinance.TOMB}
+                  fromToken={tombFinance?.TOMB}
                   fromTokenName="GAME"
-                  toToken={tombFinance.HODL}
+                  toToken={tombFinance?.HODL}
                   toTokenName="HODL"
                   priceDesc={
                     !isBondPurchasable
@@ -131,9 +131,9 @@ const Pit: React.FC = () => {
 
                 <ExchangeCard
                   action="Redeem"
-                  fromToken={tombFinance.HODL}
+                  fromToken={tombFinance?.HODL}
                   fromTokenName="HODL"
-                  toToken={tombFinance.TOMB}
+                  toToken={tombFinance?.TOMB}
                   toTokenName="GAME"
                   priceDesc={hodlPrice}
                   onExchange={handleRedeemBonds}

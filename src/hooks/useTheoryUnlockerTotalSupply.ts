@@ -12,7 +12,7 @@ const useTotalSupply = () => {
   useEffect(() => {
     async function getTotalSupply() {
       try {
-        setTotalSupply(await tombFinance.getTheoryUnlockerTotalSupply());
+        setTotalSupply(await tombFinance?.getTheoryUnlockerTotalSupply());
       } catch (err) {
         console.error(err);
       }

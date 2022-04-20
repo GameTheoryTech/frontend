@@ -10,7 +10,7 @@ const useStatsForPool = (bank: Bank) => {
   const [poolAPRs, setPoolAPRs] = useState<PoolStats>();
 
   const fetchAPRsForPool = useCallback(async () => {
-    setPoolAPRs(await tombFinance.getPoolAPRs(bank));
+    setPoolAPRs(await tombFinance?.getPoolAPRs(bank));
   }, [tombFinance, bank]);
 
   useEffect(() => {

@@ -13,7 +13,7 @@ const useSwapTBondToTShare = () => {
   	(tbondAmount: string) => {
 	  	const tbondAmountBn = parseUnits(tbondAmount, 18);
 	  	handleTransactionReceipt(
-	  		tombFinance.swapTBondToTShare(tbondAmountBn),
+	  		tombFinance?.swapTBondToTShare(tbondAmountBn),
 	  		`Swap ${tbondAmount} TBond to TShare`
 	  	);
   	},

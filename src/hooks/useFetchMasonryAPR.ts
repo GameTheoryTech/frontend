@@ -11,8 +11,8 @@ const useFetchMasonryAPR = () => {
   useEffect(() => {
     async function fetchMasonryAPR() {
       try {
-        setApr(await tombFinance.getMasonryAPR());
-        setDpr(await tombFinance.getMasonryDPR());
+        setApr(await tombFinance?.getMasonryAPR());
+        setDpr(await tombFinance?.getMasonryDPR());
       } catch(err){
         console.error(err);
       }

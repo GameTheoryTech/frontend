@@ -9,7 +9,7 @@ const useUnlockGame = () => {
   const handleUnlockGame = useCallback(
     () => {
       handleTransactionReceipt(
-        tombFinance.unlockGame(),
+        tombFinance?.unlockGame(),
         `Unlock GAME.`,
       );
     },

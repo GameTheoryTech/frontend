@@ -12,7 +12,7 @@ const useTotalMintedGen1 = (level : BigNumberish) => {
   useEffect(() => {
     async function getTotalMinted() {
       try {
-        setTotalMinted(await tombFinance.getTheoryUnlockerGen1TotalMinted(level));
+        setTotalMinted(await tombFinance?.getTheoryUnlockerGen1TotalMinted(level));
       } catch (err) {
         console.error(err);
       }

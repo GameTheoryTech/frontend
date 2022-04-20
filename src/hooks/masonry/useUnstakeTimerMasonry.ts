@@ -11,7 +11,7 @@ const useUnstakeTimerMasonry = () => {
 
   useEffect(() => {
     if (tombFinance) {
-      tombFinance.getUserUnstakeTime().then(setTime);
+      tombFinance?.getUserUnstakeTime().then(setTime);
     }
   }, [tombFinance]);
   return time;

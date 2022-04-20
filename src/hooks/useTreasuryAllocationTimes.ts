@@ -13,7 +13,7 @@ const useTreasuryAllocationTimes = () => {
   const tombFinance = useTombFinance();
   useEffect(() => {
     if (tombFinance) {
-      tombFinance.getTreasuryNextAllocationTime().then(setTime);
+      tombFinance?.getTreasuryNextAllocationTime().then(setTime);
     }
   }, [tombFinance, slowRefresh]);
   return time;

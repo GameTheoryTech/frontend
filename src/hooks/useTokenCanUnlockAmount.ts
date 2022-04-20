@@ -10,8 +10,8 @@ const useCanUnlockAmount = (token: ERC20Lockable) => {
   const isUnlocked = tombFinance?.isUnlocked;
 
   const fetchBalance = useCallback(async () => {
-    setBalance(await token.canUnlockAmount(tombFinance.myAccount));
-  }, [token, tombFinance.myAccount]);
+    setBalance(await token.canUnlockAmount(tombFinance?.myAccount));
+  }, [token, tombFinance?.myAccount]);
 
   useEffect(() => {
     if (isUnlocked) {

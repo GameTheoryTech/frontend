@@ -11,7 +11,7 @@ const useBondStats = () => {
   useEffect(() => {
     async function fetchBondPrice() {
       try {
-        setStat(await tombFinance.getBondStat());
+        setStat(await tombFinance?.getBondStat());
       }
       catch(err){
         console.error(err);

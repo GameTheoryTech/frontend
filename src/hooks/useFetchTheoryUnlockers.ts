@@ -13,17 +13,17 @@ const useFetchTheoryUnlockers = () => {
   const fetchTheoryUnlockers = useCallback(async () => {
     let unlockers : Array<any> = [];
     if(!tombFinance?.isUnlocked) return unlockers;
-    const len = (await tombFinance.getTheoryUnlockerOwnerSupply(tombFinance.myAccount)).toNumber();
+    const len = (await tombFinance?.getTheoryUnlockerOwnerSupply(tombFinance?.myAccount)).toNumber();
     for(let i = 0; i < len; ++i) {
-      const tokenId = await tombFinance.getTheoryUnlockerAtOwnerIndex(tombFinance.myAccount, i);
-      const tokenUri = (await tombFinance.getTheoryUnlockerTokenUri(tokenId)).replace("ipfs://", "https://ipfs.io/ipfs/");
+      const tokenId = await tombFinance?.getTheoryUnlockerAtOwnerIndex(tombFinance?.myAccount, i);
+      const tokenUri = (await tombFinance?.getTheoryUnlockerTokenUri(tokenId)).replace("ipfs://", "https://ipfs.io/ipfs/");
       const json = (await axios(tokenUri)).data;
       json.token_id = tokenId;
       json.image = json.image.replace("ipfs://", "https://ipfs.io/ipfs/");
       json.animation_url = json.animation_url.replace("ipfs://", "https://ipfs.io/ipfs/");
-      json.level = await tombFinance.getTheoryUnlockerLevel(tokenId);
-      json.unlockAmount = await tombFinance.getTheoryUnlockerUnlockAmount(tombFinance.myAccount, tokenId);
-      json.timeLeftToLevel = await tombFinance.getTheoryUnlockerTimeLeftToLevel(tokenId);
+      json.level = await tombFinance?.getTheoryUnlockerLevel(tokenId);
+      json.unlockAmount = await tombFinance?.getTheoryUnlockerUnlockAmount(tombFinance?.myAccount, tokenId);
+      json.timeLeftToLevel = await tombFinance?.getTheoryUnlockerTimeLeftToLevel(tokenId);
       unlockers.push(json);
     }
     setTheoryUnlockers(unlockers);

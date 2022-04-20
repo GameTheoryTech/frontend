@@ -12,7 +12,7 @@ const useOwnerSupply = () => {
   useEffect(() => {
     async function getOwnerSupply() {
       try {
-        setOwnerSupply(await tombFinance.getTheoryUnlockerOwnerSupply(tombFinance.myAccount));
+        setOwnerSupply(await tombFinance?.getTheoryUnlockerOwnerSupply(tombFinance?.myAccount));
       } catch (err) {
         console.error(err);
       }

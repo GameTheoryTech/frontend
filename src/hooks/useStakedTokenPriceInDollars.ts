@@ -10,7 +10,7 @@ const useStakedTokenPriceInDollars = (stakedTokenName: string, stakedToken: ERC2
   const isUnlocked = tombFinance?.isUnlocked;
 
   const fetchBalance = useCallback(async () => {
-    const balance = await tombFinance.getDepositTokenPriceInDollars(stakedTokenName, stakedToken);
+    const balance = await tombFinance?.getDepositTokenPriceInDollars(stakedTokenName, stakedToken);
     setStakedTokenPriceInDollars(balance);
   }, [stakedToken, stakedTokenName, tombFinance]);
 

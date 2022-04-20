@@ -11,8 +11,8 @@ const useTShareSwapperStats = (account: string) => {
   useEffect(() => {
     async function fetchTShareSwapperStat() {
       try{
-        if(tombFinance.myAccount) {
-          setStat(await tombFinance.getTShareSwapperStat(account));
+        if(tombFinance?.myAccount) {
+          setStat(await tombFinance?.getTShareSwapperStat(account));
         }
       }
       catch(err){

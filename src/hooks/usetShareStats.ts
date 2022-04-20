@@ -11,7 +11,7 @@ const useShareStats = () => {
   useEffect(() => {
     async function fetchSharePrice() {
       try {
-        setStat(await tombFinance.getShareStat());
+        setStat(await tombFinance?.getShareStat());
       } catch(err){
         console.error(err)
       }

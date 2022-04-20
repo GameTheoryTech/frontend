@@ -8,7 +8,7 @@ const useRedeemOnMasonry = (description?: string) => {
 
   const handleRedeem = useCallback(() => {
     const alertDesc = description || 'Redeem THEORY from Theoretics ';
-    handleTransactionReceipt(tombFinance.exitFromMasonry(), alertDesc);
+    handleTransactionReceipt(tombFinance?.exitFromMasonry(), alertDesc);
   }, [tombFinance, description, handleTransactionReceipt]);
   return { onRedeem: handleRedeem };
 };

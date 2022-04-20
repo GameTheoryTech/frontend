@@ -8,7 +8,7 @@ const useMasonryVersion = () => {
   const stakedBalance = useStakedBalanceOnMasonry();
 
   const updateState = useCallback(async () => {
-    setMasonryVersion(await tombFinance.fetchMasonryVersionOfUser());
+    setMasonryVersion(await tombFinance?.fetchMasonryVersionOfUser());
   }, [tombFinance?.isUnlocked, stakedBalance]);
 
   useEffect(() => {

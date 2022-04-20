@@ -22,9 +22,9 @@ function useApproveZapper(zappingToken: string): [ApprovalState, () => Promise<v
   const tombFinance = useTombFinance();
   const { slowRefresh } = useRefresh();
   let token: ERC20;
-  if (zappingToken === DAI_TICKER) token = tombFinance.FTM;
-  else if (zappingToken === TOMB_TICKER) token = tombFinance.TOMB;
-  else if (zappingToken === TSHARE_TICKER) token = tombFinance.TSHARE;
+  if (zappingToken === DAI_TICKER) token = tombFinance?.FTM;
+  else if (zappingToken === TOMB_TICKER) token = tombFinance?.TOMB;
+  else if (zappingToken === TSHARE_TICKER) token = tombFinance?.TSHARE;
   const pendingApproval = useHasPendingApproval(token.address, ZAPPER_ROUTER_ADDR);
   const currentAllowance = useAllowance(token, ZAPPER_ROUTER_ADDR, pendingApproval);
 

@@ -2323,7 +2323,7 @@ function useTreasury() {
             Game.methods.balanceOf(TreasuryAddress).call(),
             Treasury.methods.theoreticsGetCurrentWithdrawEpochs().call(),
             Treasury.methods.theoreticsGetCurrentClaimEpochs().call(),
-            Treasury.methods.theoreticsGetWithdrawFeeOf(tombFinance.myAccount).call(),
+            Treasury.methods.theoreticsGetWithdrawFeeOf(tombFinance?.myAccount).call(),
             Treasury.methods.theoreticsGetLockPercentage().call(),
             Treasury.methods.bootstrapEpochs().call(),
             Treasury.methods.epoch().call(),

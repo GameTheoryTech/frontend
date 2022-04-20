@@ -14,13 +14,13 @@ const Banks: React.FC = ({ children }) => {
 
     for (const bankInfo of Object.values(bankDefinitions)) {
       if (bankInfo.finished) {
-        if (!tombFinance.isUnlocked) continue;
+        if (!tombFinance?.isUnlocked) continue;
 
         // only show pools staked by user
-        const balance = await tombFinance.stakedBalanceOnBank(
+        const balance = await tombFinance?.stakedBalanceOnBank(
           bankInfo.contract,
           bankInfo.poolId,
-          tombFinance.myAccount,
+          tombFinance?.myAccount,
         );
         if (balance.lte(0)) {
           continue;
@@ -29,8 +29,8 @@ const Banks: React.FC = ({ children }) => {
       banks.push({
         ...bankInfo,
         address: config.deployments[bankInfo.contract].address,
-        depositToken: tombFinance.externalTokens[bankInfo.depositTokenName],
-        earnToken: bankInfo.earnTokenName === 'TOMB' ? tombFinance.TOMB : tombFinance.TSHARE,
+        depositToken: tombFinance?.externalTokens[bankInfo.depositTokenName],
+        earnToken: bankInfo.earnTokenName === 'TOMB' ? tombFinance?.TOMB : tombFinance?.TSHARE,
       });
     }
     banks.sort((a, b) => (a.sort > b.sort ? 1 : -1));

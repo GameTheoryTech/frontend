@@ -12,7 +12,8 @@ const useTotalTVLOnMasonry = () => {
   useEffect(() => {
     async function fetchTotalStaked() {
       try {
-        setTotalStaked(await tombFinance.getTotalTVLInMasonry());
+        if(!tombFinance?.isUnlocked) return;
+        setTotalStaked(await tombFinance?.getTotalTVLInMasonry());
       } catch(err) {
         console.error(err);
       }

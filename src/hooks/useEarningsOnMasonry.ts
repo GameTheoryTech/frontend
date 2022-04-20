@@ -12,7 +12,7 @@ const useEarningsOnMasonry = () => {
   useEffect(() => {
     async function fetchBalance() {
       try {
-        setBalance(await tombFinance.getEarningsOnMasonry());
+        setBalance(await tombFinance?.getEarningsOnMasonry());
       } catch (e) {
         console.error(e);
       }

@@ -12,7 +12,7 @@ const useMaxLevel = () => {
   useEffect(() => {
     async function getMaxLevel() {
       try {
-        setMaxLevel(await tombFinance.getMaxTheoryUnlockerLevel());
+        setMaxLevel(await tombFinance?.getMaxTheoryUnlockerLevel());
       } catch (err) {
         console.error(err);
       }

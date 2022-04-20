@@ -10,7 +10,7 @@ const useUnlockTheory = () => {
   const handleUnlockTheory = useCallback(
     (isGen1 : boolean, tokenId : BigNumber | number) => {
       handleTransactionReceipt(
-        tombFinance.unlockTheory(isGen1, tokenId),
+        tombFinance?.unlockTheory(isGen1, tokenId),
         `Unlock LTHEORY to THEORY.`,
       );
     },

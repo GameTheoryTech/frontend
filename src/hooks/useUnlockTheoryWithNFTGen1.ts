@@ -10,7 +10,7 @@ const useUnlockTheoryWithNFTGen1 = () => {
   const handleUnlockTheory = useCallback(
     (tokenId: BigNumber | number) => {
       handleTransactionReceipt(
-        tombFinance.unlockTheoryWithNFTGen1(tokenId),
+        tombFinance?.unlockTheoryWithNFTGen1(tokenId),
         `Unlock LTHEORY to THEORY with Gen 1 NFT ${tokenId}.`,
       );
     },

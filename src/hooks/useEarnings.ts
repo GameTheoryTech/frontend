@@ -10,7 +10,7 @@ const useEarnings = (poolName: ContractName, earnTokenName: String, poolId: Numb
   const isUnlocked = tombFinance?.isUnlocked;
 
   const fetchBalance = useCallback(async () => {
-    const balance = await tombFinance.earnedFromBank(poolName, earnTokenName, poolId, tombFinance.myAccount);
+    const balance = await tombFinance?.earnedFromBank(poolName, earnTokenName, poolId, tombFinance?.myAccount);
     setBalance(balance);
   }, [poolName, earnTokenName, poolId, tombFinance]);
 

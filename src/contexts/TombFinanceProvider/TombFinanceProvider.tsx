@@ -22,7 +22,7 @@ export const TombFinanceProvider: React.FC = ({ children }) => {
       }
       setTombFinance(tomb);
     } else if (account) {
-      tombFinance.unlockWallet(ethereum, account);
+      tombFinance?.unlockWallet(ethereum, account);
     }
   }, [account, ethereum, tombFinance]);
 

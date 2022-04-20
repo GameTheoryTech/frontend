@@ -10,7 +10,7 @@ const useTotalValueLocked = () => {
   useEffect(() => {
     async function fetchTVL() {
       try {
-        setTotalValueLocked(await tombFinance.getTotalValueLocked());
+        setTotalValueLocked(await tombFinance?.getTotalValueLocked());
       }
       catch(err){
         console.error(err);

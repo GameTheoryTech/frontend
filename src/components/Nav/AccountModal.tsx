@@ -22,9 +22,9 @@ const AccountModal: React.FC<ModalProps> = ({ onDismiss }) => {
   const tombFtmLpStats = useLpStats('GAME-DAI-LP');
   const tShareFtmLpStats = useLpStats('THEORY-DAI-LP');
 
-  const tombBalance = useTokenBalance(tombFinance.TOMB);
+  const tombBalance = useTokenBalance(tombFinance?.TOMB);
   const gameLocked = useGameLocked();
-  const gameCanUnlockAmount = useTokenCanUnlockAmount(tombFinance.TOMB);
+  const gameCanUnlockAmount = useTokenCanUnlockAmount(tombFinance?.TOMB);
   const displayTombBalance = useMemo(() => getDisplayBalance(tombBalance), [tombBalance]);
   const displayGameLocked = useMemo(() => getDisplayBalance(gameLocked), [gameLocked]);
   const displayGameCanUnlock = useMemo(() => getDisplayBalance(gameCanUnlockAmount), [gameCanUnlockAmount]);
@@ -38,15 +38,15 @@ const AccountModal: React.FC<ModalProps> = ({ onDismiss }) => {
   const maxTheoryUnlockerIsGen1 = maxTheoryUnlockerUnlockAmountGen1 > maxTheoryUnlockerUnlockAmountGen0;
   const maxTheoryUnlocker = maxTheoryUnlockerIsGen1 ? maxTheoryUnlockerGen1 : maxTheoryUnlockerGen1;
   const maxTheoryUnlockerUnlockAmount = maxTheoryUnlockerIsGen1 ? maxTheoryUnlockerUnlockAmountGen1 : maxTheoryUnlockerUnlockAmountGen0;
-  const tshareBalance = useTokenBalance(tombFinance.TSHARE);
-  const theoryLocked = useTokenLocked(tombFinance.TSHARE);
-  const naturalUnlockAmount = useTokenCanUnlockAmount(tombFinance.TSHARE);
+  const tshareBalance = useTokenBalance(tombFinance?.TSHARE);
+  const theoryLocked = useTokenLocked(tombFinance?.TSHARE);
+  const naturalUnlockAmount = useTokenCanUnlockAmount(tombFinance?.TSHARE);
   const theoryCanUnlockAmount = maxTheoryUnlockerUnlockAmount.gt(naturalUnlockAmount) ? maxTheoryUnlockerUnlockAmount : naturalUnlockAmount;
   const displayTshareBalance = useMemo(() => getDisplayBalance(tshareBalance), [tshareBalance]);
   const displayTheoryLocked = useMemo(() => getDisplayBalance(theoryLocked), [theoryLocked]);
   const displayTheoryCanUnlock = useMemo(() => getDisplayBalance(theoryCanUnlockAmount), [theoryCanUnlockAmount]);
 
-  const tbondBalance = useTokenBalance(tombFinance.HODL);
+  const tbondBalance = useTokenBalance(tombFinance?.HODL);
   const displayTbondBalance = useMemo(() => getDisplayBalance(tbondBalance), [tbondBalance]);
 
   const tombLPStats = useMemo(() => (tombFtmLpStats ? tombFtmLpStats : null), [tombFtmLpStats]);

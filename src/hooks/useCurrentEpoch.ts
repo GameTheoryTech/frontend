@@ -11,7 +11,7 @@ const useCurrentEpoch = () => {
   useEffect(() => {
     async function fetchCurrentEpoch () {
       try {
-        setCurrentEpoch(await tombFinance.getCurrentEpoch());
+        setCurrentEpoch(await tombFinance?.getCurrentEpoch());
       } catch(err) {
         console.error(err);
       }

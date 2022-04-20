@@ -29,8 +29,8 @@ interface MintProps {
 
 const Mint: React.FC<MintProps> = ({ name, minValue, maxValue }) => {
   const tombFinance = useTombFinance();
-  //const [approveStatus, approve] = useApprove(tombFinance.FTM, tombFinance.contracts.TheoryUnlocker.address);
-  const [approveStatus, approve] = useApprove(tombFinance.FTM, tombFinance.contracts.TheoryUnlockerGen1.address);
+  //const [approveStatus, approve] = useApprove(tombFinance?.FTM, tombFinance?.contracts.TheoryUnlocker.address);
+  const [approveStatus, approve] = useApprove(tombFinance?.FTM, tombFinance?.contracts.TheoryUnlockerGen1.address);
 
   //const { onMint } = useMintTheoryUnlocker();
   const { onMint } = useMintTheoryUnlockerGen1();

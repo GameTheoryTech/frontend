@@ -11,7 +11,7 @@ const useBondsPurchasable = () => {
   useEffect(() => {
     async function fetchBondsPurchasable() {
         try {
-            setBalance(await tombFinance.getBondsPurchasable());
+            setBalance(await tombFinance?.getBondsPurchasable());
         }
         catch(err) {
             console.error(err);
