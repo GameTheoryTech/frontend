@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import useTokenBalance from '../../hooks/useTokenBalance';
 import useTokenLocked from '../../hooks/useTokenLocked';
+import useGameLocked from '../../hooks/useGameLocked';
 import { getDisplayBalance } from '../../utils/formatBalance';
 import { Typography, Card, CardContent, Grid, Box, Button } from '@mui/material';
 import CardIcon from '../../components/CardIcon';
@@ -22,7 +23,7 @@ const AccountModal: React.FC<ModalProps> = ({ onDismiss }) => {
   const tShareFtmLpStats = useLpStats('THEORY-DAI-LP');
 
   const tombBalance = useTokenBalance(tombFinance.TOMB);
-  const gameLocked = useTokenLocked(tombFinance.TOMB);
+  const gameLocked = useGameLocked();
   const gameCanUnlockAmount = useTokenCanUnlockAmount(tombFinance.TOMB);
   const displayTombBalance = useMemo(() => getDisplayBalance(tombBalance), [tombBalance]);
   const displayGameLocked = useMemo(() => getDisplayBalance(gameLocked), [gameLocked]);

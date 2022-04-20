@@ -950,8 +950,21 @@ export class TombFinance {
     }
   }
   async unlockGame(): Promise<TransactionResponse> {
-    const { game } = this.contracts;
-    return await game.unlock();
+    const { game, Master } = this.contracts;
+    const lockAmount = await game.lockOf(this.myAccount)
+    let result : TransactionResponse = null;
+    if(lockAmount.lte(await game.canUnlockAmount(this.myAccount)))
+    {
+      result = await game.unlock();
+    }
+    if(!result || (await Master.lockOfGame(this.myAccount)).gt(0)) result = await Master.unlockGame();
+    return result;
+  }
+
+  async lockOfGame(address: string): Promise<BigNumber> {
+    const { Master } = this.contracts;
+    const result = await Master.lockOfGame(address);
+    return result;
   }
 
   async unlockTheory(isGen1 : boolean, tokenId : number | BigNumber): Promise<TransactionResponse> {
