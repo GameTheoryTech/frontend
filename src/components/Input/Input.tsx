@@ -21,21 +21,21 @@ const Input: React.FC<InputProps> = ({ endAdornment, onChange, placeholder, star
 
 const StyledInputWrapper = styled.div`
   align-items: center;
-  background-color: white;
-  border-radius: ${(props) => props.theme.borderRadius}px;
+  background-color: #0A142A;
+  border-radius: 20px;
   display: flex;
-  padding: 0 ${(props) => props.theme.spacing[3]}px;
 `;
 
 const StyledInput = styled.input`
   background: none;
   border: 0;
-  color: ${(props) => props.theme.color.grey[600]};
-  font-size: 18px;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
   flex: 1;
   height: 56px;
   margin: 0;
-  padding: 0;
+  padding: 0 20px;
   outline: none;
 `;
 

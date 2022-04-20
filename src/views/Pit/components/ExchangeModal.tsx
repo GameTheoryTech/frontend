@@ -1,8 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import Button from '../../../components/Button';
+import { Button } from '@mui/material';
 import Modal, { ModalProps } from '../../../components/Modal';
 import ModalActions from '../../../components/ModalActions';
-import ModalTitle from '../../../components/ModalTitle';
 import TokenInput from '../../../components/TokenInput';
 import { getFullDisplayBalance } from '../../../utils/formatBalance';
 import { BigNumber } from 'ethers';
@@ -36,8 +35,7 @@ const ExchangeModal: React.FC<ExchangeModalProps> = ({
   }, [fullBalance, setVal]);
 
   return (
-    <Modal>
-      <ModalTitle text={title} />
+    <Modal text={title} onDismiss={onDismiss}>
       <TokenInput
         value={val}
         onSelectMax={handleSelectMax}
@@ -47,8 +45,8 @@ const ExchangeModal: React.FC<ExchangeModalProps> = ({
       />
       <Label text={description} />
       <ModalActions>
-        <Button text="Cancel" variant="secondary" onClick={onDismiss} />
-        <Button text={action} onClick={() => onConfirm(val)} />
+        <Button variant="contained" onClick={onDismiss}>Cancel</Button>
+        <Button variant='contained' onClick={() => onConfirm(val)}>{action}</Button>
       </ModalActions>
     </Modal>
   );

@@ -2,10 +2,8 @@ import React, { useState, useMemo } from 'react';
 
 import { Button, Select, MenuItem, InputLabel, Typography } from '@mui/material';
 import { withStyles } from '@mui/styles'
-// import Button from '../../../components/Button'
 import Modal, { ModalProps } from '../../../components/Modal';
 import ModalActions from '../../../components/ModalActions';
-import ModalTitle from '../../../components/ModalTitle';
 import TokenInput from '../../../components/TokenInput';
 import styled from 'styled-components';
 
@@ -24,6 +22,11 @@ interface ZapProps extends ModalProps {
   onConfirm: (zapAsset: string, lpName: string, amount: string) => void;
   tokenName?: string;
   decimals?: number;
+}
+
+// create function for string convert to 4 decimal places
+const convertTo4Decimals = (amount: Number) => {
+  return amount.toFixed(4);
 }
 
 const ZapModal: React.FC<ZapProps> = ({ onConfirm, onDismiss, tokenName = '', decimals = 18 }) => {
@@ -81,29 +84,21 @@ const ZapModal: React.FC<ZapProps> = ({ onConfirm, onDismiss, tokenName = '', de
   };
 
   return (
-    <Modal>
-      <ModalTitle text={`Zap in ${tokenName}`} />
-      {/*<Typography variant="h6" align="center">*/}
-      {/*  Powered by{' '}*/}
-      {/*  <a target="_blank" rel="noopener noreferrer" href="https://mlnl.finance">*/}
-      {/*    mlnl.finance*/}
-      {/*  </a>*/}
-      {/*</Typography>*/}
+    <Modal text={`Create ${tokenName} Tokens`} onDismiss={onDismiss}>
 
-      <StyledActionSpacer />
-      <InputLabel style={{ color: '#dd3322' }} id="label">
-        Select asset to zap with
+      <InputLabel id="label" style={{textAlign: 'center'}} className="textGlow">
+        Select asset to use
       </InputLabel>
       <Select
         onChange={handleChangeAsset}
-        style={{ color: '#dd3322' }}
         labelId="label"
         id="select"
         value={zappingToken}
+        style={{marginBottom: '20px'}}
       >
-        <StyledMenuItem value={DAI_TICKER}>DAI</StyledMenuItem>
-          <StyledMenuItem value={TOMB_TICKER}>GAME</StyledMenuItem>
-          <StyledMenuItem value={TSHARE_TICKER}>THEORY</StyledMenuItem>
+        <MenuItem value={TOMB_TICKER}>GAME</MenuItem>
+        <MenuItem value={DAI_TICKER}>DAI</MenuItem>
+        <MenuItem value={TSHARE_TICKER}>THEORY</MenuItem>
       </Select>
       <TokenInput
         onSelectMax={handleSelectMax}
@@ -112,16 +107,18 @@ const ZapModal: React.FC<ZapProps> = ({ onConfirm, onDismiss, tokenName = '', de
         max={zappingTokenBalance}
         symbol={zappingToken}
       />
-      <Label text="Zap Estimations" />
-      <StyledDescriptionText>
+      <Typography variant="h5" style={{textAlign: 'center', marginTop: '20px', marginBottom: '10px'}}>
+        Estimated {tokenName} tokens
+      </Typography>
+      <Typography variant="h3" color="var(--extra-color-2)" align='center'>
         {' '}
-        {tokenName}: {Number(estimate.token0) / Number(ftmAmountPerLP)}
-      </StyledDescriptionText>
-      <StyledDescriptionText>
+        {convertTo4Decimals(Number(estimate.token0) / Number(ftmAmountPerLP))}
+      </Typography>
+      <Typography variant="body1" className="textGlow" align="center">
         {' '}
-        ({Number(estimate.token0)} {DAI_TICKER} / {Number(estimate.token1)}{' '}
+        ({Number(estimate.token0).toFixed(4)} {DAI_TICKER} / {Number(estimate.token1).toFixed(4)}{' '}
         {tokenName.startsWith(TOMB_TICKER) ? TOMB_TICKER : TSHARE_TICKER}){' '}
-      </StyledDescriptionText>
+      </Typography>
       <ModalActions>
         <Button
           color="primary"
@@ -134,43 +131,14 @@ const ZapModal: React.FC<ZapProps> = ({ onConfirm, onDismiss, tokenName = '', de
         </Button>
       </ModalActions>
 
-      <StyledActionSpacer />
-        <Alert variant="filled" severity="warning">
-            After zapping, make sure to add your LP using the + button!
-        </Alert>
-      <Alert variant="filled" severity="warning">
-        Zapping incurs a 0.5% convenience fee and 0.5% slippage. Beta feature. Use at your own risk!
-      </Alert>
+      <Typography variant='h4' component="p" style={{textAlign: 'center', marginTop: '40px', marginBottom: '20px'}}>
+        After creating tokens,<br />deposit them in the liquidity pool.
+      </Typography>
+      <Typography variant='body1' className="textGlow" style={{textAlign: 'center'}}>
+        Zapping incurs a 0.5% convenience fee and 0.5% slippage.<br />Beta feature. Use at your own risk!
+      </Typography>
     </Modal>
   );
 };
-
-const StyledActionSpacer = styled.div`
-  height: ${(props) => props.theme.spacing[4]}px;
-  width: ${(props) => props.theme.spacing[4]}px;
-`;
-
-const StyledDescriptionText = styled.div`
-  align-items: center;
-  color: ${(props) => props.theme.color.grey[400]};
-  display: flex;
-  font-size: 14px;
-  font-weight: 700;
-  height: 22px;
-  justify-content: flex-start;
-`;
-const StyledMenuItem = withStyles({
-  root: {
-    backgroundColor: 'white',
-    color: '#dd3322',
-    '&:hover': {
-      backgroundColor: 'grey',
-      color: '#dd3322',
-    },
-    selected: {
-      backgroundColor: 'black',
-    },
-  },
-})(MenuItem);
 
 export default ZapModal;

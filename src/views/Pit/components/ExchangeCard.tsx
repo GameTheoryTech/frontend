@@ -1,16 +1,11 @@
 import React from 'react';
-import styled from 'styled-components';
 
-import { Button, Card } from '@mui/material';
+import { Box, Grid, Button, Card, CardContent, Typography } from '@mui/material';
+import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 
-// import Button from '../../../components/Button';
-// import Card from '../../../components/Card';
-import CardContent from '../../../components/CardContent';
 import useTombFinance from '../../../hooks/useTombFinance';
-import Label from '../../../components/Label';
 import TokenSymbol from '../../../components/TokenSymbol';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome/index';
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons/index';
 import useModal from '../../../hooks/useModal';
 import ExchangeModal from './ExchangeModal';
 import ERC20 from '../../../tomb-finance/ERC20';
@@ -18,6 +13,10 @@ import useTokenBalance from '../../../hooks/useTokenBalance';
 import useApprove, { ApprovalState } from '../../../hooks/useApprove';
 import useCatchError from '../../../hooks/useCatchError';
 import {BigNumber} from "ethers";
+import { makeStyles } from '@mui/styles';
+
+import Modal, { ModalProps } from '../../../components/Modal';
+import ModalActions from '../../../components/ModalActions';
 
 interface ExchangeCardProps {
   action: string;
@@ -31,6 +30,27 @@ interface ExchangeCardProps {
   disabledDescription?: string;
   max?: BigNumber;
 }
+
+const useStyles = makeStyles((theme) => ({
+  button : {
+    width: '2em',
+    height: '2em',
+    fontSize: '14px',
+    padding: '0',
+    minWidth: 'auto'
+  },
+  boxed : {
+    '& > *': {
+      position: 'relative',
+      height: 'calc(100% - 60px)',
+      display: 'flex',
+      flexDirection: 'column',
+      '& .buttonWrap': {
+        marginTop: 'auto'
+      }
+    },
+  }
+}));
 
 const ExchangeCard: React.FC<ExchangeCardProps> = ({
   action,
@@ -63,31 +83,74 @@ const ExchangeCard: React.FC<ExchangeCardProps> = ({
       tokenName={fromTokenName}
     />,
   );
+
+  const classes = useStyles();
+
+  const handleRewardsClose = () => {
+    onCloseRewards();
+  };
+
+  const [onHandleRewards, onCloseRewards] = useModal(
+    <Modal text={action === 'Purchase' ? 'Purchase HODL' : 'Reedem GAME'} onDismiss={handleRewardsClose}>
+      <Typography variant="h6" color="#fff" style={{fontWeight: '500'}}>
+        {action === 'Purchase' ? (
+          <>
+            When the TWAP of GAME tokens is under $1.01, you can exchange GAME tokens for HODL tokens. The GAME tokens exchanged are then burned, thereby reducing the supply.<br /><br />
+
+            <strong>TWAP</strong><br />Time-Weighted Average Price of GAME during the course of the previous Round.
+            </>
+        ) : (
+          <>
+            When the TWAP of GAME tokens is above $1.01, you can redeem your HODL tokens for GAME tokens at a premium.<br /><br />
+
+            <strong>TWAP</strong><br />Time-Weighted Average Price of GAME during the course of the previous Round.
+          </>
+        )}
+      </Typography>
+      <ModalActions>
+        <Button color="primary" variant="contained" onClick={handleRewardsClose} fullWidth>
+          Close
+        </Button>
+      </ModalActions>
+    </Modal>
+  );
+
   return (
-    <Card>
+    <Card className={classes.boxed}>
       <CardContent>
-        <StyledCardContentInner>
-          <StyledCardTitle>{`${action} ${toTokenName}`}</StyledCardTitle>
-          <StyledExchanger>
-            <StyledToken>
-              <StyledCardIcon style={{ background: 'transparent' }}>
-                <TokenSymbol symbol={fromToken.symbol} size={54}/>
-              </StyledCardIcon>
-              <Label text={fromTokenName} variant="normal" />
-            </StyledToken>
-            <StyledExchangeArrow>
-              <FontAwesomeIcon icon={faArrowRight} />
-            </StyledExchangeArrow>
-            <StyledToken>
-              <StyledCardIcon style={{ background: 'transparent' }}>
-                <TokenSymbol symbol={toToken.symbol} size={54} />
-              </StyledCardIcon>
-              <Label text={toTokenName} variant="normal" />
-            </StyledToken>
-          </StyledExchanger>
-          <StyledDesc>{priceDesc}</StyledDesc>
-          <StyledCardActions>
-            {approveStatus !== ApprovalState.APPROVED && !disabled ? (
+
+        <Typography variant='h4' className="kallisto" style={{marginBottom: '20px'}}>
+          {action} {toTokenName}
+          <Button variant="contained" className={classes.button} aria-label="More info" style={{ marginLeft: '10px' }} onClick={onHandleRewards}>
+            <QuestionMarkIcon fontSize='inherit' />
+          </Button>
+        </Typography>
+
+        <Grid container justifyContent="center" spacing={3} alignItems="center" style={{marginBottom: '50px'}}>
+          <Grid item xs={'auto'} style={{textAlign: 'center'}}>
+            <Box>
+              <TokenSymbol symbol={fromToken.symbol} />
+              <Typography variant='body1' component="p" style={{marginTop: '10px'}}>{fromTokenName}</Typography>
+            </Box>
+          </Grid>
+
+          <Grid item xs={'auto'} style={{textAlign: 'center'}}>
+            <ArrowForwardRoundedIcon className="pinkGlow" style={{fontSize: '34px'}} />
+          </Grid>
+
+          <Grid item xs={'auto'} style={{textAlign: 'center'}}>
+            <TokenSymbol symbol={toToken.symbol} />
+            <Typography variant='body1' component="p" style={{marginTop: '10px'}}>{toTokenName}</Typography>
+          </Grid>
+        </Grid>
+
+        <Box className="buttonWrap">
+
+          <Typography variant='body2' style={{marginBottom: '20px'}}>
+            {priceDesc}
+          </Typography>
+
+          {approveStatus !== ApprovalState.APPROVED && !disabled ? (
               <Button
                 color="primary"
                 variant="contained"
@@ -100,70 +163,11 @@ const ExchangeCard: React.FC<ExchangeCardProps> = ({
               <Button color="primary" variant="contained" onClick={onPresent} disabled={disabled}>
                 {disabledDescription || action}
               </Button>
-            )}
-          </StyledCardActions>
-        </StyledCardContentInner>
+          )}
+        </Box>
       </CardContent>
     </Card>
   );
 };
-
-const StyledCardTitle = styled.div`
-  align-items: center;
-  display: flex;
-  font-size: 20px;
-  font-weight: 700;
-  height: 64px;
-  justify-content: center;
-  margin-top: ${(props) => -props.theme.spacing[3]}px;
-`;
-
-const StyledCardIcon = styled.div`
-  background-color: ${(props) => props.theme.color.grey[900]};
-  width: 72px;
-  height: 72px;
-  border-radius: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: ${(props) => props.theme.spacing[2]}px;
-`;
-
-const StyledExchanger = styled.div`
-  align-items: center;
-  display: flex;
-  margin-bottom: ${(props) => props.theme.spacing[5]}px;
-`;
-
-const StyledExchangeArrow = styled.div`
-  font-size: 20px;
-  padding-left: ${(props) => props.theme.spacing[3]}px;
-  padding-right: ${(props) => props.theme.spacing[3]}px;
-  padding-bottom: ${(props) => props.theme.spacing[4]}px;
-`;
-
-const StyledToken = styled.div`
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  font-weight: 600;
-`;
-
-const StyledCardActions = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: ${(props) => props.theme.spacing[3]}px;
-  width: 100%;
-`;
-
-const StyledDesc = styled.span``;
-
-const StyledCardContentInner = styled.div`
-  align-items: center;
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: space-between;
-`;
 
 export default ExchangeCard;

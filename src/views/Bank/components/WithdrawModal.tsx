@@ -1,10 +1,8 @@
 import React, { useCallback, useMemo, useState } from 'react';
 
-import { Button } from '@mui/material';
-// import Button from '../../../components/Button'
+import { Button, Typography } from '@mui/material';
 import Modal, { ModalProps } from '../../../components/Modal';
 import ModalActions from '../../../components/ModalActions';
-import ModalTitle from '../../../components/ModalTitle';
 import TokenInput from '../../../components/TokenInput';
 
 import { getFullDisplayBalance } from '../../../utils/formatBalance';
@@ -15,9 +13,10 @@ interface WithdrawModalProps extends ModalProps {
   onConfirm: (amount: string) => void;
   tokenName?: string;
   decimals?: number;
+  withdrawPercentage?: string;
 }
 
-const WithdrawModal: React.FC<WithdrawModalProps> = ({ onConfirm, onDismiss, max, tokenName = '', decimals = 18 }) => {
+const WithdrawModal: React.FC<WithdrawModalProps> = ({ onConfirm, onDismiss, max, tokenName = '', decimals = 18, withdrawPercentage }) => {
   const [val, setVal] = useState('');
 
   const fullBalance = useMemo(() => {
@@ -35,9 +34,10 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({ onConfirm, onDismiss, max
     setVal(fullBalance);
   }, [fullBalance, setVal]);
 
+  withdrawPercentage = withdrawPercentage || '';
+
   return (
-    <Modal>
-      <ModalTitle text={`Withdraw ${tokenName}`} />
+    <Modal text={`Withdraw ${tokenName} Tokens`} onDismiss={onDismiss}>
       <TokenInput
         onSelectMax={handleSelectMax}
         onChange={handleChange}
@@ -45,15 +45,18 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({ onConfirm, onDismiss, max
         max={fullBalance}
         symbol={tokenName}
       />
+      <Typography variant="h6" component="p" style={{marginTop: '20px'}} align="center">
+        Current Withdrawal Fee: {withdrawPercentage}%              
+      </Typography>
       <ModalActions>
         <Button color="primary" variant="contained" onClick={() => onConfirm(val)}>
-          Confirm
+          Withdraw
         </Button>
-        {/* <Button color="secondary" onClick={onDismiss}>Cancel</Button> */}
-
-        {/* <Button text="Cancel" variant="secondary" onClick={onDismiss} />
-        <Button text="Confirm" onClick={() => onConfirm(val)} /> */}
       </ModalActions>
+
+      <Typography variant="body2" align="center" className="textGlow" style={{marginTop: '40px'}}>
+        Your rewards will be claimed whenever you deposit or withdraw tokens from the pool
+      </Typography>
     </Modal>
   );
 };

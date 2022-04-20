@@ -1,9 +1,8 @@
 import React, { useCallback, useMemo, useState } from 'react';
 
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import Modal, { ModalProps } from '../../../components/Modal';
 import ModalActions from '../../../components/ModalActions';
-import ModalTitle from '../../../components/ModalTitle';
 import TokenInput from '../../../components/TokenInput';
 
 import { getFullDisplayBalance } from '../../../utils/formatBalance';
@@ -13,9 +12,10 @@ interface WithdrawModalProps extends ModalProps {
   max: BigNumber;
   onConfirm: (amount: string) => void;
   tokenName?: string;
+  withdrawPercentage?: number;
 }
 
-const WithdrawModal: React.FC<WithdrawModalProps> = ({ onConfirm, onDismiss, max, tokenName = '' }) => {
+const WithdrawModal: React.FC<WithdrawModalProps> = ({ onConfirm, onDismiss, max, tokenName = '', withdrawPercentage }) => {
   const [val, setVal] = useState('');
 
   const fullBalance = useMemo(() => {
@@ -33,9 +33,10 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({ onConfirm, onDismiss, max
     setVal(fullBalance);
   }, [fullBalance, setVal]);
 
+  withdrawPercentage = withdrawPercentage || 0;
+
   return (
-    <Modal>
-      <ModalTitle text={`Withdraw ${tokenName}`} />
+    <Modal text={`Withdraw ${tokenName}`} onDismiss={onDismiss}>
       <TokenInput
         onSelectMax={handleSelectMax}
         onChange={handleChange}
@@ -43,6 +44,9 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({ onConfirm, onDismiss, max
         max={fullBalance}
         symbol={tokenName}
       />
+      <Typography variant="h6" component="p" style={{marginTop: '20px'}} align="center">
+        Current Withdrawal Fee: {withdrawPercentage}%              
+      </Typography>
       <ModalActions>
         <Button color="primary" variant="contained" onClick={() => onConfirm(val)}>
           Confirm

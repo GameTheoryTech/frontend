@@ -19,6 +19,7 @@ const StyledModalActions = styled.div`
   align-items: center;
   background-color: ${(props) => props.theme.color.grey[100]}00;
   display: flex;
+  text-align: center;
   height: 96px;
   margin: ${(props) => props.theme.spacing[4]}px ${(props) => -props.theme.spacing[4]}px
     ${(props) => -props.theme.spacing[4]}px;

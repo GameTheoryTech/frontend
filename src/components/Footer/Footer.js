@@ -1,12 +1,12 @@
 import React from 'react';
 import { makeStyles } from '@mui/styles';
-import { Container, Grid, Typography, Link } from '@mui/material';
-import TwitterImage from '../../assets/img/twitter.svg';
-import GithubImage from '../../assets/img/github.svg';
-import TelegramImage from '../../assets/img/telegram.svg';
-import DiscordImage from '../../assets/img/discord.svg';
-import YoutubeImage from '../../assets/img/youtube.svg';
-import MediumImage from '../../assets/img/medium.svg';
+import { Container, Grid, Typography } from '@mui/material';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import YouTubeIcon from '@mui/icons-material/YouTube';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import MediumIcon from '../../assets/img/medium-logo.svg';
+import DiscordIcon from '../../assets/img/discord-logo.svg';
+
 
 const useStyles = makeStyles((theme) => ({
   footer: {
@@ -15,20 +15,31 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: '15px',
     paddingBottom: '15px',
     width: '100%',
-    color: 'var(--white)',
-    backgroundColor: 'transparent',
-    textAlign: 'center',
-    height: '1.3rem',
+    color: 'var(--accent)',
+    backgroundColor: 'rgba(255,255,255,.05)',
     [theme.breakpoints.down('xs')]: {
       display: 'none',
     },
+    [theme.breakpoints.down('sm')]: {
+      textAlign: 'center',
+    },
+    '& .right': {
+      textAlign: 'right',
+      [theme.breakpoints.down('sm')]: {
+        textAlign: 'center',
+        marginTop: '15px',
+      },
+    }
   },
   link: {
     width: '24px',
     height: '24px',
     display: 'inline',
     marginLeft: '20px',
-    filter: 'sepia(1) brightness(2) hue-rotate(314deg) saturate(7.5)'
+    color: 'var(--accent)',
+    '&:first-child': {
+      marginLeft: '0',
+    }
   },
 
   img: {
@@ -42,21 +53,36 @@ const Footer = () => {
   return (
     <footer className={classes.footer}>
       <Container maxWidth="lg">
-        <Grid container>
-          <Grid item xs={6}>
-            <Typography variant="body2" color="textPrimary" align="left">
-              {'Copyright © Game Theory '}
+        <Grid container style={{alignItems: 'center'}}>
+          <Grid item xs={12} sm={6}>
+            <Typography variant="body2" color="textPrimary" style={{color: 'var(--accent-color)', fontWeight: '700'}}>
+              {'© '}
               {new Date().getFullYear()}
+              {` Game Theory`}
             </Typography>
           </Grid>
-          <Grid item xs={6} style={{ textAlign: 'right' }}>
+          <Grid item xs={12} sm={6} className="right">
             <a
               href="https://twitter.com/GameTheoryTech"
               rel="noopener noreferrer"
               target="_blank"
               className={classes.link}
             >
-              <img alt="twitter" src={TwitterImage} className={classes.img} />
+              <TwitterIcon color="var(--accent)" style={{fontSize: '24px'}} />
+            </a>
+            <a
+              href="https://www.youtube.com/channel/UCsttAlG8MNA6Fi01QYxhmIg"
+              rel="noopener noreferrer"
+              target="_blank"
+              className={classes.link}
+            >
+              <YouTubeIcon color="var(--accent)" style={{fontSize: '24px'}} />
+            </a>
+            <a href="https://discord.gg/DVc27ub3D8" rel="noopener noreferrer" target="_blank" className={classes.link}>
+              <img alt="discord" src={DiscordIcon} className={classes.img} />
+            </a>
+            <a href="https://gametheorytech.medium.com" rel="noopener noreferrer" target="_blank" className={classes.link}>
+              <img alt="Medium" src={MediumIcon} className={classes.img} />
             </a>
             <a
               href="https://github.com/GameTheoryTech"
@@ -64,24 +90,7 @@ const Footer = () => {
               target="_blank"
               className={classes.link}
             >
-              <img alt="github" src={GithubImage} className={classes.img} />
-            </a>
-            {/*<a href="https://t.me/community2ombchat" rel="noopener noreferrer" target="_blank" className={classes.link}>*/}
-            {/*  <img alt="telegram" src={TelegramImage} className={classes.img} />*/}
-            {/*</a>*/}
-            {/*<a*/}
-            {/*  href="https://www.youtube.com/results?search_query=2omb+finance"*/}
-            {/*  rel="noopener noreferrer"*/}
-            {/*  target="_blank"*/}
-            {/*  className={classes.link}*/}
-            {/*>*/}
-            {/*  <img alt="youtube" src={YoutubeImage} className={classes.img} />*/}
-            {/*</a>*/}
-            <a href="https://discord.gg/DVc27ub3D8" rel="noopener noreferrer" target="_blank" className={classes.link}>
-              <img alt="discord" src={DiscordImage} className={classes.img} />
-            </a>
-            <a href="https://gametheorytech.medium.com" rel="noopener noreferrer" target="_blank" className={classes.link}>
-              <img alt="medium" src={MediumImage} className={classes.img} />
+              <GitHubIcon color="var(--accent)"style={{fontSize: '24px'}} />
             </a>
           </Grid>
         </Grid>

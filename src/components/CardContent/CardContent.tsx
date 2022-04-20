@@ -7,7 +7,14 @@ const StyledCardContent = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
-  padding: ${(props) => props.theme.spacing[4]}px;
+  padding: 30px 20px;
+  padding-top: 20px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  strong {
+    color: var(--extra-color-1);
+    text-Shadow: 0px 0px 20px var(--extra-color-1);
+  }
 `;
 
 export default CardContent;

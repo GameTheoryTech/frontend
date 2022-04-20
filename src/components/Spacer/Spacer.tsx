@@ -6,19 +6,18 @@ interface SpacerProps {
 }
 
 const Spacer: React.FC<SpacerProps> = ({ size = 'md' }) => {
-  const { spacing } = useContext(ThemeContext);
 
   let s: number;
   switch (size) {
     case 'lg':
-      s = spacing[6];
+      s = 48;
       break;
     case 'sm':
-      s = spacing[2];
+      s = 8;
       break;
     case 'md':
     default:
-      s = spacing[4];
+      s = 24;
   }
 
   return <StyledSpacer size={s} />;

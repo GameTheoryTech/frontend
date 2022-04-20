@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Button } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import Input, { InputProps } from '../../../components/Input';
 
 interface MergeInputProps extends InputProps {
@@ -11,16 +11,14 @@ interface MergeInputProps extends InputProps {
 
 const MergeInput: React.FC<MergeInputProps> = ({ onChange, value, symbol }) => {
     return (
-        <StyledMergeInput>
-            <StyledMaxText>
-                Note that the color of the token will be of the token you clicked the merge button on first.
-            </StyledMaxText>
-            <StyledMaxText>
-                The combined level of the two NFTs cannot exceed the current max level.
-            </StyledMaxText>
+        <Box textAlign="center">
+            <Typography variant="body2" style={{marginBottom: '20px'}}>Select the ID Number of the NFT you wish to merge with.</Typography>
+            <Typography variant="body1" className="textGlow" style={{marginBottom: '20px'}}>
+                Note that the color of the new NFT will be based on the one you clicked merged on.
+            </Typography>
             {
                 symbol == "TUG1" ? <StyledMaxText>
-                    Gen 1 NFTs only be merged once.
+                    Gen 1 NFTs can only be merged once.
                 </StyledMaxText> : ""
             }
             <Input
@@ -39,7 +37,10 @@ const MergeInput: React.FC<MergeInputProps> = ({ onChange, value, symbol }) => {
                 placeholder="0"
                 value={value}
             />
-        </StyledMergeInput>
+            <Typography variant="body1" className="textGlow" style={{marginTop: '20px'}}>
+                The combined level of the two NFTs cannot exceed the current max level.
+            </Typography>
+        </Box>
     );
 };
 
@@ -48,17 +49,6 @@ const MergeInput: React.FC<MergeInputProps> = ({ onChange, value, symbol }) => {
               <Button size="sm" text="Max" />
             </div>
 */
-
-const StyledMergeInput = styled.div``;
-
-const StyledSpacer = styled.div`
-  width: ${(props) => props.theme.spacing[3]}px;
-`;
-
-const StyledTokenAdornmentWrapper = styled.div`
-  align-items: center;
-  display: flex;
-`;
 
 const StyledMaxText = styled.div`
   align-items: center;

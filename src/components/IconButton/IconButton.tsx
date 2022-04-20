@@ -13,7 +13,11 @@ interface IconButtonProps {
 const IconButton: React.FC<IconButtonProps> = ({ children, disabled, onClick, to }) => {
   return (
     <StyledButton disabled={disabled} onClick={onClick}>
-      {!!to ? <StyledLink to={to}>{children}</StyledLink> : children}
+      {!!to ? (
+        <StyledLink to={to}><>{children}</></StyledLink>
+      ) : (
+        children
+      )}
     </StyledButton>
   );
 };

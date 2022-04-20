@@ -1,16 +1,16 @@
 import React from 'react';
 
 //Graveyard ecosystem logos
-import tombLogo from '../../assets/img/GAME.svg';
-import tShareLogo from '../../assets/img/THEORY.svg';
+import tombLogo from '../../assets/img/GAME.png';
+import tShareLogo from '../../assets/img/THEORY.png';
 import tombLogoPNG from '../../assets/img/GAME.png';
 import tShareLogoPNG from '../../assets/img/THEORY.png';
-import tBondLogo from '../../assets/img/HODL-01.png';
+import tBondLogo from '../../assets/img/HODL.png';
 
 import tombFtmLpLogo from '../../assets/img/tomb_ftm_lp.png';
 import tshareFtmLpLogo from '../../assets/img/tshare_ftm_lp.png';
 
-import daiLogo from '../../assets/img/multi-collateral-dai-dai-logo.png';
+import daiLogo from '../../assets/img/DAI.png';
 import ftmLogo from '../../assets/img/fantom-ftm-logo.png';
 import ethLogo from '../../assets/img/ethereum-eth.png';
 import pFTMLogo from '../../assets/img/ripae_pftm.png';
@@ -74,10 +74,10 @@ type LogoProps = {
 
 const TokenSymbol: React.FC<LogoProps> = ({ symbol, size = 64 }) => {
   if (!logosBySymbol[symbol]) {
-    return <img src={logosBySymbol['TOMB']} alt={`${symbol} Logo`} width={size} height={size} />
+    return <img src={logosBySymbol['TOMB']} alt={`${symbol} Logo`} width={size} height={size} style={{display: 'block',borderRadius: '100%',boxShadow: "0px 0px 20px 0px var(--extra-color-1)",}} />
     // throw new Error(`Invalid Token Logo symbol: ${symbol}`);
   }
-  return <img src={logosBySymbol[symbol]} alt={`${symbol} Logo`} width={size} height={size} />;
+  return <img src={logosBySymbol[symbol]} alt={`${symbol} Logo`} width={size} height={size} style={{display: 'block', borderRadius: '100%', boxShadow: "0px 0px 20px 0px var(--extra-color-1)",}} />;
 };
 
 export default TokenSymbol;

@@ -1,26 +1,25 @@
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 import useTokenBalance from '../../hooks/useTokenBalance';
 import useTokenLocked from '../../hooks/useTokenLocked';
 import { getDisplayBalance } from '../../utils/formatBalance';
+import { Typography, Card, CardContent, Grid, Box, Button } from '@mui/material';
+import CardIcon from '../../components/CardIcon';
 
-import Label from '../Label';
 import Modal, { ModalProps } from '../Modal';
-import ModalTitle from '../ModalTitle';
 import useTombFinance from '../../hooks/useTombFinance';
 import TokenSymbol from '../TokenSymbol';
-import {makeStyles} from "@mui/styles";
-import Button from "../Button";
 import useTokenCanUnlockAmount from "../../hooks/useTokenCanUnlockAmount";
-import useZap from "../../hooks/useZap";
 import useUnlockGame from "../../hooks/useUnlockGame";
 import useUnlockTheory from "../../hooks/useUnlockTheory";
 import useFetchTheoryUnlockers from "../../hooks/useFetchTheoryUnlockers";
 import {BigNumber} from "ethers";
 import useFetchTheoryUnlockersGen1 from "../../hooks/useFetchTheoryUnlockersGen1";
+import useLpStats from '../../hooks/useLpStats';
 
 const AccountModal: React.FC<ModalProps> = ({ onDismiss }) => {
   const tombFinance = useTombFinance();
+  const tombFtmLpStats = useLpStats('GAME-DAI-LP');
+  const tShareFtmLpStats = useLpStats('THEORY-DAI-LP');
 
   const tombBalance = useTokenBalance(tombFinance.TOMB);
   const gameLocked = useTokenLocked(tombFinance.TOMB);
@@ -31,12 +30,12 @@ const AccountModal: React.FC<ModalProps> = ({ onDismiss }) => {
 
   const theoryUnlockers = useFetchTheoryUnlockers();
   const theoryUnlockersGen1 = useFetchTheoryUnlockersGen1();
-  const maxTheoryUnlockerGen0 = theoryUnlockers.length == 0 ? null : theoryUnlockers.reduce((prev, current) => (prev.level > current.level) ? prev : current);
+  const maxTheoryUnlockerGen0 = theoryUnlockers.length == 0 ? null : theoryUnlockers.reduce((prev, current) => (prev.level > current.level) ? prev : current)
   const maxTheoryUnlockerUnlockAmountGen0 = maxTheoryUnlockerGen0 ? maxTheoryUnlockerGen0.unlockAmount : BigNumber.from(0);
-  const maxTheoryUnlockerGen1 = theoryUnlockersGen1.length == 0 ? null : theoryUnlockersGen1.reduce((prev, current) => (prev.level > current.level) ? prev : current);
+  const maxTheoryUnlockerGen1 = theoryUnlockersGen1.length == 0 ? null : theoryUnlockersGen1.reduce((prev, current) => (prev.level > current.level) ? prev : current)
   const maxTheoryUnlockerUnlockAmountGen1 = maxTheoryUnlockerGen1 ? maxTheoryUnlockerGen1.unlockAmount : BigNumber.from(0);
-  const maxTheoryUnlockerIsGen1 = maxTheoryUnlockerUnlockAmountGen1.gt(maxTheoryUnlockerUnlockAmountGen0);
-  const maxTheoryUnlocker = maxTheoryUnlockerIsGen1 ? maxTheoryUnlockerGen1 : maxTheoryUnlockerGen0;
+  const maxTheoryUnlockerIsGen1 = maxTheoryUnlockerUnlockAmountGen1 > maxTheoryUnlockerUnlockAmountGen0;
+  const maxTheoryUnlocker = maxTheoryUnlockerIsGen1 ? maxTheoryUnlockerGen1 : maxTheoryUnlockerGen1;
   const maxTheoryUnlockerUnlockAmount = maxTheoryUnlockerIsGen1 ? maxTheoryUnlockerUnlockAmountGen1 : maxTheoryUnlockerUnlockAmountGen0;
   const tshareBalance = useTokenBalance(tombFinance.TSHARE);
   const theoryLocked = useTokenLocked(tombFinance.TSHARE);
@@ -49,96 +48,133 @@ const AccountModal: React.FC<ModalProps> = ({ onDismiss }) => {
   const tbondBalance = useTokenBalance(tombFinance.HODL);
   const displayTbondBalance = useMemo(() => getDisplayBalance(tbondBalance), [tbondBalance]);
 
+  const tombLPStats = useMemo(() => (tombFtmLpStats ? tombFtmLpStats : null), [tombFtmLpStats]);
+  const tshareLPStats = useMemo(() => (tShareFtmLpStats ? tShareFtmLpStats : null), [tShareFtmLpStats]);
+
   const { onUnlockGame } = useUnlockGame();
   const { onUnlockTheory } = useUnlockTheory();
 
-  // const useStyles = makeStyles((theme) => ({
-  //   modalContent: {
-  //     backgroundColor: "darkred"
-  //   }
-  // }));
-  //
-  // const classes = useStyles();
-  //
-  // const modalProps = { // make sure all required component's inputs/Props keys&types match
-  //   className: classes.modalContent
-  // }
-
   return (
-    <Modal>
-      <ModalTitle text="My Wallet" />
+    <Modal text="My Wallet" onDismiss={onDismiss}>
 
-      <Balances>
-        <StyledBalanceWrapper>
-          <TokenSymbol symbol="TOMB" />
-          <StyledBalance>
-            <StyledValue>{displayTombBalance}</StyledValue>
-            <Label text="GAME Available" />
-          </StyledBalance>
-        </StyledBalanceWrapper>
+      <Card className="boxed">
+        <CardContent>
+          <Box style={{marginBottom: '20px'}}>
+            <CardIcon>
+              <TokenSymbol symbol="TOMB" />
+            </CardIcon>
+          </Box>
 
-        <StyledBalanceWrapper>
-          <TokenSymbol symbol="TOMB" />
-          <StyledBalance>
-            <StyledValue>{`${displayGameLocked} (${displayGameCanUnlock})`}</StyledValue>
-            <Label text="LGAME Locked (Available to Unlock)" />
-            <Button disabled={gameCanUnlockAmount.eq(0)} onClick={onUnlockGame}>Unlock</Button> {/*Can only unlock after a year, so don't have to implement this immediately.*/}
-          </StyledBalance>
-        </StyledBalanceWrapper>
+          <Grid container spacing={1}>
 
-        <StyledBalanceWrapper>
-          <TokenSymbol symbol="TSHARE" />
-          <StyledBalance>
-            <StyledValue>{displayTshareBalance}</StyledValue>
-            <Label text="THEORY Available" />
-          </StyledBalance>
-        </StyledBalanceWrapper>
+            <Grid item xs={6}>
+              <Typography variant="h4">
+                {displayTombBalance}
+              </Typography>
+              <Typography variant="body1" component="p" className="textGlow">GAME Available</Typography>
+            </Grid>
 
-        <StyledBalanceWrapper>
-          <TokenSymbol symbol="TSHARE" />
-          <StyledBalance>
-            <StyledValue>{`${displayTheoryLocked} (${displayTheoryCanUnlock})`}</StyledValue>
-            <Label text="LTHEORY Locked (Available to Unlock)" />
-            <Button disabled={theoryCanUnlockAmount.eq(0)} onClick={() => onUnlockTheory(maxTheoryUnlockerIsGen1,maxTheoryUnlocker ? maxTheoryUnlocker.token_id : BigNumber.from(0))} >Unlock</Button>
-          </StyledBalance>
-        </StyledBalanceWrapper>
+            <Grid item xs={6}>
+              <Typography variant="h4">
+                {displayGameLocked}
+              </Typography>
+              <Typography variant="body1" component="p" className="textGlow">LGAME Locked</Typography>
+            </Grid>
 
-        <StyledBalanceWrapper>
-          <TokenSymbol symbol="HODL" />
-          <StyledBalance>
-            <StyledValue>{displayTbondBalance}</StyledValue>
-            <Label text="HODL Available" />
-          </StyledBalance>
-        </StyledBalanceWrapper>
-      </Balances>
+          </Grid>
+          <Button variant="contained" disabled={gameCanUnlockAmount.eq(0)} onClick={onUnlockGame} style={{width: '100%', marginTop: '20px'}}>Unlock {displayGameCanUnlock} LGAME</Button> {/*Can only unlock after a year, so don't have to implement this immediately.*/}
+        </CardContent>
+      </Card>
+
+      <Card className="boxed" style={{marginTop: '20px'}}>
+        <CardContent>
+          <Box style={{marginBottom: '20px'}}>
+            <CardIcon>
+              <TokenSymbol symbol="TSHARE" />
+            </CardIcon>
+          </Box>
+
+          <Grid container spacing={1}>
+
+            <Grid item xs={6}>
+              <Typography variant="h4">
+                {displayTshareBalance}
+              </Typography>
+              <Typography variant="body1" component="p" className="textGlow">THEORY Available</Typography>
+            </Grid>
+
+            <Grid item xs={6}>
+              <Typography variant="h4">
+                {displayTheoryLocked}
+              </Typography>
+              <Typography variant="body1" component="p" className="textGlow">LTHEORY Locked</Typography>
+            </Grid>
+
+          </Grid>
+          <Button variant="contained" disabled={theoryCanUnlockAmount.eq(0)} onClick={() => onUnlockTheory(maxTheoryUnlockerIsGen1,maxTheoryUnlocker ? maxTheoryUnlocker.token_id : BigNumber.from(0))} style={{width: '100%', marginTop: '20px'}}>Unlock {displayTheoryCanUnlock} LTHEORY</Button>
+          <Typography variant="body1" className="textGlow" component="p" style={{marginTop: '20px'}}>
+            LTHEORY Tokens can only be unlocked once using NFTs
+          </Typography>
+        </CardContent>
+      </Card>
+
+      <Card className="boxed" style={{marginTop: '20px'}}>
+        <CardContent>
+          <Box style={{marginBottom: '20px'}}>
+            <CardIcon>
+              <TokenSymbol symbol="HODL" />
+            </CardIcon>
+          </Box>
+
+          <Typography variant="h4">
+            {displayTbondBalance}
+          </Typography>
+          <Typography variant="body1" component="p" className="textGlow">HODL Available</Typography>
+
+        </CardContent>
+      </Card>
+
+      <Card className="boxed" style={{marginTop: '20px'}}>
+        <CardContent>
+          <Box className="icon-pools" style={{marginBottom: '20px'}}>
+            <CardIcon>
+              <TokenSymbol symbol="GAME" />
+            </CardIcon>
+            <CardIcon>
+              <TokenSymbol symbol="DAI" />
+            </CardIcon>
+          </Box>
+
+          <Typography variant="h4">
+            {tombLPStats?.tokenAmount ? tombLPStats?.tokenAmount : '-.--'}
+          </Typography>
+          <Typography variant="body1" component="p" className="textGlow">GAME-DAI LP Tokens Available</Typography>
+
+        </CardContent>
+      </Card>
+
+      <Card className="boxed" style={{marginTop: '20px'}}>
+        <CardContent>
+          <Box className="icon-pools" style={{marginBottom: '20px'}}>
+            <CardIcon>
+              <TokenSymbol symbol="THEORY" />
+            </CardIcon>
+            <CardIcon>
+              <TokenSymbol symbol="DAI" />
+            </CardIcon>
+          </Box>
+
+          <Typography variant="h4">
+            {tshareLPStats?.tokenAmount ? tshareLPStats?.tokenAmount : '-.--'}
+          </Typography>
+          <Typography variant="body1" component="p" className="textGlow">THEORY-DAI LP Tokens Available</Typography>
+
+        </CardContent>
+      </Card>
+
+
     </Modal>
   );
 };
-
-const StyledValue = styled.div`
-  color: ${(props) => props.theme.color.grey[300]};
-  font-size: 30px;
-  font-weight: 700;
-`;
-
-const StyledBalance = styled.div`
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-`;
-
-const Balances = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  margin-bottom: ${(props) => props.theme.spacing[4]}px;
-`;
-
-const StyledBalanceWrapper = styled.div`
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  margin: 0 ${(props) => props.theme.spacing[3]}px;
-`;
 
 export default AccountModal;

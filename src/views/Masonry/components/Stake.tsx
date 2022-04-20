@@ -1,15 +1,10 @@
 import React, { useMemo } from 'react';
-import styled from 'styled-components';
 
 import { Box, Button, Card, CardContent, Typography } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 
-// import Button from '../../../components/Button';
-// import Card from '../../../components/Card';
-// import CardContent from '../../../components/CardContent';
 import CardIcon from '../../../components/CardIcon';
-import { AddIcon, RemoveIcon } from '../../../components/icons';
-import IconButton from '../../../components/IconButton';
-import Label from '../../../components/Label';
+import QuestionMark from '@mui/icons-material/QuestionMark';
 import Value from '../../../components/Value';
 
 import useApprove, { ApprovalState } from '../../../hooks/useApprove';
@@ -30,7 +25,29 @@ import TokenSymbol from '../../../components/TokenSymbol';
 import useStakeToMasonry from '../../../hooks/useStakeToMasonry';
 import useWithdrawFromMasonry from '../../../hooks/useWithdrawFromMasonry';
 
-const Stake: React.FC = () => {
+import Modal, { ModalProps } from '../../../components/Modal';
+import ModalActions from '../../../components/ModalActions';
+
+const useStyles = makeStyles((theme) => ({
+  button : {
+    width: '2em',
+    height: '2em',
+    fontSize: '14px',
+    padding: '0',
+    minWidth: 'auto'
+  }
+}));
+
+interface StakeProps {
+  withdrawPercentage: number;
+  classname: string;
+}
+
+const Stake: React.FC<StakeProps> = ({withdrawPercentage, classname}) => {
+  classname = classname || '';
+  withdrawPercentage = withdrawPercentage || 0;
+  const classes = useStyles();
+
   const tombFinance = useTombFinance();
   const [approveStatus, approve] = useApprove(tombFinance.TSHARE, tombFinance.contracts.Theoretics.address);
 
@@ -70,47 +87,94 @@ const Stake: React.FC = () => {
         onWithdraw(value);
         onDismissWithdraw();
       }}
+      withdrawPercentage={withdrawPercentage}
       tokenName={'THEORY'}
     />,
   );
 
+  const handleModalClose = () => {
+    onCloseModal();
+  };
+  
+  const [onHandleModal, onCloseModal] = useModal(
+    <Modal text="Withdrawal Fee" onDismiss={handleModalClose}>
+      <Typography variant="h6" color="#fff" style={{marginBottom: '20px', fontWeight: "500"}}>
+        Your withdrawal fee for each pool changes the longer your tokens are staked, from your initial deposit or last withdrawal.
+      </Typography>
+      <Typography variant="h6" color="#fff" style={{marginBottom: '20px', fontWeight: "500"}}>
+        <strong>The fees are as follows:</strong>
+        <ul style={{marginTop:'10px'}}>
+          <li>1 block (30 seconds) = 25%</li>
+          <li>less than 1 hour = 8%</li>
+          <li>less than 1 day = 4%</li>
+          <li>less than 3 days = 2%</li>
+          <li>less than 5 days = 1%</li>
+          <li>less than 2 weeks = 0.5%</li>
+          <li>less than 4 weeks = 0.25%</li>
+          <li>4 weeks and longer  = 0.01%</li>
+        </ul>
+      </Typography>
+      <Typography variant="h6" color="#fff">
+        Depositing or Claiming tokens does not reset your withdrawal fee.
+      </Typography>
+      <ModalActions>
+        <Button color="primary" variant="contained" onClick={handleModalClose} fullWidth>
+          Close
+        </Button>
+      </ModalActions>
+    </Modal>
+  );
+
+
   return (
-    <Box>
-      <Card>
+    <>
+      <Card className={classname}>
         <CardContent>
-          <StyledCardContentInner>
-            <StyledCardHeader>
-              <CardIcon>
-                <TokenSymbol symbol="TSHARE" />
-              </CardIcon>
-              <Value value={getDisplayBalance(stakedBalance)} />
-              <Label text={`≈ $${tokenPriceInDollars}`} color="#89cff0" />
-              <Label text={'THEORY Staked'} />
-            </StyledCardHeader>
-            <StyledCardActions>
+          <Box style={{marginBottom: '20px'}}>
+            <CardIcon>
+              <TokenSymbol symbol="TSHARE" />
+            </CardIcon>
+          </Box>
+
+          <Typography variant="h4">
+            <Value value={getDisplayBalance(stakedBalance)} />
+          </Typography>
+          <Typography variant="h4" component="p" color="var(--extra-color-2)">
+            ${tokenPriceInDollars}
+          </Typography>
+          <Typography variant="body1" component="p" className="textGlow" style={{marginBottom: '20px'}}>
+            THEORY Staked
+          </Typography>
+
               {approveStatus !== ApprovalState.APPROVED ? (
-                <Button
+                <Box className="buttonWrap">
+                  <Button
                   disabled={approveStatus !== ApprovalState.NOT_APPROVED}
                   variant="contained"
-                  color="primary"
                   style={{ marginTop: '20px' }}
                   onClick={approve}
-                >
-                  Approve THEORY
-                </Button>
+                  >
+                    Approve THEORY
+                  </Button>
+                </Box>
               ) : (
                 <>
-                  <IconButton disabled={!canWithdrawFromMasonry} onClick={onPresentWithdraw}>
-                    <RemoveIcon />
-                  </IconButton>
-                  <StyledActionSpacer />
-                  <IconButton onClick={onPresentDeposit}>
-                    <AddIcon />
-                  </IconButton>
+                <Box className="buttonWrap">
+                  <Typography variant="body1" component="p" style={{marginBottom: '20px'}}>
+                    Current Withdrawal Fee {withdrawPercentage}%
+                    <Button variant="contained" className={classes.button} aria-label="More info" style={{ marginLeft: '10px' }} onClick={onHandleModal}>
+                      <QuestionMark fontSize="inherit" />
+                    </Button>
+                  </Typography>
+                  <Button variant="contained" disabled={!canWithdrawFromMasonry} onClick={onPresentWithdraw} style={{marginRight: '15px'}}>
+                    Withdraw
+                  </Button>
+                  <Button variant="contained" onClick={onPresentDeposit}>
+                    Deposit
+                  </Button>
+                  </Box>
                 </>
               )}
-            </StyledCardActions>
-          </StyledCardContentInner>
         </CardContent>
       </Card>
       <Box mt={2} style={{ color: '#FFF' }}>
@@ -125,33 +189,8 @@ const Stake: React.FC = () => {
           </Card>
         )}
       </Box>
-    </Box>
+    </>
   );
 };
-
-const StyledCardHeader = styled.div`
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-`;
-const StyledCardActions = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 28px;
-  width: 100%;
-`;
-
-const StyledActionSpacer = styled.div`
-  height: ${(props) => props.theme.spacing[4]}px;
-  width: ${(props) => props.theme.spacing[4]}px;
-`;
-
-const StyledCardContentInner = styled.div`
-  align-items: center;
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: space-between;
-`;
 
 export default Stake;

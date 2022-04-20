@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import Modal, { ModalProps } from '../../Modal';
 import Label from '../../Label';
-import Button from '../../Button';
 import { TransactionDetails } from '../../../state/transactions/reducer';
 import styled from 'styled-components';
 import Transaction from './Transaction';
@@ -9,6 +8,7 @@ import ModalActions from '../../ModalActions';
 import Spacer from '../../Spacer';
 import { isTransactionRecent, useAllTransactions, useClearAllTransactions } from '../../../state/transactions/hooks';
 import { Trash } from 'react-feather';
+import { Button } from '@mui/material';
 
 const MAX_TRANSACTION_HISTORY = 10;
 
@@ -58,7 +58,7 @@ const TxModal: React.FC<ModalProps> = ({ onDismiss }) => {
       )}
       {isEmpty && <Label text="No transactions." color="#777" />}
       <ModalActions>
-        <Button text="Close" onClick={onDismiss} />
+        <Button variant="contained" onClick={onDismiss}>Close</Button>
       </ModalActions>
     </StyledModal>
   );
