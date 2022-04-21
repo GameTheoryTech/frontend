@@ -11,7 +11,7 @@ const useUnstakeTimerDungeon = () => {
 
   useEffect(() => {
     if (tombFinance) {
-      tombFinance?.getUserUnstakeTimeDungeon().then(setTime);
+      tombFinance.getUserUnstakeTimeDungeon().then(setTime);
     }
   }, [tombFinance]);
   return time;

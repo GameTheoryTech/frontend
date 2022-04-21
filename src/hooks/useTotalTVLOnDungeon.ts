@@ -12,8 +12,7 @@ const useTotalTVLOnDungeon = () => {
   useEffect(() => {
     async function fetchTotalStaked() {
       try {
-        if(!tombFinance?.isUnlocked) return;
-        setTotalStaked(await tombFinance?.getTotalTVLInDungeon());
+        setTotalStaked(await tombFinance.getTotalTVLInDungeon());
       } catch(err) {
         console.error(err);
       }

@@ -30,8 +30,26 @@ import TokenSymbol from '../../../components/TokenSymbol';
 import useStakeToDungeon from '../../../hooks/useStakeToDungeon';
 import useWithdrawFromDungeon from '../../../hooks/useWithdrawFromDungeon';
 import useStakedBalanceInTheoryOnDungeon from "../../../hooks/useStakedBalanceInTheoryOnDungeon";
+import QuestionMark from "@mui/icons-material/QuestionMark";
+import {makeStyles} from "@mui/styles";
 
-const Stake: React.FC = () => {
+const useStyles = makeStyles((theme) => ({
+  button : {
+    width: '2em',
+    height: '2em',
+    fontSize: '14px',
+    padding: '0',
+    minWidth: 'auto'
+  }
+}));
+
+interface StakeProps {
+  classname: string;
+}
+
+const Stake: React.FC<StakeProps> = ({classname}) => {
+  classname = classname || '';
+  const classes = useStyles();
   const tombFinance = useTombFinance();
   const [approveStatus, approve] = useApprove(tombFinance?.TSHARE, tombFinance?.contracts.Master.address);
 
@@ -77,59 +95,66 @@ const Stake: React.FC = () => {
   // );
 
   return (
-    <Box>
-      <Card>
-        <CardContent>
-          <StyledCardContentInner>
-            <StyledCardHeader>
+      <>
+        <Card className={classname}>
+          <CardContent>
+            <Box style={{marginBottom: '20px'}}>
               <CardIcon>
-                <TokenSymbol symbol="TSHARE" />
-              {/* TODO: "TSHARE" should be "MASTER" with new icon */}
+                <TokenSymbol symbol="MASTER" />
               </CardIcon>
+            </Box>
+
+            <Typography variant="h4">
               <Value value={getDisplayBalance(stakedBalance)} />
-              <Label text={`≈ $${tokenPriceInDollars}`} color="#89cff0" />
-              <Label text={'MASTER In Wallet'} />
-            </StyledCardHeader>
-            <StyledCardActions>
-              {approveStatus !== ApprovalState.APPROVED ? (
-                <Button
-                  disabled={approveStatus !== ApprovalState.NOT_APPROVED}
-                  variant="contained"
-                  color="primary"
-                  style={{ marginTop: '20px' }}
-                  onClick={approve}
-                >
-                  Approve THEORY
-                </Button>
-              ) : (
+            </Typography>
+            <Typography variant="h4" component="p" color="var(--extra-color-2)">
+              ${tokenPriceInDollars}
+            </Typography>
+            <Typography variant="body1" component="p" className="textGlow" style={{marginBottom: '20px'}}>
+              MASTER In Wallet
+            </Typography>
+
+            {approveStatus !== ApprovalState.APPROVED ? (
+                <Box className="buttonWrap">
+                  <Button
+                      disabled={approveStatus !== ApprovalState.NOT_APPROVED}
+                      variant="contained"
+                      style={{ marginTop: '20px' }}
+                      onClick={approve}
+                  >
+                    Approve THEORY
+                  </Button>
+                </Box>
+            ) : (
                 <>
-                  {/*<IconButton disabled={!canWithdrawFromDungeon} onClick={onPresentWithdraw}>*/}
-                  <IconButton disabled={true}>
-                    <RemoveIcon />
-                  </IconButton>
-                  <StyledActionSpacer />
-                  <IconButton onClick={onPresentDeposit}>
-                    <AddIcon />
-                  </IconButton>
+                  <Box className="buttonWrap">
+                    <Typography variant="body1" component="p" style={{marginBottom: '20px'}}>
+                      Minimum Lockup: 1 year
+                    </Typography>
+                    <Button variant="contained" disabled={true} style={{marginRight: '15px'}}>
+                      Withdraw
+                    </Button>
+                    <Button variant="contained" onClick={onPresentDeposit}>
+                      Deposit
+                    </Button>
+                  </Box>
                 </>
-              )}
-            </StyledCardActions>
-          </StyledCardContentInner>
-        </CardContent>
-      </Card>
-      {/*<Box mt={2} style={{ color: '#FFF' }}>*/}
-      {/*  {canWithdrawFromDungeon ? (*/}
-      {/*    ''*/}
-      {/*  ) : (*/}
-      {/*    <Card>*/}
-      {/*      <CardContent>*/}
-      {/*        <Typography style={{ textAlign: 'center' }}>Withdraw possible in</Typography>*/}
-      {/*        <ProgressCountdown hideBar={true} base={from} deadline={to} description="Withdraw available in" />*/}
-      {/*      </CardContent>*/}
-      {/*    </Card>*/}
-      {/*  )}*/}
-      {/*</Box>*/}
-    </Box>
+            )}
+          </CardContent>
+        </Card>
+        {/*<Box mt={2} style={{ color: '#FFF' }}>*/}
+        {/*  {canWithdrawFromMasonry ? (*/}
+        {/*      ''*/}
+        {/*  ) : (*/}
+        {/*      <Card>*/}
+        {/*        <CardContent>*/}
+        {/*          <Typography style={{ textAlign: 'center' }}>Withdraw possible in</Typography>*/}
+        {/*          <ProgressCountdown hideBar={true} base={from} deadline={to} description="Withdraw available in" />*/}
+        {/*        </CardContent>*/}
+        {/*      </Card>*/}
+        {/*  )}*/}
+        {/*</Box>*/}
+      </>
   );
 };
 

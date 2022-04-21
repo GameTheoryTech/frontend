@@ -14,6 +14,9 @@ import useHarvestFromMasonry from '../../../hooks/useHarvestFromMasonry';
 import useEarningsOnMasonry from '../../../hooks/useEarningsOnMasonry';
 import useTombStats from '../../../hooks/useTombStats';
 import { getDisplayBalance } from '../../../utils/formatBalance';
+import useSetTokenNoUnlockBeforeTransfer from "../../../hooks/useTokenSetNoUnlockBeforeTransfer";
+import useTombFinance from "../../../hooks/useTombFinance";
+import useTokenNoUnlockBeforeTransfer from "../../../hooks/useTokenNoUnlockBeforeTransfer";
 
 export interface HarvestProps
 {
@@ -23,9 +26,12 @@ export interface HarvestProps
 
 const Harvest: React.FC<HarvestProps> = ({rewardsLocked, classname}) => {
   const tombStats = useTombStats();
+  const tombFinance = useTombFinance();
   const { onReward } = useHarvestFromMasonry();
   const earnings = useEarningsOnMasonry();
   const canClaimReward = useClaimRewardCheck();
+  const noUnlock = useTokenNoUnlockBeforeTransfer(tombFinance?.TOMB);
+  const { onSetTokenNoUnlockBeforeTransfer } = useSetTokenNoUnlockBeforeTransfer(tombFinance?.TOMB);
 
   const tokenPriceInDollars = useMemo(
     () => (tombStats ? Number(tombStats.priceInDollars).toFixed(2) : null),
@@ -78,13 +84,18 @@ const Harvest: React.FC<HarvestProps> = ({rewardsLocked, classname}) => {
             LGAME Earned
           </Typography>
           <Box className="buttonWrap">
-            <Button
+            {!noUnlock ? (<Button
+              onClick={onSetTokenNoUnlockBeforeTransfer}
+              variant="contained"
+          >
+            Approve Unlock On Claim
+          </Button>) : (<Button
               onClick={onReward}
               variant="contained"
               disabled={earnings.eq(0) || !canClaimReward}
             >
               Claim Rewards
-            </Button>
+            </Button>)}
           </Box>
         </CardContent>
       </Card>

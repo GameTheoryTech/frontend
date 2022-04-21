@@ -8,7 +8,7 @@ const useStakeToDungeon = () => {
 
   const handleStake = useCallback(
     (amount: string) => {
-      handleTransactionReceipt(tombFinance?.stakeShareToDungeon(amount), `Buy MASTER with ${amount} `);
+      handleTransactionReceipt(tombFinance.stakeShareToDungeon(amount), `Buy MASTER with ${amount} `);
     },
     [tombFinance, handleTransactionReceipt],
   );

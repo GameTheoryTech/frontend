@@ -55,6 +55,13 @@ const AccountModal: React.FC<ModalProps> = ({ onDismiss }) => {
   const { onUnlockGame } = useUnlockGame();
   const { onUnlockTheory } = useUnlockTheory();
 
+  const tombLpBalance = useTokenBalance(tombFinance?.TOMBDAI_LPToken);
+  const tshareLpBalance = useTokenBalance(tombFinance?.TSHAREDAI_LPToken);
+
+  const displayTombLpBalance = useMemo(() => getDisplayBalance(tombLpBalance), [tombLpBalance]);
+  const displayTshareLpBalance = useMemo(() => getDisplayBalance(tshareLpBalance), [tshareLpBalance]);
+
+
   return (
     <Modal text="My Wallet" onDismiss={onDismiss}>
 
@@ -147,7 +154,7 @@ const AccountModal: React.FC<ModalProps> = ({ onDismiss }) => {
           </Box>
 
           <Typography variant="h4">
-            {tombLPStats?.tokenAmount ? tombLPStats?.tokenAmount : '-.--'}
+            {displayTombLpBalance}
           </Typography>
           <Typography variant="body1" component="p" className="textGlow">GAME-DAI LP Tokens Available</Typography>
 
@@ -166,7 +173,7 @@ const AccountModal: React.FC<ModalProps> = ({ onDismiss }) => {
           </Box>
 
           <Typography variant="h4">
-            {tshareLPStats?.tokenAmount ? tshareLPStats?.tokenAmount : '-.--'}
+            {displayTshareLpBalance}
           </Typography>
           <Typography variant="body1" component="p" className="textGlow">THEORY-DAI LP Tokens Available</Typography>
 

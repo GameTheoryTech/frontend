@@ -22,6 +22,7 @@ import ZapModal from '../Bank/components/ZapModal';
 
 import { makeStyles } from '@mui/styles';
 import useTombFinance from '../../hooks/useTombFinance';
+import ReactPlayer from "react-player";
 
 const numImg = {
   1: require('../../assets/img/01.png'),
@@ -158,7 +159,7 @@ const Home = () => {
         <Grid container justifyContent="center" className="section" spacing={3}>
           <Grid item xs={12} style={{textAlign: 'center', marginBottom: '50px'}}>
             <Typography variant="h2" component="h1" className='textGlow pink' style={{marginBottom: '10px', textTransform: 'uppercase'}}>Game Theory</Typography>
-            <Typography variant="h5" component="p" className={classes.heading}>The Revolutionary 'Play and Earn' Platform, Created by AAA Game Developers, Taking DeFi and Gaming to the Next Level!</Typography>
+            <Typography variant="h5" component="p" className={classes.heading}>The Revolutionary 'Play and Earn' Platform, Founded by a AAA Game Developer, Taking DeFi and Gaming to the Next Level!</Typography>
           </Grid>
 
           {/* TVL */}
@@ -341,7 +342,11 @@ const Home = () => {
             </Box>
             <div className="wistia_responsive_padding" style={{padding:'56.25% 0 0 0', boxShadow: '0px 0px 10px 0px var(--extra-color-1)', position:'relative', marginTop: '50px', borderRadius: '20px'}}>
               <div className="wistia_responsive_wrapper" style={{height: '100%', left: '0', position: 'absolute', top: '0', width: '100%'}}>
-                <iframe src="https://fast.wistia.net/embed/iframe/t5mwooeubw?videoFoam=true" title="Set Up Metamask wallet and buy Fantom Video" allow="autoplay; fullscreen" allowtransparency="true" frameBorder="0" scrolling="no" className="wistia_embed" name="wistia_embed" msallowfullscreen="true" width="100%" height="100%" style={{borderRadius: '20px'}}></iframe>
+                <ReactPlayer url="https://getleda.wistia.com/medias/t5mwooeubw"
+                             className="video"
+                             width="100%"
+                             height="100%"
+                controls={true} style={{borderRadius: '20px', overflow: "hidden"}}/>
               </div>
             </div>
           </Grid>

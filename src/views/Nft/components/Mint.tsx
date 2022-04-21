@@ -60,8 +60,11 @@ const Mint: React.FC<MintProps> = ({ name, minValue, maxValue }) => {
       {approveStatus === ApprovalState.APPROVED ? (
         <>
 
-          <Button variant="contained" onClick={onPresentDeposit} fullWidth style={{marginTop: '20px'}}>
-            Mint
+          {/*<Button variant="contained" onClick={onPresentDeposit} fullWidth style={{marginTop: '20px'}}>*/}
+          {/*  Mint*/}
+          {/*</Button>*/}
+          <Button variant="contained" disabled={true} onClick={onPresentDeposit} fullWidth style={{marginTop: '20px'}}>
+            Minting Temporarily Unavailable
           </Button>
         </>
       ) : (

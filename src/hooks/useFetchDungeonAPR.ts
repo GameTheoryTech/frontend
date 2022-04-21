@@ -11,8 +11,8 @@ const useFetchDungeonAPR = () => {
   useEffect(() => {
     async function fetchMasonryAPR() {
       try {
-        setApr(await tombFinance?.getDungeonAPR());
-        setDpr(await tombFinance?.getDungeonDPR());
+        setApr(await tombFinance.getDungeonAPR());
+        setDpr(await tombFinance.getDungeonDPR());
       } catch(err){
         console.error(err);
       }

@@ -12,6 +12,9 @@ import TokenSymbol from '../../../components/TokenSymbol';
 import { Bank } from '../../../tomb-finance';
 import useTombStats from '../../../hooks/useTombStats';
 import useShareStats from '../../../hooks/usetShareStats';
+import useTokenNoUnlockBeforeTransfer from "../../../hooks/useTokenNoUnlockBeforeTransfer";
+import useSetTokenNoUnlockBeforeTransfer from "../../../hooks/useTokenSetNoUnlockBeforeTransfer";
+import useTombFinance from "../../../hooks/useTombFinance";
 
 interface HarvestProps {
   bank: Bank;
@@ -20,6 +23,9 @@ interface HarvestProps {
 }
 
 const Harvest: React.FC<HarvestProps> = ({ bank, rewardsLocked, classname }) => {
+  const tombFinance = useTombFinance();
+  const noUnlock = useTokenNoUnlockBeforeTransfer(tombFinance?.TSHARE);
+  const { onSetTokenNoUnlockBeforeTransfer } = useSetTokenNoUnlockBeforeTransfer(tombFinance?.TSHARE);
   const earnings = useEarnings(bank.contract, bank.earnTokenName, bank.poolId);
   const { onReward } = useHarvest(bank);
   const tombStats = useTombStats();
@@ -75,13 +81,18 @@ const Harvest: React.FC<HarvestProps> = ({ bank, rewardsLocked, classname }) => 
         </Typography>
 
         <Box className="buttonWrap">
-          <Button
-            onClick={onReward}
-            variant="contained"
-            disabled={earnings.eq(0)}
+          {!noUnlock ? (<Button
+              onClick={onSetTokenNoUnlockBeforeTransfer}
+              variant="contained"
+          >
+            Approve Unlock On Claim
+          </Button>) : (<Button
+              onClick={onReward}
+              variant="contained"
+              disabled={earnings.eq(0)}
           >
             Claim Rewards
-          </Button>
+          </Button>)}
         </Box>
       </CardContent>
     </Card>

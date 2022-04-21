@@ -86,7 +86,7 @@ const Cemetery = () => {
       <Page>
         <Route exact path={path}>
           {!!account ? (
-            <Paper maxWidth="lg" className="section">
+            <Paper maxwidth="lg" className="section">
 
 
               <Typography align="center" variant="h2" className="textGlow pink" style={{marginBottom: '50px'}}>
@@ -158,6 +158,61 @@ const Cemetery = () => {
 
                       </Grid>
                       </div>
+                      </Link>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              </Grid>
+
+              <Grid container justifyContent="center" spacing={3}>
+                <Grid item xs={12} md={4}>
+                  <Card className="boxed link">
+                    <CardContent align="center">
+                      <Link to="/dungeon" style={{textDecoration: 'none',color: 'inherit'}}>
+                        <Box style={{marginBottom: '20px'}}>
+                          <CardIcon>
+                            <TokenSymbol symbol="MASTER" />
+                          </CardIcon>
+                        </Box>
+                        <Typography variant="h4" className="kallisto" style={{marginBottom: '20px'}}>
+                          Dungeon Pool
+                        </Typography>
+                        <Typography variant="body1" style={{marginBottom: '20px'}}>
+                          Lock up THEORY for 1 year, receive MASTER, & earn bonuses and GAME when GAME price is above $1.01
+                        </Typography>
+                        <div className='info-wrap'>
+                          <Grid container spacing={3}>
+
+                            <Grid item xs={6}>
+                              <Typography variant="h4" color="var(--extra-color-2)">
+                                {numberWithCommas((!rebateStats.outOfBootstrap || rebateStats.tombPrice >= 1.01) ? apr.toFixed(2) : "0.00")}%
+                              </Typography>
+                              <Typography variant="body1" component="p" className="textGlow">Yearly Rewards</Typography>
+                            </Grid>
+
+                            <Grid item xs={6}>
+                              <Typography variant="h4" color="var(--extra-color-2)">
+                                {numberWithCommas((!rebateStats.outOfBootstrap || rebateStats.tombPrice >= 1.01) ? dpr.toFixed(2) : "0.00")}%
+                              </Typography>
+                              <Typography variant="body1" component="p" className="textGlow">Daily Rewards</Typography>
+                            </Grid>
+
+                            <Grid item xs={6}>
+                              <Typography variant="h4" color="var(--extra-color-2)">
+                                ${numberWithCommas(stakedPriceInDollars.toFixed(2))}
+                              </Typography>
+                              <Typography variant="body1" component="p" className="textGlow">Staked Value</Typography>
+                            </Grid>
+
+                            <Grid item xs={6}>
+                              <Typography variant="h4" color="var(--extra-color-2)">
+                                ${numberWithCommas(earnedInDollars.toFixed(2))}
+                              </Typography>
+                              <Typography variant="body1" component="p" className="textGlow">Total Earned</Typography>
+                            </Grid>
+
+                          </Grid>
+                        </div>
                       </Link>
                     </CardContent>
                   </Card>

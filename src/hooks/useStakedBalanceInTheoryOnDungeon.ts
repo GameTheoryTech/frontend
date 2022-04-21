@@ -11,7 +11,7 @@ const useStakedBalanceInTheoryOnDungeon = () => {
   useEffect(() => {
     async function fetchBalance() {
       try {
-        setBalance(await tombFinance?.getStakedSharesInTheoryOnDungeon());
+        setBalance(await tombFinance.getStakedSharesInTheoryOnDungeon());
       } catch (e) {
         console.error(e);
       }

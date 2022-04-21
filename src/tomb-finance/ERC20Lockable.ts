@@ -1,7 +1,7 @@
 import { BigNumber, Contract } from 'ethers';
 import { Signer } from '@ethersproject/abstract-signer';
 import { Provider } from '@ethersproject/abstract-provider';
-import { TransactionResponse } from '@ethersproject/providers';
+import {TransactionReceipt, TransactionResponse} from '@ethersproject/providers';
 import { formatUnits } from 'ethers/lib/utils';
 import ERC20 from "./ERC20";
 
@@ -25,6 +25,14 @@ class ERC20Lockable extends ERC20 {
 
   totalBalanceOf(account: string): Promise<BigNumber> {
     return this.contract.totalBalanceOf(account);
+  }
+
+  noUnlockBeforeTransfer(account: string): Promise<boolean> {
+    return this.contract.noUnlockBeforeTransfer(account);
+  }
+
+  setNoUnlockBeforeTransfer(set : boolean): Promise<TransactionResponse> {
+    return this.contract.setNoUnlockBeforeTransfer(set);
   }
 }
 
@@ -368,6 +376,38 @@ const LockableABI = [
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "noUnlockBeforeTransfer",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bool",
+        "name": "_noUnlockBeforeTransfer",
+        "type": "bool"
+      }
+    ],
+    "name": "setNoUnlockBeforeTransfer",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
 ];

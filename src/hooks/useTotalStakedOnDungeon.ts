@@ -12,7 +12,7 @@ const useTotalStakedOnDungeon = () => {
   useEffect(() => {
     async function fetchTotalStaked() {
       try {
-        setTotalStaked(await tombFinance?.getTotalStakedInDungeon());
+        setTotalStaked(await tombFinance.getTotalStakedInDungeon());
       } catch(err) {
         console.error(err);
       }

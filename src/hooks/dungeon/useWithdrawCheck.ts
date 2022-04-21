@@ -11,7 +11,7 @@ const useWithdrawCheck = () => {
   useEffect(() => {
     async function canUserWithdraw() {
       try {
-        setCanWithdraw(await tombFinance?.canUserUnstakeFromDungeon());
+        setCanWithdraw(await tombFinance.canUserUnstakeFromDungeon());
       } catch (err) {
         console.error(err);
       }

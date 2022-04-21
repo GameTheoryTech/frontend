@@ -11,8 +11,7 @@ const usePriceOfTheoryInMaster = () => {
   useEffect(() => {
     async function fetchBalance() {
       try {
-        if(!tombFinance?.isUnlocked) return;
-        setBalance(await tombFinance?.getPriceOfTheoryInMaster());
+        setBalance(await tombFinance.getPriceOfTheoryInMaster());
       } catch (e) {
         console.error(e);
       }

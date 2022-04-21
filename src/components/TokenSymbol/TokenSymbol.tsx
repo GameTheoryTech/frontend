@@ -6,6 +6,7 @@ import tShareLogo from '../../assets/img/THEORY.png';
 import tombLogoPNG from '../../assets/img/GAME.png';
 import tShareLogoPNG from '../../assets/img/THEORY.png';
 import tBondLogo from '../../assets/img/HODL.png';
+import masterLogo from '../../assets/img/MASTER.png';
 
 import tombFtmLpLogo from '../../assets/img/tomb_ftm_lp.png';
 import tshareFtmLpLogo from '../../assets/img/tshare_ftm_lp.png';
@@ -41,6 +42,7 @@ const logosBySymbol: { [title: string]: string } = {
   THEORY: tShareLogo,
   THEORYPNG: tShareLogoPNG,
   HODL: tBondLogo,
+  MASTER: masterLogo,
   DAI: daiLogo,
   BOO: booLogo,
   SHIBA: shibaLogo,

@@ -10,7 +10,7 @@ const useWithdrawFromDungeon = () => {
   const handleWithdraw = useCallback(
     (amount: string) => {
       handleTransactionReceipt(
-        tombFinance?.requestWithdrawShareFromDungeon(amount),
+        tombFinance.requestWithdrawShareFromDungeon(amount),
         `Request sell ${amount} MASTER to THEORY`,
       );
     },
