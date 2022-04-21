@@ -663,9 +663,9 @@ LTHEORY Unlockers available to Mint
 </Grid>
 
 <Grid item xs={12} sm={6} md={3}>
-<NftCards card="silver" />
+<NftCards card="bronze" />
 <TableContainer component={Paper} style={{marginTop: '20px'}}>
-<Table aria-label="Silver card table">
+<Table aria-label="Bronze card table">
 <TableBody>
 
   <TableRow>

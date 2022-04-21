@@ -29,8 +29,8 @@ const ProgressCountdown: React.FC<ProgressCountdownProps> = ({ base, deadline, h
   return (
     // <Card>
     <StyledCardContentInner>
-      {/* <StyledDesc>{description}</StyledDesc> */}
-      {/*<Countdown key={new Date().getTime()} date={deadline} renderer={countdownRenderer} />*/}
+       {/*<StyledDesc>{description}</StyledDesc>*/}
+      <Countdown key={new Date().getTime()} date={deadline} renderer={countdownRenderer} />
       {hideBar ? (
         ''
       ) : (
