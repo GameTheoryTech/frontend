@@ -74,12 +74,12 @@ const Home = () => {
   let tomb;
   let tShare;
   // if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-     tomb = tombTesting;
-     tShare = tShareTesting;
+  //    tomb = tombTesting;
+  //    tShare = tShareTesting;
   // } else
   {
-    //tomb = tombProd;
-    //tShare = tShareProd;
+    tomb = tombProd;
+    tShare = tShareProd;
   }
 
   const buyTombAddress = 'https://spookyswap.finance/swap?outputCurrency=' + tomb.address;
