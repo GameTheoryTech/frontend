@@ -88,7 +88,7 @@ const Harvest: React.FC<HarvestProps> = ({rewardsLocked, classname}) => {
               onClick={onSetTokenNoUnlockBeforeTransfer}
               variant="contained"
           >
-            Approve Unlock On Claim
+            Approve Unlock on Claim
           </Button>) : (<Button
               onClick={onReward}
               variant="contained"
