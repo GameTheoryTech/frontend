@@ -81,18 +81,13 @@ const Harvest: React.FC<HarvestProps> = ({ bank, rewardsLocked, classname }) => 
         </Typography>
 
         <Box className="buttonWrap">
-          {!noUnlock ? (<Button
-              onClick={onSetTokenNoUnlockBeforeTransfer}
-              variant="contained"
-          >
-            Approve Unlock on Claim
-          </Button>) : (<Button
+          <Button
               onClick={onReward}
               variant="contained"
               disabled={earnings.eq(0)}
           >
             Claim Rewards
-          </Button>)}
+          </Button>
         </Box>
       </CardContent>
     </Card>
