@@ -19,8 +19,6 @@ import useLpStats from '../../hooks/useLpStats';
 
 const AccountModal: React.FC<ModalProps> = ({ onDismiss }) => {
   const tombFinance = useTombFinance();
-  const tombFtmLpStats = useLpStats('GAME-DAI-LP');
-  const tShareFtmLpStats = useLpStats('THEORY-DAI-LP');
 
   const tombBalance = useTokenBalance(tombFinance?.TOMB);
   const gameLocked = useGameLocked();
@@ -31,12 +29,12 @@ const AccountModal: React.FC<ModalProps> = ({ onDismiss }) => {
 
   const theoryUnlockers = useFetchTheoryUnlockers();
   const theoryUnlockersGen1 = useFetchTheoryUnlockersGen1();
-  const maxTheoryUnlockerGen0 = theoryUnlockers.length == 0 ? null : theoryUnlockers.reduce((prev, current) => (prev.level > current.level) ? prev : current)
+  const maxTheoryUnlockerGen0 = theoryUnlockers.length == 0 ? null : theoryUnlockers.reduce((prev, current) => (prev.level > current.level) ? prev : current);
   const maxTheoryUnlockerUnlockAmountGen0 = maxTheoryUnlockerGen0 ? maxTheoryUnlockerGen0.unlockAmount : BigNumber.from(0);
-  const maxTheoryUnlockerGen1 = theoryUnlockersGen1.length == 0 ? null : theoryUnlockersGen1.reduce((prev, current) => (prev.level > current.level) ? prev : current)
+  const maxTheoryUnlockerGen1 = theoryUnlockersGen1.length == 0 ? null : theoryUnlockersGen1.reduce((prev, current) => (prev.level > current.level) ? prev : current);
   const maxTheoryUnlockerUnlockAmountGen1 = maxTheoryUnlockerGen1 ? maxTheoryUnlockerGen1.unlockAmount : BigNumber.from(0);
-  const maxTheoryUnlockerIsGen1 = maxTheoryUnlockerUnlockAmountGen1 > maxTheoryUnlockerUnlockAmountGen0;
-  const maxTheoryUnlocker = maxTheoryUnlockerIsGen1 ? maxTheoryUnlockerGen1 : maxTheoryUnlockerGen1;
+  const maxTheoryUnlockerIsGen1 = maxTheoryUnlockerUnlockAmountGen1.gt(maxTheoryUnlockerUnlockAmountGen0);
+  const maxTheoryUnlocker = maxTheoryUnlockerIsGen1 ? maxTheoryUnlockerGen1 : maxTheoryUnlockerGen0;
   const maxTheoryUnlockerUnlockAmount = maxTheoryUnlockerIsGen1 ? maxTheoryUnlockerUnlockAmountGen1 : maxTheoryUnlockerUnlockAmountGen0;
   const tshareBalance = useTokenBalance(tombFinance?.TSHARE);
   const theoryLocked = useTokenLocked(tombFinance?.TSHARE);
@@ -48,9 +46,6 @@ const AccountModal: React.FC<ModalProps> = ({ onDismiss }) => {
 
   const tbondBalance = useTokenBalance(tombFinance?.HODL);
   const displayTbondBalance = useMemo(() => getDisplayBalance(tbondBalance), [tbondBalance]);
-
-  const tombLPStats = useMemo(() => (tombFtmLpStats ? tombFtmLpStats : null), [tombFtmLpStats]);
-  const tshareLPStats = useMemo(() => (tShareFtmLpStats ? tShareFtmLpStats : null), [tShareFtmLpStats]);
 
   const { onUnlockGame } = useUnlockGame();
   const { onUnlockTheory } = useUnlockTheory();
