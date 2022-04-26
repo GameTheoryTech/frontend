@@ -20,14 +20,16 @@ import useMintTheoryUnlockerGen1 from "../../../hooks/useMintTheoryUnlockerGen1"
 import useTheoryUnlockerGen1OwnerSupply from "../../../hooks/useTheoryUnlockerGen1OwnerSupply";
 import useTheoryUnlockerGen1TotalMinted from "../../../hooks/useTheoryUnlockerGen1TotalMinted";
 import useTheoryUnlockerGen1Supply from "../../../hooks/useTheoryUnlockerGen1Supply";
+import {BigNumber} from "ethers";
 
 interface MintProps {
   name: string;
   maxValue: number;
   minValue: number;
+  stock: BigNumber;
 }
 
-const Mint: React.FC<MintProps> = ({ name, minValue, maxValue }) => {
+const Mint: React.FC<MintProps> = ({ name, minValue, maxValue, stock }) => {
   const tombFinance = useTombFinance();
   //const [approveStatus, approve] = useApprove(tombFinance?.FTM, tombFinance?.contracts.TheoryUnlocker.address);
   const [approveStatus, approve] = useApprove(tombFinance?.FTM, tombFinance?.contracts.TheoryUnlockerGen1.address);
@@ -60,12 +62,12 @@ const Mint: React.FC<MintProps> = ({ name, minValue, maxValue }) => {
       {approveStatus === ApprovalState.APPROVED ? (
         <>
 
-          {/*<Button variant="contained" onClick={onPresentDeposit} fullWidth style={{marginTop: '20px'}}>*/}
-          {/*  Mint*/}
-          {/*</Button>*/}
-          <Button variant="contained" disabled={true} onClick={onPresentDeposit} fullWidth style={{marginTop: '20px'}}>
-            Minting Temporarily Unavailable
+          <Button variant="contained" disabled={stock.eq(0)} onClick={onPresentDeposit} fullWidth style={{marginTop: '20px'}}>
+            {stock.eq(0) ? "Out of Stock" : "Mint"}
           </Button>
+          {/*<Button variant="contained" disabled={true} onClick={onPresentDeposit} fullWidth style={{marginTop: '20px'}}>*/}
+          {/*  Minting Temporarily Unavailable*/}
+          {/*</Button>*/}
         </>
       ) : (
         <>

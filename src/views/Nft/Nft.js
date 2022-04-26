@@ -196,14 +196,14 @@ const Nft = () => {
   const totalMintedBronze = useTheoryUnlockerGen1TotalMinted(1);
   const maxMintedBronze = useTheoryUnlockerGen1MaxMinted(1);
 
-  const totalMintedSilver = useTheoryUnlockerGen1TotalMinted(20);
-  const maxMintedSilver = useTheoryUnlockerGen1MaxMinted(20);
+  const totalMintedSilver = useTheoryUnlockerGen1TotalMinted(6);
+  const maxMintedSilver = useTheoryUnlockerGen1MaxMinted(6);
 
-  const totalMintedGold = useTheoryUnlockerGen1TotalMinted(40);
-  const maxMintedGold = useTheoryUnlockerGen1MaxMinted(40);
+  const totalMintedGold = useTheoryUnlockerGen1TotalMinted(8);
+  const maxMintedGold = useTheoryUnlockerGen1MaxMinted(8);
 
-  const totalMintedPlatinum = useTheoryUnlockerGen1TotalMinted(50);
-  const maxMintedPlatinum = useTheoryUnlockerGen1MaxMinted(50);
+  const totalMintedPlatinum = useTheoryUnlockerGen1TotalMinted(10);
+  const maxMintedPlatinum = useTheoryUnlockerGen1MaxMinted(10);
 
   const [expanded, setExpanded] = React.useState('panel1');
   const handleChange = (panel) => (event, newExpanded) => {
@@ -226,10 +226,10 @@ const Nft = () => {
       <strong>Generation</strong><br />The generation number of the NFT.<br /><br />
       
       <strong>Tier</strong><br />The Color of the NFT.<br /><br />
-      <strong>Current Level</strong><br />The current level of the NFT (The original minted level, combined with any additional levels added by levelling up).<br /><br />
+      <strong>Current Level</strong><br />The current level of the NFT (The original minted level, combined with any additional levels added by leveling up).<br /><br />
       <strong>Serial Number</strong><br />Which number this NFT is in the series (based on the Generation and Tier).<br /><br />
       <strong>Total Available</strong><br />How many of this type of NFT (generation and tier) are available versus how many exist in total.<br /><br />
-      <strong>Merges Available</strong><br />How many times remaining this NFT can be merged with other NFT's. See below for more details.
+      <strong>Merges Available</strong><br />How many times remaining this NFT can be merged with other NFTs. See below for more details.
       </Typography>
       <ModalActions>
         <Button color="primary" variant="contained" onClick={handleStatsClose} fullWidth>
@@ -515,7 +515,7 @@ const Nft = () => {
                 <Typography variant="body1" className="textGlow" component="p" style={{marginBottom: '20px'}}>
                   New LTHEORY Tokens can only be unlocked once using NFTs.
                 </Typography>
-                <Button color="primary" variant="contained" fullWidth disabled={!sliderItem.timeLeftToLevel.eq(0) || sliderItem.level.gte(maxLevel)} onClick={() => onLevelUp(sliderItem.token_id)} style={{marginBottom: '20px'}}> { sliderItem.level.eq(maxLevel) ? ("Current Max Level Reached") : ("Level Up") }
+                <Button color="primary" variant="contained" fullWidth disabled={!sliderItem.timeLeftToLevel.eq(0) || sliderItem.level.gte(maxLevel)} onClick={() => onLevelUp(sliderItem.token_id)} style={{marginBottom: '20px'}}> { sliderItem.level.eq(maxLevel) ? ("Max Level Reached") : ("Level Up") }
                 </Button>
                 <Button color="primary" variant="contained" fullWidth disabled={theoryUnlockers.length <= 1} onClick={() => {
                   selectedId = sliderItem.token_id
@@ -632,11 +632,11 @@ const Nft = () => {
                       New LTHEORY Tokens can only be unlocked once using NFTs.
                     </Typography>
                     {approveStatus !== ApprovalState.APPROVED ? (<Button color="primary" variant="contained" fullWidth disabled={approveStatus !== ApprovalState.NOT_APPROVED} onClick={approve} style={{marginBottom: '20px'}}> Approve GAME for Level Up
-                    </Button>) : (<Button color="primary" variant="contained" fullWidth disabled={!sliderItem.timeLeftToLevel.eq(0) || sliderItem.level.gte(maxLevel)} onClick={() => onLevelUpGen1(sliderItem.token_id)} style={{marginBottom: '20px'}}> { sliderItem.level.eq(maxLevel) ? ("Current Max Level Reached") : (`Level Up for ${getDisplayBalance(sliderItem.cost, 18, 0)} GAME`) }
+                    </Button>) : (<Button color="primary" variant="contained" fullWidth disabled={!sliderItem.timeLeftToLevel.eq(0) || sliderItem.level.gte(maxLevel)} onClick={() => onLevelUpGen1(sliderItem.token_id)} style={{marginBottom: '20px'}}> { sliderItem.level.eq(maxLevel) ? ("Max Level Reached") : (`Level Up for ${getDisplayBalance(sliderItem.cost, 18, 0)} GAME`) }
                         </Button>)
                     }
                     {approveStatus !== ApprovalState.APPROVED ? (<Button color="primary" variant="contained" fullWidth disabled={approveStatus !== ApprovalState.NOT_APPROVED} onClick={approve} style={{marginBottom: '20px'}}> Approve GAME for Level Up
-                    </Button>) : (<Button color="primary" variant="contained" fullWidth disabled={!sliderItem.timeLeftToLevel.eq(0) || sliderItem.level.gte(maxLevel)} onClick={() => onLevelUpToGen1(sliderItem.token_id, maxLevelGen1)} style={{marginBottom: '20px'}}> { sliderItem.level.eq(maxLevel) ? ("Current Max Level Reached") : (`Max Level Up for ${getDisplayBalance(sliderItem.maxCost, 18, 0)} GAME`) }
+                    </Button>) : (<Button color="primary" variant="contained" fullWidth disabled={!sliderItem.timeLeftToLevel.eq(0) || sliderItem.level.gte(maxLevel)} onClick={() => onLevelUpToGen1(sliderItem.token_id, maxLevelGen1)} style={{marginBottom: '20px'}}> { sliderItem.level.eq(maxLevel) ? ("Max Level Reached") : (`Max Level Up for ${getDisplayBalance(sliderItem.maxCost, 18, 0)} GAME`) }
                     </Button>)
                     }
                     <Button color="primary" variant="contained" fullWidth disabled={sliderItem.merged || theoryUnlockersGen1.length <= 1} onClick={() => {
@@ -702,7 +702,7 @@ LTHEORY Unlockers available to Mint
     </TableCell>
     <TableCell>
       <Typography>
-        1 - 19
+        1 - 5
       </Typography>
     </TableCell>
   </TableRow>
@@ -749,7 +749,7 @@ LTHEORY Unlockers available to Mint
 </TableBody>
 </Table>
 </TableContainer>
-<Mint name="Silver" minValue={1} maxValue={19} />
+<Mint name="Bronze" minValue={1} maxValue={5} stock={maxMintedBronze.sub(totalMintedBronze)} />
 </Grid>
 
 <Grid item xs={12} sm={6} md={3}>
@@ -792,7 +792,7 @@ LTHEORY Unlockers available to Mint
     </TableCell>
     <TableCell>
       <Typography>
-        20 - 39
+        6 - 7
       </Typography>
     </TableCell>
   </TableRow>
@@ -805,7 +805,7 @@ LTHEORY Unlockers available to Mint
     </TableCell>
     <TableCell>
       <Typography>
-        10,000 DAI
+        3,000 DAI
       </Typography>
     </TableCell>
   </TableRow>
@@ -839,7 +839,7 @@ LTHEORY Unlockers available to Mint
 </TableBody>
 </Table>
 </TableContainer>
-<Mint name="Silver" minValue={20} maxValue={39} />
+<Mint name="Silver" minValue={6} maxValue={7} stock={maxMintedSilver.sub(totalMintedSilver)} />
 </Grid>
 
 <Grid item xs={12} sm={6} md={3}>
@@ -882,7 +882,7 @@ LTHEORY Unlockers available to Mint
     </TableCell>
     <TableCell>
       <Typography>
-        40 - 49
+        8 - 9
       </Typography>
     </TableCell>
   </TableRow>
@@ -895,7 +895,7 @@ LTHEORY Unlockers available to Mint
     </TableCell>
     <TableCell>
       <Typography>
-        20,000 DAI
+        4,000 DAI
       </Typography>
     </TableCell>
   </TableRow>
@@ -929,7 +929,7 @@ LTHEORY Unlockers available to Mint
 </TableBody>
 </Table>
 </TableContainer>
-<Mint name="Gold" minValue={40} maxValue={49} />
+<Mint name="Gold" minValue={8} maxValue={9} stock={maxMintedGold.sub(totalMintedGold)} />
 </Grid>
 
 <Grid item xs={12} sm={6} md={3}>
@@ -959,7 +959,7 @@ LTHEORY Unlockers available to Mint
     </TableCell>
     <TableCell>
       <Typography>
-        10 of 10
+        {maxMintedPlatinum.sub(totalMintedPlatinum).toString()} of {maxMintedPlatinum.toString()}
       </Typography>
     </TableCell>
   </TableRow>
@@ -972,7 +972,7 @@ LTHEORY Unlockers available to Mint
     </TableCell>
     <TableCell>
       <Typography>
-        {maxMintedPlatinum.sub(totalMintedPlatinum).toString()} of {maxMintedPlatinum.toString()}
+        10
       </Typography>
     </TableCell>
   </TableRow>
@@ -985,7 +985,7 @@ LTHEORY Unlockers available to Mint
     </TableCell>
     <TableCell>
       <Typography>
-        25,000 DAI
+        5,000 DAI
       </Typography>
     </TableCell>
   </TableRow>
@@ -1019,7 +1019,7 @@ LTHEORY Unlockers available to Mint
 </TableBody>
 </Table>
 </TableContainer>
-<Mint name="Platinum" minValue={50} maxValue={50} />
+<Mint name="Platinum" minValue={10} maxValue={10} stock={maxMintedPlatinum.sub(totalMintedPlatinum)} />
 </Grid>
 
 </Grid>
@@ -1031,7 +1031,7 @@ LTHEORY Unlockers available to Mint
       NFT Marketplace
     </Typography>
     <Typography align="center" variant="h5" component="p" style={{fontWeight: '500'}}>
-      Coming soon
+      Coming Soon
     </Typography>
   </Grid>
 </Grid>
