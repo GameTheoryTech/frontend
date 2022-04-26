@@ -43,6 +43,11 @@ interface StakeProps {
   classname: string;
 }
 
+const numberWithCommas = (x: string) => {
+  if(x === null) return x;
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 const Stake: React.FC<StakeProps> = ({ bank, withdrawPercentage, classname }) => {
   classname = classname || '';
   withdrawPercentage = withdrawPercentage || '';
@@ -140,9 +145,12 @@ const Stake: React.FC<StakeProps> = ({ bank, withdrawPercentage, classname }) =>
     <Card className={classname}>
       <CardContent>
 
-      <Box style={{marginBottom: '20px'}}>
+      <Box className="icon-pools" style={{marginBottom: '20px'}}>
         <CardIcon>
           <TokenSymbol symbol={bank.depositToken.symbol} />
+        </CardIcon>
+        <CardIcon>
+          <TokenSymbol symbol="DAI" />
         </CardIcon>
       </Box>
 
@@ -150,7 +158,7 @@ const Stake: React.FC<StakeProps> = ({ bank, withdrawPercentage, classname }) =>
         <Value value={getDisplayBalance(stakedBalance, bank.depositToken.decimal)} />
       </Typography>
       <Typography variant="h4" component="p" color="var(--extra-color-2)">
-        ${earnedInDollars}
+        ${numberWithCommas(earnedInDollars || '0.00')}
       </Typography>
       <Typography variant="body1" component="p" className="textGlow" style={{marginBottom: '20px'}}>
         {bank.depositTokenName} Staked

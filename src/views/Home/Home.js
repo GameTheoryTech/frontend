@@ -22,7 +22,6 @@ import ZapModal from '../Bank/components/ZapModal';
 
 import { makeStyles } from '@mui/styles';
 import useTombFinance from '../../hooks/useTombFinance';
-import ReactPlayer from "react-player";
 
 const numImg = {
   1: require('../../assets/img/01.png'),
@@ -279,16 +278,6 @@ const Home = () => {
         </Grid>*/}
       </Grid>
 
-        {/* Explanation text */}
-        <Grid container className="section" justifyContent="center" align="center" style={{paddingBottom: '0'}}>
-          <Grid item xs={12} sm={8}>
-            <Box>
-              <Typography variant="h2" className="textGlow pink" style={{marginBottom:'20px'}}>About Game Theory</Typography>
-              <Typography variant='body2'>Game Theory combines an innovative and highly profitable decentralised finance platform with a premium online gaming experience. On top of the opportunity to stake tokens to earn high yields, players will be able to play a variety of exciting blockchain games that unlock additional financial rewards and exclusive content.</Typography>
-              </Box>
-          </Grid>
-        </Grid>
-
         <Grid container className="section" spacing={3} align="center" style={{paddingBottom: '0'}}>
         <Grid item xs={12} style={{marginBottom: '40px'}}>
           <Typography variant="h2" component="h1" className='textGlow pink' style={{marginBottom: '10px'}}>How To Play</Typography>
@@ -333,24 +322,6 @@ const Home = () => {
           </Typography>
         </Grid>
       </Grid>
-
-        <Grid container className="section" justifyContent="center" align="center">
-          <Grid item xs={12} sm={8}>
-            <Box>
-              <Typography variant="h2" className="textGlow pink" style={{marginBottom:'20px'}}>New to Crypto?</Typography>
-              <Typography variant='body2'>If you're just getting started with crypto or DeFi, please watch the video instructions below on how to buy and transfer tokens on an exchange, use the Metamask wallet and buy DAI tokens on the Fantom Opera blockchain.</Typography>
-            </Box>
-            <div className="wistia_responsive_padding" style={{padding:'56.25% 0 0 0', boxShadow: '0px 0px 10px 0px var(--extra-color-1)', position:'relative', marginTop: '50px', borderRadius: '20px'}}>
-              <div className="wistia_responsive_wrapper" style={{height: '100%', left: '0', position: 'absolute', top: '0', width: '100%'}}>
-                <ReactPlayer url="https://getleda.wistia.com/medias/t5mwooeubw"
-                             className="video"
-                             width="100%"
-                             height="100%"
-                controls={true} style={{borderRadius: '20px', overflow: "hidden"}}/>
-              </div>
-            </div>
-          </Grid>
-        </Grid>
 
 
     </Page>

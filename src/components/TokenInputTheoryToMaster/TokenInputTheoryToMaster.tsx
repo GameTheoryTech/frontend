@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import Input, { InputProps } from '../Input';
 
 interface TokenInputProps extends InputProps {
@@ -14,31 +14,28 @@ interface TokenInputProps extends InputProps {
 const TokenInputTheoryToMaster: React.FC<TokenInputProps> = ({ max, symbol, onChange, onSelectMax, value, price }) => {
   return (
     <StyledTokenInput>
-      <StyledMaxText>
+      <StyledMaxText className="textGlow">
         {max.toLocaleString()} {symbol} Available
       </StyledMaxText>
       <Input
         endAdornment={
           <StyledTokenAdornmentWrapper>
             {/* <StyledTokenSymbol>{symbol}</StyledTokenSymbol> */}
-            <StyledSpacer />
-            <div>
-              <Button size="small" color="primary" variant="contained" onClick={onSelectMax}>
+              <Button style={styleButton} size="small" color="primary" variant="contained" onClick={onSelectMax}>
                 Max
               </Button>
-            </div>
           </StyledTokenAdornmentWrapper>
         }
         onChange={onChange}
         placeholder="0"
         value={value}
       />
-      <StyledMaxText>
-        MASTER Obtained: {isNaN(+value) ? 0 : (+value/price).toFixed(4)}
-      </StyledMaxText>
-      <StyledMaxText>
-        Lock Time: 1 year (365 days)
-      </StyledMaxText>
+      <Typography variant="h5" style={{textAlign: 'center', marginTop: '20px', marginBottom: '10px'}}>
+        Estimated MASTER tokens
+      </Typography>
+      <Typography variant="h3" color="var(--extra-color-2)" align='center'>
+        {isNaN(+value) ? 0 : (+value/price).toFixed(4)}
+      </Typography>
     </StyledTokenInput>
   );
 };
@@ -51,23 +48,21 @@ const TokenInputTheoryToMaster: React.FC<TokenInputProps> = ({ max, symbol, onCh
 
 const StyledTokenInput = styled.div``;
 
-const StyledSpacer = styled.div`
-  width: ${(props) => props.theme.spacing[3]}px;
-`;
-
-const StyledTokenAdornmentWrapper = styled.div`
-  align-items: center;
-  display: flex;
-`;
+const StyledTokenAdornmentWrapper = styled.div``;
 
 const StyledMaxText = styled.div`
   align-items: center;
-  color: ${(props) => props.theme.color.grey[400]};
   display: flex;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
   height: 44px;
-  justify-content: flex-end;
+  justify-content: center;
 `;
+
+const styleButton = {
+  height: '56px',
+  borderTopLeftRadius: '0',
+  borderBottomLeftRadius: '0'
+};
 
 export default TokenInputTheoryToMaster;
