@@ -44,6 +44,11 @@ const Harvest: React.FC<HarvestProps> = ({rewardsLocked, classname}) => {
 
   classname = classname || '';
 
+  const numberWithCommas = (x: string) => {
+    if(x === null) return x;
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
   return (
     <>
       <Card className={classname}>
@@ -58,7 +63,7 @@ const Harvest: React.FC<HarvestProps> = ({rewardsLocked, classname}) => {
             <Value value={getDisplayBalance(earnings)} />
           </Typography>
           <Typography variant="h4" component="p" color="var(--extra-color-2)">
-            ${earnedInDollars}
+            ${numberWithCommas(earnedInDollars || '0.00')}
           </Typography>
           <Typography variant="body1" component="p" className="textGlow" style={{marginBottom: '20px'}}>
             Total Earned
@@ -68,7 +73,7 @@ const Harvest: React.FC<HarvestProps> = ({rewardsLocked, classname}) => {
             <Value value={`${(Number(getDisplayBalance(earnings)) * (100.0-rewardsLocked) / 100.0).toFixed(4)}`} />
           </Typography>
           <Typography variant="h4" component="p" color="var(--extra-color-2)">
-            ${(Number(earnedInDollars) * (100.0-rewardsLocked) / 100.0).toFixed(2)}
+            ${numberWithCommas((Number(earnedInDollars) * (100.0-rewardsLocked) / 100.0).toFixed(2) || '0.00')}
           </Typography>
           <Typography variant="body1" component="p" className="textGlow" style={{marginBottom: '20px'}}>
             GAME Earned
@@ -78,7 +83,7 @@ const Harvest: React.FC<HarvestProps> = ({rewardsLocked, classname}) => {
             <Value value={`${(Number(getDisplayBalance(earnings)) * rewardsLocked / 100.0).toFixed(4)}`} />
           </Typography>
           <Typography variant="h4" component="p" color="var(--extra-color-2)">
-            ${(Number(earnedInDollars) * rewardsLocked / 100.0).toFixed(2)}
+            ${numberWithCommas((Number(earnedInDollars) * rewardsLocked / 100.0).toFixed(2) || '0.00')}
           </Typography>
           <Typography variant="body1" component="p" className="textGlow" style={{marginBottom: '20px'}}>
             LGAME Earned

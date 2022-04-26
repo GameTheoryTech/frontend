@@ -47,6 +47,11 @@ interface StakeProps {
   classname: string;
 }
 
+const numberWithCommas = (x: string) => {
+  if(x === null) return x;
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 const Stake: React.FC<StakeProps> = ({classname}) => {
   classname = classname || '';
   const classes = useStyles();
@@ -108,7 +113,7 @@ const Stake: React.FC<StakeProps> = ({classname}) => {
               <Value value={getDisplayBalance(stakedBalance)} />
             </Typography>
             <Typography variant="h4" component="p" color="var(--extra-color-2)">
-              ${tokenPriceInDollars}
+              ${numberWithCommas(tokenPriceInDollars || '0.00')}
             </Typography>
             <Typography variant="body1" component="p" className="textGlow" style={{marginBottom: '20px'}}>
               MASTER In Wallet

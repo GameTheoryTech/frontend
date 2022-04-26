@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
 
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import Modal, { ModalProps } from '../../../components/Modal';
 import ModalActions from '../../../components/ModalActions';
 import ModalTitle from '../../../components/ModalTitle';
@@ -55,6 +55,9 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({ onConfirm, onDismiss, max
         {/* <Button text="Cancel" variant="secondary" onClick={onDismiss} />
         <Button text="Confirm" onClick={() => onConfirm(val)} /> */}
       </ModalActions>
+      <Typography variant="body2" className="textGlow" align="center" style={{marginTop: '40px'}}>
+        Lock Time: 1 year (365 days)
+      </Typography>
     </Modal>
   );
 };

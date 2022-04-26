@@ -17,6 +17,7 @@ import Loader from './components/Loader';
 import Popups from './components/Popups';
 import { RefreshContextProvider } from './contexts/RefreshContext';
 
+const Index = lazy(() => import('./views/Index'));
 const Home = lazy(() => import('./views/Home'));
 const Farms = lazy(() => import('./views/Cemetery'));
 const Boardroom = lazy(() => import('./views/Masonry'));
@@ -51,6 +52,9 @@ const App: React.FC = () => {
         <Suspense fallback={<Loader />}>
           <Switch>
             <Route exact path="/">
+              <Index />
+            </Route>
+            <Route exact path="/home">
               <Home />
             </Route>
             <Route path="/farms">

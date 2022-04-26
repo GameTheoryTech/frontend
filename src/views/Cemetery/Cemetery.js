@@ -180,9 +180,6 @@ const Cemetery = () => {
                     </CardContent>
                   </Card>
                 </Grid>
-              </Grid>
-
-              <Grid container justifyContent="center" spacing={3}>
                 <Grid item xs={12} md={4}>
                   <Card className="boxed link">
                     <CardContent align="center">
@@ -196,7 +193,7 @@ const Cemetery = () => {
                           Dungeon Pool
                         </Typography>
                         <Typography variant="body1" style={{marginBottom: '20px'}}>
-                          Lock up THEORY for 1 year, receive MASTER, & earn bonuses and GAME when GAME price is above $1.01
+                          Lock up THEORY as MASTER for 1 year & earn bonuses + GAME when GAME price is above $1.01
                         </Typography>
                         <div className='info-wrap'>
                           <Grid container spacing={3}>

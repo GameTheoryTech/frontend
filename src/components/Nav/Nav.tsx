@@ -227,6 +227,7 @@ const Nav = () => {
 
   return (
     <>
+    {location.pathname !== '/' && (
     <AppBar position="static" elevation={0} className={classes.appBar}>
       <Container maxWidth="lg">
       <Toolbar className={classes.toolbar}>
@@ -239,7 +240,7 @@ const Nav = () => {
               </NavLink>
             </Typography>
             <Box>
-              <NavLink exact activeClassName="active" color="color" to="/" className={classes.link}>
+              <NavLink exact activeClassName="active" color="color" to="/home" className={classes.link}>
                 Home
               </NavLink>
               <NavLink activeClassName="active" color="textPrimary" to="/farms" className={classes.link}>
@@ -313,7 +314,7 @@ const Nav = () => {
                 <CloseIcon onClick={handleDrawerClose} className="textGlow pink" style={{cursor: 'pointer', fontSize: '35px'}} />
               </div>
               <List>
-                <ListItemLink primary="Home" to="/" />
+                <ListItemLink primary="Home" to="/home" />
                 <ListItemLink primary="Staking Pools" to="/farms" />
                 <ListItemLink primary="NFTs" to="/nfts" />
                 <ListItem button component="a" href="https://docs.gametheory.tech">
@@ -333,7 +334,7 @@ const Nav = () => {
           </>
         )}
       </Toolbar>
-      {location.pathname !== '/' && (
+      {location.pathname !== '/home' && (
       <Toolbar className={classes.secondBar} style={{minHeight: '0', textAlign: 'center'}}>
         <Grid container columnSpacing={4} justifyContent="center">
           
@@ -369,6 +370,7 @@ const Nav = () => {
       )}
       </Container>
     </AppBar>
+    )}
     <div className="image-bg" style={{backgroundImage: "url("+BackgroundImage+")"}} ></div>
     </>
   );

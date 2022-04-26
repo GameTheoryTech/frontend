@@ -6,6 +6,7 @@ import YouTubeIcon from '@mui/icons-material/YouTube';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import MediumIcon from '../../assets/img/medium-logo.svg';
 import DiscordIcon from '../../assets/img/discord-logo.svg';
+import { useLocation } from 'react-router-dom';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -50,7 +51,9 @@ const useStyles = makeStyles((theme) => ({
 
 const Footer = () => {
   const classes = useStyles();
+  const location = useLocation();
   return (
+    location.pathname !== '/' && (
     <footer className={classes.footer}>
       <Container maxWidth="lg">
         <Grid container style={{alignItems: 'center'}}>
@@ -96,6 +99,7 @@ const Footer = () => {
         </Grid>
       </Container>
     </footer>
+    )
   );
 };
 

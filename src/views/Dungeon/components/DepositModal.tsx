@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
 
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import Modal, { ModalProps } from '../../../components/Modal';
 import ModalActions from '../../../components/ModalActions';
 import TokenInputTheoryToMaster from '../../../components/TokenInputTheoryToMaster';
@@ -50,6 +50,9 @@ const DepositModal: React.FC<DepositModalProps> = ({ max, onConfirm, onDismiss, 
                     Confirm
                 </Button>
             </ModalActions>
+            <Typography variant="body2" className="textGlow" align="center" style={{marginTop: '40px'}}>
+                Lock Time: 1 year (365 days)
+            </Typography>
         </Modal>
     );
 };
