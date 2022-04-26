@@ -44,7 +44,7 @@ const Harvest: React.FC<HarvestProps> = ({rewardsLocked, classname}) => {
 
   classname = classname || '';
 
-  const numberWithCommas = (x) => {
+  const numberWithCommas = (x: string) => {
     if(x === null) return x;
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }

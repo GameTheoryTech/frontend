@@ -45,7 +45,7 @@ const Index = () => {
                                     </CardIcon>
                                 </Box>
                                 <Typography variant="h3" component="h4" className="kallisto" style={{marginBottom: '20px'}}>NFT Marketplace</Typography>
-                                <Typography variant="body1" component="p" className="textGlow">Buy and sell NFTs</Typography>
+                                <Typography variant="body2" component="p" className="textGlow">Buy and sell NFTs</Typography>
                         </CardContent>
                     </Card>
                 </Grid>
@@ -59,7 +59,7 @@ const Index = () => {
                                     </CardIcon>
                                 </Box>
                                 <Typography variant="h3" component="h4" className="kallisto" style={{marginBottom: '20px'}}>Arcade</Typography>
-                                <Typography variant="body1" component="p" className="textGlow">Play Classic Arcade Games</Typography>
+                                <Typography variant="body2" component="p" className="textGlow">Play Classic Arcade Games</Typography>
                         </CardContent>
                     </Card>
                 </Grid>
@@ -73,7 +73,7 @@ const Index = () => {
                                     </CardIcon>
                                 </Box>
                                 <Typography variant="h3" component="h4" className="kallisto" style={{marginBottom: '20px'}}>RPG Shooter</Typography>
-                                <Typography variant="body1" component="p" className="textGlow">Defend the City from Monsters</Typography>
+                                <Typography variant="body2" component="p" className="textGlow">Defend the City from Monsters</Typography>
                         </CardContent>
                     </Card>
                 </Grid>
@@ -87,7 +87,7 @@ const Index = () => {
                                     </CardIcon>
                                 </Box>
                                 <Typography variant="h3" component="h4" className="kallisto" style={{marginBottom: '20px'}}>Wagering</Typography>
-                                <Typography variant="body1" component="p" className="textGlow">Lottery and Speculation Market</Typography>
+                                <Typography variant="body2" component="p" className="textGlow">Lottery and Speculation Market</Typography>
                         </CardContent>
                     </Card>
                 </Grid>
@@ -101,7 +101,7 @@ const Index = () => {
                                     </CardIcon>
                                 </Box>
                                 <Typography variant="h3" component="h4" className="kallisto" style={{marginBottom: '20px'}}>Seigniorage</Typography>
-                                <Typography variant="body1" component="p" className="textGlow">Earn Dividends on your Shares</Typography>
+                                <Typography variant="body2" component="p" className="textGlow">Earn Dividends on your Shares</Typography>
                         </CardContent>
                     </Card>
                 </Grid>
