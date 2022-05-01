@@ -26,55 +26,59 @@ const Treasury = lazy(() => import('./views/Treasury'));
 const About = lazy(() => import('./views/About'));
 const Nft = lazy(() => import('./views/Nft'));
 const Dungeon = lazy(() => import('./views/Dungeon'));
+const MarketPlace = lazy(() => import('./views/NftMarketplace'));
 // const SBS = lazy(() => import('./views/Sbs'));
 // const Liquidity = lazy(() => import('./views/Liquidity'));
 
 const NoMatch = () => (
-  <h3 style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-    URL Not Found. <a href="/">Go back home.</a>
-  </h3>
+	<h3 style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+		URL Not Found. <a href="/">Go back home.</a>
+	</h3>
 );
 
 const App: React.FC = () => {
-  // Clear localStorage for mobile users
-  if (typeof localStorage.version_app === 'undefined' || localStorage.version_app !== '1.1') {
-    localStorage.clear();
-    localStorage.setItem('connectorId', '');
-    localStorage.setItem('version_app', '1.1');
-  }
+	// Clear localStorage for mobile users
+	if (typeof localStorage.version_app === 'undefined' || localStorage.version_app !== '1.1') {
+		localStorage.clear();
+		localStorage.setItem('connectorId', '');
+		localStorage.setItem('version_app', '1.1');
+	}
 
-  usePromptNetwork();
+	usePromptNetwork();
 
-  return (
-    <Providers>
-      <Router basename='/'>
-        <Suspense fallback={<Loader />}>
-          <Switch>
-            <Route exact path="/">
-              <Home />
-            </Route>
-            <Route path="/farms">
-              <Farms />
-            </Route>
-            <Route path="/theoretics">
-              <Boardroom />
-            </Route>
-            <Route path="/bonds">
-              <Bonds />
-            </Route>
-            <Route path="/treasury">
-              <Treasury />
-            </Route>
-            <Route path="/about">
-              <About />
-            </Route>
-            <Route path="/nfts">
-              <Nft />
-            </Route>
-            <Route path="/dungeon">
-              <Dungeon />
-            </Route>
-            {/* <Route path="/sbs">
+	return (
+		<Providers>
+			<Router basename='/'>
+				<Suspense fallback={<Loader />}>
+					<Switch>
+						<Route exact path="/">
+							<Home />
+						</Route>
+						<Route path="/farms">
+							<Farms />
+						</Route>
+						<Route path="/theoretics">
+							<Boardroom />
+						</Route>
+						<Route path="/bonds">
+							<Bonds />
+						</Route>
+						<Route path="/treasury">
+							<Treasury />
+						</Route>
+						<Route path="/about">
+							<About />
+						</Route>
+						<Route path="/nfts">
+							<Nft />
+						</Route>
+						<Route path="/dungeon">
+							<Dungeon />
+						</Route>
+						<Route path="/marketplace">
+							<MarketPlace />
+						</Route>
+						{/* <Route path="/sbs">
               <SBS />
             </Route>
             <Route path="/regulations">
@@ -83,50 +87,50 @@ const App: React.FC = () => {
             <Route path="/liquidity">
               <Liquidity />
             </Route> */}
-            <Route path="*">
-              <NoMatch />
-            </Route>
-          </Switch>
-        </Suspense>
-      </Router>
-    </Providers>
-  );
+						<Route path="*">
+							<NoMatch />
+						</Route>
+					</Switch>
+				</Suspense>
+			</Router>
+		</Providers>
+	);
 };
 
 const Providers: React.FC = ({ children }) => {
-  return (
-    <TP1 theme={theme}>
-      <TP theme={newTheme}>
-        <UseWalletProvider
-          chainId={config.chainId}
-          connectors={{
-            walletconnect: { rpcUrl: config.defaultProvider },
-            walletlink: {
-              url: config.defaultProvider,
-              appName: 'Game Theory',
-              appLogoUrl: './GAME-01.png',
-            },
-          }}
-        >
-          <Provider store={store}>
-            <Updaters />
-            <RefreshContextProvider>
-              <TombFinanceProvider>
-                <ModalsProvider>
-                  <BanksProvider>
-                    <>
-                      <Popups />
-                      {children}
-                    </>
-                  </BanksProvider>
-                </ModalsProvider>
-              </TombFinanceProvider>
-            </RefreshContextProvider>
-          </Provider>
-        </UseWalletProvider>
-      </TP>
-    </TP1>
-  );
+	return (
+		<TP1 theme={theme}>
+			<TP theme={newTheme}>
+				<UseWalletProvider
+					chainId={config.chainId}
+					connectors={{
+						walletconnect: { rpcUrl: config.defaultProvider },
+						walletlink: {
+							url: config.defaultProvider,
+							appName: 'Game Theory',
+							appLogoUrl: './GAME-01.png',
+						},
+					}}
+				>
+					<Provider store={store}>
+						<Updaters />
+						<RefreshContextProvider>
+							<TombFinanceProvider>
+								<ModalsProvider>
+									<BanksProvider>
+										<>
+											<Popups />
+											{children}
+										</>
+									</BanksProvider>
+								</ModalsProvider>
+							</TombFinanceProvider>
+						</RefreshContextProvider>
+					</Provider>
+				</UseWalletProvider>
+			</TP>
+		</TP1>
+	);
 };
 
 export default App;

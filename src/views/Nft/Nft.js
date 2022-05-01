@@ -1055,7 +1055,7 @@ LTHEORY Unlockers available to Mint
                 <Typography variant="h5" color="var(--extra-color-1)">What are the benefits of Game Theory NFTs?</Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <Typography variant="body2" component={'span'} variant={'body2'}>
+                <Typography variant="body2" component={'span'}>
                   Game Theory NFTs can be used in the following ways:<br /><br />
                   <ol>
                     <li key={"info0"}>

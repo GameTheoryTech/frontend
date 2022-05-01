@@ -28,7 +28,9 @@ export class TombFinance {
   config: Configuration;
   contracts: { [name: string]: Contract };
   externalTokens: { [name: string]: ERC20 };
-  masonryVersionOfUser?: string;
+	masonryVersionOfUser?: string;
+	contractAddress: { [name: string]: string };
+	contractABI: { [name: string]: any[] };
 
   TOMBDAI_LP: Contract;
   TOMBDAI_LPToken: ERC20;
@@ -46,7 +48,17 @@ export class TombFinance {
     this.contracts = {};
     for (const [name, deployment] of Object.entries(deployments)) {
       this.contracts[name] = new Contract(deployment.address, deployment.abi, provider);
-    }
+		}
+		
+		this.contractAddress = {};
+    for (const [name, deployment] of Object.entries(deployments)) {
+      this.contractAddress[name] = deployment.address;
+		}
+		this.contractABI = {};
+    for (const [name, deployment] of Object.entries(deployments)) {
+      this.contractABI[name] = deployment.abi;
+		}
+		
     this.externalTokens = {};
     for (const [symbol, [address, decimal]] of Object.entries(externalTokens)) {
       this.externalTokens[symbol] = new ERC20(address, provider, symbol, decimal);
@@ -1082,6 +1094,46 @@ export class TombFinance {
     return result;
   }
 
+	async getTheoryUnlockerABI(): Promise<any[]> {
+		const { TheoryUnlocker } = this.contractABI;
+		return TheoryUnlocker;
+	}
+
+	async getTheoryUnlockerAddress(): Promise<string> {
+		const { TheoryUnlocker } = this.contractAddress;
+		return TheoryUnlocker;
+	}
+
+	async getTheoryUnlockerGen1ABI(): Promise<any[]> {
+		const { TheoryUnlockerGen1 } = this.contractABI;
+		return TheoryUnlockerGen1;
+	}
+
+	async getTheoryUnlockerGen1Address(): Promise<string> {
+		const { TheoryUnlockerGen1 } = this.contractAddress;
+		return TheoryUnlockerGen1;
+	}
+	
+	async getMarketplaceABI(): Promise<any[]> {
+		const { Marketplace } = this.contractABI;
+		return Marketplace;
+	}
+
+	async getMarketplaceAddress(): Promise<string> {
+		const { Marketplace } = this.contractAddress;
+		return Marketplace;
+	}
+	
+	async getGameContractABI(): Promise<any[]> {
+		const { game } = this.contractABI;
+		return game;
+	}
+
+	async getGameContractAddress(): Promise<string> {
+		const { game } = this.contractAddress;
+		return game;
+	}
+	
   async unlockTheory(isGen1 : boolean, tokenId : number | BigNumber): Promise<TransactionResponse> {
     const { TheoryUnlocker, TheoryUnlockerGen1, theory } = this.contracts;
     if(BigNumber.from(tokenId).gt(0))
