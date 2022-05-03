@@ -380,7 +380,7 @@ export class TombFinance {
    */
   async buyBonds(amount: string | number): Promise<TransactionResponse> {
     const { Treasury } = this.contracts;
-    const treasuryTombPrice = await Treasury.getTombPrice();
+    const treasuryTombPrice = await Treasury.getGamePrice();
     return await Treasury.buyBonds(decimalToBalance(amount), treasuryTombPrice);
   }
 
@@ -1079,6 +1079,12 @@ export class TombFinance {
   async lockOfGame(address: string): Promise<BigNumber> {
     const { Master } = this.contracts;
     const result = await Master.lockOfGame(address);
+    return result;
+  }
+
+  async totalCanUnlockAmountGame(address: string): Promise<BigNumber> {
+    const { Master } = this.contracts;
+    const result = await Master.totalCanUnlockAmountGame(address);
     return result;
   }
 

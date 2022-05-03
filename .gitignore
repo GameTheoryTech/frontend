@@ -24,3 +24,7 @@ package-lock.json
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+public/Build
+public/TemplateData
+public/web3
+public/network.js

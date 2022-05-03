@@ -101,7 +101,7 @@ const ExchangeCard: React.FC<ExchangeCardProps> = ({
             </>
         ) : (
           <>
-            When the TWAP of GAME tokens is above $1.01, you can redeem your HODL tokens for GAME tokens at a premium.<br /><br />
+            When the TWAP of GAME tokens is above 1.1, you can redeem your HODL tokens for GAME tokens at a premium. When above 1.01 but below 1.1, you can redeem them, but not at a premium.<br /><br />
 
             <strong>TWAP</strong><br />Time-Weighted Average Price of GAME during the course of the previous Round.
           </>

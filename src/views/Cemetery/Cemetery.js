@@ -252,7 +252,7 @@ const Cemetery = () => {
                         Buy or Redeem Bonds
                       </Typography>
                       <Typography variant="body1" style={{marginBottom: '20px'}}>     
-                        Swap GAME for HODL when GAME is below $1.00 and earn premiums upon redemption
+                        Swap GAME for HODL when GAME is below 1.00 TWAP and earn premiums upon redemption above 1.1 TWAP
                       </Typography>
                       <div className='info-wrap'>
                       <Grid container spacing={3}>

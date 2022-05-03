@@ -16,13 +16,14 @@ import useFetchTheoryUnlockers from "../../hooks/useFetchTheoryUnlockers";
 import {BigNumber} from "ethers";
 import useFetchTheoryUnlockersGen1 from "../../hooks/useFetchTheoryUnlockersGen1";
 import useLpStats from '../../hooks/useLpStats';
+import useTotalCanUnlockAmountGame from "../../hooks/useTotalCanUnlockAmountGame";
 
 const AccountModal: React.FC<ModalProps> = ({ onDismiss }) => {
   const tombFinance = useTombFinance();
 
   const tombBalance = useTokenBalance(tombFinance?.TOMB);
   const gameLocked = useGameLocked();
-  const gameCanUnlockAmount = useTokenCanUnlockAmount(tombFinance?.TOMB);
+  const gameCanUnlockAmount = useTotalCanUnlockAmountGame();
   const displayTombBalance = useMemo(() => getDisplayBalance(tombBalance), [tombBalance]);
   const displayGameLocked = useMemo(() => getDisplayBalance(gameLocked), [gameLocked]);
   const displayGameCanUnlock = useMemo(() => getDisplayBalance(gameCanUnlockAmount), [gameCanUnlockAmount]);

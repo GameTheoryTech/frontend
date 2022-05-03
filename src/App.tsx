@@ -27,6 +27,7 @@ const Treasury = lazy(() => import('./views/Treasury'));
 const About = lazy(() => import('./views/About'));
 const Nft = lazy(() => import('./views/Nft'));
 const Dungeon = lazy(() => import('./views/Dungeon'));
+const Altergene = lazy(() => import('./views/Altergene'));
 // const SBS = lazy(() => import('./views/Sbs'));
 // const Liquidity = lazy(() => import('./views/Liquidity'));
 
@@ -77,6 +78,9 @@ const App: React.FC = () => {
             </Route>
             <Route path="/dungeon">
               <Dungeon />
+            </Route>
+            <Route path="/altergene">
+              <Altergene />
             </Route>
             {/* <Route path="/sbs">
               <SBS />

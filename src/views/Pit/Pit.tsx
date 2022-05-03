@@ -54,7 +54,7 @@ const Pit: React.FC = () => {
     async (amount: string) => {
       const tx = await tombFinance?.buyBonds(amount);
       addTransaction(tx, {
-        summary: `Buy ${Number(amount).toFixed(2)} HODL with ${amount} TOMB`,
+        summary: `Buy ${Number(amount).toFixed(2)} HODL with ${amount} GAME`,
       });
     },
     [tombFinance, addTransaction],
@@ -83,7 +83,7 @@ const Pit: React.FC = () => {
             </Typography>
             <Route exact path={path}>
               <Typography align="center" variant="h5" component="p" style={{marginBottom: '50px', fontWeight: '500'}}>
-                Earn premiums upon redemption
+                Earn premiums upon redemption above 1.1 TWAP
               </Typography>
             </Route>
 
@@ -97,7 +97,7 @@ const Pit: React.FC = () => {
                 </Grid>
 
                 <Grid item xs={6} md={4} style={{textAlign: 'center'}}>
-                  <Typography variant="body1" component="p" className="textGlow">HODL Price (Inc Premium)</Typography>
+                  <Typography variant="body1" component="p" className="textGlow">HODL Price (Including Premium)</Typography>
                   <Typography variant="h4" style={{marginBottom: '20px'}}>
                     {Number(bondStat?.tokenInFtm).toFixed(2) || '-'} DAI
                   </Typography>
@@ -119,7 +119,7 @@ const Pit: React.FC = () => {
                   priceDesc={
                     !isBondPurchasable
                       ? 'GAME is over peg'
-                      : getDisplayBalance(bondsPurchasable, 18, 4)
+                      : "HODL Purchasable: " + getDisplayBalance(bondsPurchasable, 18, 4)
                   }
                   onExchange={handleBuyBonds}
                   disabled={!bondStat || isBondRedeemable}

@@ -243,6 +243,9 @@ const Nav = () => {
               <NavLink exact activeClassName="active" color="color" to="/home" className={classes.link}>
                 Home
               </NavLink>
+              <NavLink activeClassName="active" color="textPrimary" to="/altergene" className={classes.link}>
+                Altergene
+              </NavLink>
               <NavLink activeClassName="active" color="textPrimary" to="/farms" className={classes.link}>
                 Staking Pools
               </NavLink>
@@ -315,6 +318,7 @@ const Nav = () => {
               </div>
               <List>
                 <ListItemLink primary="Home" to="/home" />
+                <ListItemLink primary="Altergene" to="/altergene" />
                 <ListItemLink primary="Staking Pools" to="/farms" />
                 <ListItemLink primary="NFTs" to="/nfts" />
                 <ListItem button component="a" href="https://docs.gametheory.tech">
