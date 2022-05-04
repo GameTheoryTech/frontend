@@ -10694,7 +10694,7 @@
         ]
     },
     "Marketplace": {
-        "address": "0xC21a8F58EeD11e11cc2F73158F489EA2E55A62de",
+        "address": "0x0a6C2021960FF21BFCAB56977e8151Fcb6fF023C",
         "abi": [{
                 "inputs": [{
                         "internalType": "contract IERC20",

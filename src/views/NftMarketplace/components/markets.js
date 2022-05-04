@@ -49,10 +49,9 @@ const useStyles = makeStyles((theme) => ({
 		backgroundColor: "#000",
 		width: 230,
 		borderRadius: 30,
-		marginBottom: 40,
-		marginLeft: "auto",
-		marginRight: "auto",
-		padding: 1
+		marginLeft: 22,
+		padding: 1,
+		position: 'absolute'
 	},
 
 	tabs: {

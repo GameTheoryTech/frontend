@@ -1,11 +1,12 @@
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { ethers } from 'ethers'
-import Grid from '@mui/material/Grid'
-import Fade from '@mui/material/Fade'
+import { Grid, Fade } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import Gen1Card from './Gen1Card'
 import { Web3Context } from '../../utils/Web3Provider'
 import { mapOwnedTokenIdsAsMarketItemsGen1 } from '../../utils/nft'
+import Datasort from "react-data-sort";
+import SortTag from '../card/SortTag'
 
 export default function Gen1CardList({ nfts, setNfts }) {
 	const classes = useStyles();
@@ -42,22 +43,47 @@ export default function Gen1CardList({ nfts, setNfts }) {
 	}
 
 	return (
-		<Grid container className={classes.grid} id="grid">
-			{nfts.map((nft, i) =>
-				<Fade in={true} key={i}>
-					<Grid item xs={12} sm={6} md={4} className={classes.gridItem} >
-						<Gen1NFT nft={nft} index={i} />
+		<Datasort
+      data={nfts}
+      render={({
+        data,
+        setSortBy,
+        sortBy,
+        direction,
+        toggleDirection
+      }) => {
+				return (
+					<Grid>
+						<SortTag
+							setSortBy={setSortBy}
+							sortBy={sortBy}
+							direction={direction}
+							toggleDirection={toggleDirection}
+						/>
+						<Grid container className={classes.grid} id="grid">
+							{data.map((nft, i) =>
+								<Fade in={true} key={i}>
+									<Grid item xs={12} sm={6} md={4} className={classes.gridItem} >
+										<Gen1NFT nft={nft} index={i} />
+									</Grid>
+								</Fade>
+							)}
+						</Grid>
 					</Grid>
-				</Fade>
-			)}
-		</Grid>
+        );
+      }}
+    />
 	);
 };
 
 const useStyles = makeStyles((theme) => ({
 	grid: {
 		spacing: 3,
-		alignItems: 'stretch'
+		alignItems: 'stretch',
+		marginTop: 60,
+		'@media (max-width: 640px)': {
+      marginTop: 120
+    }
 	},
 	gridItem: {
 		display: 'flex',

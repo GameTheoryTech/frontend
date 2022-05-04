@@ -39,7 +39,11 @@ export default function Gen1Card({ nft, action, updateNFT }) {
 		sell: {
 			text: 'Sell',
 			method: sellNft
-		}
+		},
+		none: {
+      text: 'pending',
+      method: () => {}
+    }
 	};
 
   async function buyNft (nft) {
