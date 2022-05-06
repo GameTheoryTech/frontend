@@ -343,7 +343,7 @@ const Nav = () => {
         <Grid container columnSpacing={4} justifyContent="center">
           
           <Grid item xs={'auto'}>
-            <a href="https://spookyswap.finance/swap?outputCurrency=0x56EbFC2F3873853d799C155AF9bE9Cb8506b7817" target="_blank" style={{textDecoration: 'none', fontWeight: '700'}}>
+            <a href="https://spooky.fi/swap?outputCurrency=0x56EbFC2F3873853d799C155AF9bE9Cb8506b7817" target="_blank" style={{textDecoration: 'none', fontWeight: '700'}}>
               <span className="textGlow">GAME</span>
               <Typography variant="body1" color="var(--white)">
                 ${tombPriceInDollars ? tombPriceInDollars : '-.--'}
@@ -352,7 +352,7 @@ const Nav = () => {
           </Grid>
 
           <Grid item xs={'auto'}>
-            <a href="https://spookyswap.finance/swap?outputCurrency=0x60787C689ddc6edfc84FCC9E7d6BD21990793f06" target="_blank" style={{textDecoration: 'none', fontWeight: '700'}}>
+            <a href="https://spooky.fi/swap?outputCurrency=0x60787C689ddc6edfc84FCC9E7d6BD21990793f06" target="_blank" style={{textDecoration: 'none', fontWeight: '700'}}>
               <span className="textGlow">THEORY</span>
               <Typography variant="body1" color="var(--white)">
                 ${tSharePriceInDollars ? tSharePriceInDollars : '-.--'}

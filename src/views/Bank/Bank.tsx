@@ -191,7 +191,7 @@ const Bank: React.FC<ModalProps> = ({ onDismiss }) => {
     <>
       <div className="section">
       <Typography align="center" variant="h2" component="h1" className="textGlow pink" style={{marginBottom: '20px'}}>
-        {bank?.depositTokenName.replace('LP', '')} Liquidity Pool
+        {bank?.depositTokenName.replace('LP', 'Liquidity')} Pool
       </Typography>
       <Typography align="center" variant="h5" component="p" style={{marginBottom: '50px', fontWeight: '500'}}>
         Deposit {bank?.depositTokenName} tokens & earn {bank?.earnTokenName}

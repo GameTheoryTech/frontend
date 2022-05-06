@@ -108,7 +108,7 @@ const Cemetery = () => {
 
 
               <Typography align="center" variant="h2" className="textGlow pink" style={{marginBottom: '50px'}}>
-                Liquidity Pools
+                Theory Reward Pools
               </Typography>
 
               <Grid container justifyContent="center" spacing={3}>
@@ -124,7 +124,7 @@ const Cemetery = () => {
 
     
               <Typography align="center" variant="h2" className="textGlow pink" style={{marginTop: '100px', marginBottom: '50px'}}>
-                THEORY Staking Pool
+                THEORY Staking Pools
               </Typography>
 
               <Grid container justifyContent="center" spacing={3}>

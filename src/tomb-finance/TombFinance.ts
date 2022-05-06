@@ -535,11 +535,13 @@ export class TombFinance {
     const ready = await this.provider.ready;
     if (!ready) return;
     const { chainId } = this.config;
-    const { DAI } = this.config.externalTokens;
+    const { DAI, HODL } = this.config.externalTokens;
 
     const dai = new Token(chainId, DAI[0], DAI[1], "DUMMY", "DUMMY Token");
+    const hodl = new Token(chainId, HODL[0], HODL[1], "HODL", "HODL Token");
     const token = new Token(chainId, tokenContract.address, tokenContract.decimal, tokenContract.symbol);
     if(dai.address === tokenContract.address) return (1).toFixed(4); //DAI is 1 to 1 with DAI.
+    if(hodl.address === tokenContract.address) return (await this.getBondStat()).tokenInFtm;
     try {
       const daiToToken = await Fetcher.fetchPairData(token, dai, this.provider);
       const priceInBUSD = new Route([daiToToken], token);
@@ -554,12 +556,14 @@ export class TombFinance {
     const ready = await this.provider.ready;
     if (!ready) return;
     const { chainId } = this.config;
-    const { DAI, WFTM } = this.config.externalTokens;
+    const { DAI, HODL, WFTM } = this.config.externalTokens;
 
     const dai = new Token(chainId, DAI[0], DAI[1], "DUMMY", "DUMMY Token");
+    const hodl = new Token(chainId, HODL[0], HODL[1], "HODL", "HODL Token");
     const wftm = new Token(chainId, WFTM[0], WFTM[1], "DUMMY", "DUMMY Token");
     const token = new Token(chainId, tokenContract.address, tokenContract.decimal, tokenContract.symbol);
     if(dai.address === tokenContract.address) return (1).toFixed(4); //DAI is 1 to 1 with DAI.
+    if(hodl.address === tokenContract.address) return (await this.getBondStat()).tokenInFtm;
     try {
       const ftmToToken = await Fetcher.fetchPairData(token, wftm, this.provider);
       const daiToFtm = await Fetcher.fetchPairData(wftm, dai, this.provider);

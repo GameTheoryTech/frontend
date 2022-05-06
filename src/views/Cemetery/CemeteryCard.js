@@ -62,9 +62,12 @@ const CemeteryCard = ({ bank, classname }) => {
               <CardIcon>
                 <TokenSymbol symbol={bank.depositTokenName} />
               </CardIcon>
-              <CardIcon>
-                <TokenSymbol symbol="DAI" />
-              </CardIcon>
+              {
+
+                bank.depositTokenName == "HODL" ? null : (<CardIcon>
+                  <TokenSymbol symbol="DAI"/>
+                </CardIcon>)
+              }
             </Box>
             <Typography variant="h4" className="kallisto" style={{marginBottom: '20px'}}>
               {bank.depositTokenName.replace('LP', '')} Pool

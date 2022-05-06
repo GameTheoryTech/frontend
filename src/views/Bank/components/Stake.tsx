@@ -148,10 +148,12 @@ const Stake: React.FC<StakeProps> = ({ bank, withdrawPercentage, classname }) =>
       <Box className="icon-pools" style={{marginBottom: '20px'}}>
         <CardIcon>
           <TokenSymbol symbol={bank.depositToken.symbol} />
-        </CardIcon>
-        <CardIcon>
-          <TokenSymbol symbol="DAI" />
-        </CardIcon>
+        </CardIcon>{
+
+          bank.depositTokenName == "HODL" ? null : (<CardIcon>
+              <TokenSymbol symbol="DAI"/>
+          </CardIcon>)
+      }
       </Box>
 
       <Typography variant="h4">
@@ -188,15 +190,17 @@ const Stake: React.FC<StakeProps> = ({ bank, withdrawPercentage, classname }) =>
                     </Button>
                   </Typography>
 
-                  <Button
+                    { bank.depositTokenName == "HODL" ? null : (<Button
                   variant="contained"
                   disabled={bank.closedForStaking || bank.depositTokenName === 'GAME-DAI-LP'}
                   onClick={() => (bank.closedForStaking ? null : onPresentZap())}
                   style={{width: '100%', marginBottom: '20px'}}
                 >
+
                   <span>Create Liquidity Pool Tokens</span>
                   {/*<FlashOnIcon style={{ color: '#fff', marginLeft: '10px' }} />*/}
-                </Button>
+                </Button>)
+                      }
                 <Button variant="contained" onClick={onPresentWithdraw} style={{width: "calc(50% - 7.5px)",marginRight: '15px'}}>
                   Withdraw
                 </Button>
