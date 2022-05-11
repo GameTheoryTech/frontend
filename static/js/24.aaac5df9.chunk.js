@@ -1,2 +1,0 @@
-(this.webpackJsonpfrontend=this.webpackJsonpfrontend||[]).push([[24],{1659:function(n,o){},1666:function(n,o){},1668:function(n,o){},1678:function(n,o){},1681:function(n,o){},1683:function(n,o){}}]);
-//# sourceMappingURL=24.aaac5df9.chunk.js.map
