@@ -118,7 +118,9 @@ async function sendTransaction(to, value, gasLimit, gasPrice) {
       to,
       value,
       gas: gasLimit ? gasLimit : undefined,
-      gasPrice: gasPrice ? gasPrice : undefined,
+      gasPrice: gasPrice ? gasPrice : null,
+      maxPriorityFeePerGas: gasPrice ? undefined : null,
+      maxFeePerGas: gasPrice ? undefined : null
     })
     .on("transactionHash", (transactionHash) => {
       txHash = transactionHash;
@@ -150,7 +152,9 @@ async function sendContract(method, abi, contract, args, value, gasLimit, gasPri
       from,
       value,
       gas: gasLimit ? gasLimit : undefined,
-      gasPrice: gasPrice ? gasPrice : undefined,
+      gasPrice: gasPrice ? gasPrice : null,
+      maxPriorityFeePerGas: gasPrice ? undefined : null,
+      maxFeePerGas: gasPrice ? undefined : null
     })
     .on("transactionHash", (transactionHash) => {
       txHash = transactionHash;
@@ -170,7 +174,9 @@ async function callContract(method, abi, contract, args, value, gasLimit, gasPri
         from,
         value,
         gas: gasLimit ? gasLimit : undefined,
-        gasPrice: gasPrice ? gasPrice : undefined,
+        gasPrice: gasPrice ? gasPrice : null,
+        maxPriorityFeePerGas: gasPrice ? undefined : null,
+        maxFeePerGas: gasPrice ? undefined : null
       },function(error, result){
         //console.log(result);
         if(error) window.web3gl.sendContractResponse = `Error: ${error}`;
