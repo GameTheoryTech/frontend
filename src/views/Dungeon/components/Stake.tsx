@@ -45,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
 
 interface StakeProps {
   classname: string;
+  currentEpochsLeft: number;
 }
 
 const numberWithCommas = (x: string) => {
@@ -52,7 +53,7 @@ const numberWithCommas = (x: string) => {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-const Stake: React.FC<StakeProps> = ({classname}) => {
+const Stake: React.FC<StakeProps> = ({currentEpochsLeft, classname}) => {
   classname = classname || '';
   const classes = useStyles();
   const tombFinance = useTombFinance();
@@ -117,6 +118,9 @@ const Stake: React.FC<StakeProps> = ({classname}) => {
             </Typography>
             <Typography variant="body1" component="p" className="textGlow" style={{marginBottom: '20px'}}>
               MASTER In Wallet
+            </Typography>
+            <Typography variant="body1" component="p" style={{marginBottom: '20px'}}>
+              Rounds until Staking/Rewards Processed (Last 30 Minutes): {currentEpochsLeft}
             </Typography>
 
             {approveStatus !== ApprovalState.APPROVED ? (

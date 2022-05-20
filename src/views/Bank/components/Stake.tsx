@@ -184,7 +184,7 @@ const Stake: React.FC<StakeProps> = ({ bank, withdrawPercentage, classname }) =>
               <>
                 <Box className="buttonWrap">
                   <Typography variant="body1" component="p" style={{marginBottom: '20px'}}>
-                    Current Withdrawal Fee {withdrawPercentage}%
+                    Current Withdrawal Fee: {withdrawPercentage}%
                     <Button variant="contained" className={classes.button} aria-label="More info" style={{ marginLeft: '10px' }} onClick={onHandleModal}>
                       <QuestionMark fontSize="inherit" />
                     </Button>

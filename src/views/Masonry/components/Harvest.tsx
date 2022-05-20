@@ -17,14 +17,16 @@ import { getDisplayBalance } from '../../../utils/formatBalance';
 import useSetTokenNoUnlockBeforeTransfer from "../../../hooks/useTokenSetNoUnlockBeforeTransfer";
 import useTombFinance from "../../../hooks/useTombFinance";
 import useTokenNoUnlockBeforeTransfer from "../../../hooks/useTokenNoUnlockBeforeTransfer";
+import QuestionMark from "@mui/icons-material/QuestionMark";
 
 export interface HarvestProps
 {
   rewardsLocked : number
+  currentClaimEpochs: number
   classname: string
 }
 
-const Harvest: React.FC<HarvestProps> = ({rewardsLocked, classname}) => {
+const Harvest: React.FC<HarvestProps> = ({rewardsLocked, currentClaimEpochs, classname}) => {
   const tombStats = useTombStats();
   const tombFinance = useTombFinance();
   const { onReward } = useHarvestFromMasonry();
@@ -87,6 +89,9 @@ const Harvest: React.FC<HarvestProps> = ({rewardsLocked, classname}) => {
           </Typography>
           <Typography variant="body1" component="p" className="textGlow" style={{marginBottom: '20px'}}>
             LGAME Earned
+          </Typography>
+          <Typography variant="body1" component="p" style={{marginBottom: '20px'}}>
+            Claim Lockup Rounds: {currentClaimEpochs}
           </Typography>
           <Box className="buttonWrap">
             {!noUnlock ? (<Button

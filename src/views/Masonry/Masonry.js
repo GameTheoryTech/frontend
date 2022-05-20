@@ -427,10 +427,10 @@ const Masonry = () => {
 
             <Grid container spacing={3} justifyContent="center">
               <Grid item xs={12} md={4}>
-                <Harvest rewardsLocked={rebateStats.rewardsLocked} classname="boxed" />
+                <Harvest currentClaimEpochs={rebateStats.currentClaimEpochs} rewardsLocked={rebateStats.rewardsLocked} classname="boxed" />
               </Grid>
               <Grid item xs={12} md={4}>
-                <Stake withdrawPercentage={(rebateStats.currentWithdrawFeeOf / 100).toFixed(2)} classname="boxed" />
+                <Stake currentWithdrawEpochs={rebateStats.currentWithdrawEpochs} withdrawPercentage={(rebateStats.currentWithdrawFeeOf / 100).toFixed(2)} classname="boxed" />
               </Grid>
             </Grid>
 

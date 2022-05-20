@@ -30,6 +30,7 @@ import usetShareStats from '../../hooks/usetShareStats';
 import useBondStats from '../../hooks/useBondStats';
 
 import BackgroundImage from '../../assets/img/bg.jpg'
+import useAltergeneStats from "../../hooks/useAltergeneStats";
 
 const useStyles = makeStyles((theme : any) => ({
   '@global': {
@@ -192,6 +193,7 @@ const Nav = () => {
   const tShareStats = usetShareStats();
   const tBondStats = useBondStats();
   const location = useLocation();
+  const stats = useAltergeneStats();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -277,6 +279,9 @@ const Nav = () => {
                     <NavLink exact color="textPrimary" to="/about#walletAddresses" className={`about ${classes.dropdownLink}`}>
                       Wallet Addresses
                     </NavLink>
+                    <NavLink exact color="textPrimary" to="/leaderboards" className={classes.dropdownLink}>
+                      Leaderboards
+                    </NavLink>
                   </div>
                 </div>
               </div>
@@ -333,17 +338,19 @@ const Nav = () => {
                 <ListItemLink primary="About Game Theory" to="/about" />
                 <ListItemLink primary="Community" to="/about#community" classname="about" />
                 <ListItemLink primary="Wallet Addresses" to="/about#walletAddresses" classname="about" />
+                <ListItemLink primary="Leaderboards" to="/leaderboards" />
               </List>
             </Drawer>
           </>
         )}
       </Toolbar>
-      {location.pathname !== '/home' && (
       <Toolbar className={classes.secondBar} style={{minHeight: '0', textAlign: 'center'}}>
         <Grid container columnSpacing={4} justifyContent="center">
-          
+
+   {location.pathname !== '/home' && (
+       <>
           <Grid item xs={'auto'}>
-            <a href="https://spooky.fi/swap?outputCurrency=0x56EbFC2F3873853d799C155AF9bE9Cb8506b7817" target="_blank" style={{textDecoration: 'none', fontWeight: '700'}}>
+            <a href="https://spooky.fi/#/swap?outputCurrency=0x56EbFC2F3873853d799C155AF9bE9Cb8506b7817" target="_blank" style={{textDecoration: 'none', fontWeight: '700'}}>
               <span className="textGlow">GAME</span>
               <Typography variant="body1" color="var(--white)">
                 ${tombPriceInDollars ? tombPriceInDollars : '-.--'}
@@ -352,7 +359,7 @@ const Nav = () => {
           </Grid>
 
           <Grid item xs={'auto'}>
-            <a href="https://spooky.fi/swap?outputCurrency=0x60787C689ddc6edfc84FCC9E7d6BD21990793f06" target="_blank" style={{textDecoration: 'none', fontWeight: '700'}}>
+            <a href="https://spooky.fi/#/swap?outputCurrency=0x60787C689ddc6edfc84FCC9E7d6BD21990793f06" target="_blank" style={{textDecoration: 'none', fontWeight: '700'}}>
               <span className="textGlow">THEORY</span>
               <Typography variant="body1" color="var(--white)">
                 ${tSharePriceInDollars ? tSharePriceInDollars : '-.--'}
@@ -368,10 +375,26 @@ const Nav = () => {
               </Typography>
             </NavLink>
           </Grid>
-
+          </>
+     )}
+          <Grid item xs={'auto'}>
+            <NavLink to="/altergene" style={{textDecoration: 'none', fontWeight: '700'}}>
+              <span className="textGlow">Credits Purchased</span>
+              <Typography variant="body1" color="var(--white)">
+                {stats ? stats.creditsPurchased : '-'}
+              </Typography>
+            </NavLink>
+          </Grid>
+          <Grid item xs={'auto'}>
+            <NavLink to="/leaderboards" style={{textDecoration: 'none', fontWeight: '700'}}>
+              <span className="textGlow">High Score</span>
+              <Typography variant="body1" color="var(--white)">
+                {stats ? stats.highScore : '-'}
+              </Typography>
+            </NavLink>
+          </Grid>
         </Grid>
       </Toolbar>
-      )}
       </Container>
     </AppBar>
     )}

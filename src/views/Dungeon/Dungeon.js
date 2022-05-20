@@ -449,7 +449,7 @@ const Dungeon = () => {
                     <Harvest rewardsLocked={rebateStats.rewardsLocked} classname="boxed" />
                   </Grid>
                   <Grid item xs={12} md={4}>
-                    <Stake classname="boxed" />
+                    <Stake currentEpochsLeft={Number(currentEpoch) % rebateStats.currentWithdrawEpochs } classname="boxed" />
                   </Grid>
                 </Grid>
 

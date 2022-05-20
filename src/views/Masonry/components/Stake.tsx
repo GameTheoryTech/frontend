@@ -40,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
 
 interface StakeProps {
   withdrawPercentage: number;
+  currentWithdrawEpochs: number;
   classname: string;
 }
 
@@ -48,7 +49,7 @@ const numberWithCommas = (x: string) => {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-const Stake: React.FC<StakeProps> = ({withdrawPercentage, classname}) => {
+const Stake: React.FC<StakeProps> = ({withdrawPercentage, currentWithdrawEpochs, classname}) => {
   classname = classname || '';
   withdrawPercentage = withdrawPercentage || 0;
   const classes = useStyles();
@@ -150,6 +151,9 @@ const Stake: React.FC<StakeProps> = ({withdrawPercentage, classname}) => {
           <Typography variant="body1" component="p" className="textGlow" style={{marginBottom: '20px'}}>
             THEORY Staked
           </Typography>
+          <Typography variant="body1" component="p" style={{marginBottom: '20px'}}>
+            Withdraw Lockup Rounds: {currentWithdrawEpochs}
+          </Typography>
 
               {approveStatus !== ApprovalState.APPROVED ? (
                 <Box className="buttonWrap">
@@ -166,7 +170,7 @@ const Stake: React.FC<StakeProps> = ({withdrawPercentage, classname}) => {
                 <>
                 <Box className="buttonWrap">
                   <Typography variant="body1" component="p" style={{marginBottom: '20px'}}>
-                    Current Withdrawal Fee {withdrawPercentage}%
+                    Current Withdrawal Fee: {withdrawPercentage}%
                     <Button variant="contained" className={classes.button} aria-label="More info" style={{ marginLeft: '10px' }} onClick={onHandleModal}>
                       <QuestionMark fontSize="inherit" />
                     </Button>

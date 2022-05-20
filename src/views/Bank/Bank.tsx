@@ -26,6 +26,7 @@ import TableRow from '@mui/material/TableRow';
 import useModal from '../../hooks/useModal';
 import Modal, { ModalProps } from '../../components/Modal';
 import ModalActions from '../../components/ModalActions';
+import useTombFinance from "../../hooks/useTombFinance";
 
 const useStyles = makeStyles((theme : any) => ({
   section: {
@@ -136,6 +137,7 @@ const numberWithCommas = (x: { toString: () => string; }) => {
 const Bank: React.FC<ModalProps> = ({ onDismiss }) => {
   useEffect(() => window.scrollTo(0, 0));
   const classes = useStyles();
+  const tombFinance = useTombFinance();
   const { bankId } = useParams();
   const bank = useBank(bankId);
 
@@ -281,6 +283,21 @@ const Bank: React.FC<ModalProps> = ({ onDismiss }) => {
                                   </Typography>
                                 </TableCell>
                               </TableRow>
+                              {bank?.depositTokenName.includes("LP") ?
+                              (<TableRow>
+                                <TableCell align="right">
+                                  <Typography variant="body1" component="p" className="textGlow">
+                                    Add Liquidity on SpookySwap
+                                  </Typography>
+                                </TableCell>
+                                <TableCell>
+                                  <Typography>
+                                    <StyledLink href={'https://spooky.fi/#/add/' + (bank?.depositTokenName.includes('GAME') ? tombFinance?.TOMB.address : tombFinance?.TSHARE.address) + "/0x8D11eC38a3EB5E956B052f67Da8Bdc9bef8Abf3E"} target="_blank">
+                                      Here
+                                    </StyledLink>
+                                  </Typography>
+                                </TableCell>
+                              </TableRow>) : null}
 
                             </TableBody>
                           </Table>
@@ -324,6 +341,13 @@ const Center = styled.div`
   flex: 1;
   align-items: center;
   justify-content: center;
+`;
+
+
+const StyledLink = styled.a`
+  font-weight: 700;
+  text-decoration: none;
+  color: ${(props) => props.theme.color.primary.main};
 `;
 
 export default Bank;

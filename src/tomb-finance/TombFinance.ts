@@ -3,7 +3,16 @@ import { Fetcher as FetcherSpirit, Token as TokenSpirit, ChainId as ChainIdSpiri
 import { Fetcher } from '@spookyswap/sdk/dist';
 import { Route, Token } from '@spookyswap/sdk/dist';
 import { Configuration } from './config';
-import { ContractName, TokenStat, AllocationTime, LPStat, Bank, PoolStats, TShareSwapperStat } from './types';
+import {
+  ContractName,
+  TokenStat,
+  AllocationTime,
+  LPStat,
+  Bank,
+  PoolStats,
+  TShareSwapperStat,
+  AltergeneStat
+} from './types';
 import {BigNumber, BigNumberish, Contract, ethers, EventFilter} from 'ethers';
 import { decimalToBalance } from './ether-utils';
 import { TransactionResponse } from '@ethersproject/providers';
@@ -162,7 +171,7 @@ export class TombFinance {
     const { Treasury } = this.contracts;
     const tombStat = await this.getTombStat();
     const bondTombRatioBN = await Treasury.getBondPremiumRate();
-    const modifier = bondTombRatioBN > BigNumber.from(10).pow(18) ? bondTombRatioBN.div(BigNumber.from(10).pow(18)).toNumber() : 1;
+    const modifier = bondTombRatioBN.gt(BigNumber.from(10).pow(18)) ? bondTombRatioBN.div(BigNumber.from(10).pow(18)).toNumber() : 1;
     const bondPriceInFTM = (Number(tombStat.tokenInFtm) * modifier).toFixed(4);
     const priceOfTBondInDollars = (Number(tombStat.priceInDollars) * modifier).toFixed(2);
     const supply = await this.HODL.displayedTotalSupply();
@@ -227,6 +236,49 @@ export class TombFinance {
       priceInDollars: getDisplayBalance(expectedPrice),
       totalSupply: getDisplayBalance(supply, this.TOMB.decimal, 0),
       circulatingSupply: getDisplayBalance(tombCirculatingSupply, this.TOMB.decimal, 0),
+    };
+  }
+
+  async getNickname(address : string)
+  {
+    const { Altergene } = this.contracts;
+    let nickname = await Altergene.nickname(address);
+    if(nickname === "" || !nickname) nickname = address.toString().substr(2,3).toUpperCase();
+    return nickname;
+  }
+
+  async getAltergeneStat(): Promise<AltergeneStat> {
+    const { Altergene } = this.contracts;
+    const creditsPurchased = (await Altergene.totalCreditsPurchased()).toString();
+    const allHighScores = (await Altergene.allHighScores());
+    const allHighScoreWinners = (await Altergene.allHighScoreWinners());
+    const allHighScoreNicknames = (await Altergene.allHighScoreNicknames());
+    const highScore = allHighScores[0].toString();
+    const highScoreList = [...Array<string>(10)];
+    for(let i = 0; i < 10; ++i)
+    {
+      const score = allHighScores[i];
+      let nickname = allHighScoreNicknames[i] === "" || !allHighScoreNicknames[i] ? allHighScoreWinners[i].toString().substr(2,3).toUpperCase() : allHighScoreNicknames[i];
+      highScoreList[i] = `${score} ${nickname}`
+    }
+
+    let highestLevelScore = `${(await Altergene.topAchievements("highestLevelScore"))[1]} by ${await this.getNickname((await Altergene.topAchievements("highestLevelScore"))[0])}`;
+    let enemiesDefeated = `${(await Altergene.topAchievements("enemiesDefeated"))[1]} by ${await this.getNickname((await Altergene.topAchievements("enemiesDefeated"))[0])}`;
+    let levelReached = `${(await Altergene.topAchievements("levelReached"))[1]} by ${await this.getNickname((await Altergene.topAchievements("levelReached"))[0])}`;
+    let powerupsCollected = `${(await Altergene.topAchievements("powerupsCollected"))[1]} by ${await this.getNickname((await Altergene.topAchievements("powerupsCollected"))[0])}`;
+    let topSpender = `${(await Altergene.topSpenderAmount())} credit(s) by ${await this.getNickname(await Altergene.topSpenderWinner())}`;
+    let dailyEnemiesDefeated = `${(await Altergene.topDailyAchievements("enemiesDefeated"))[1]} by ${await this.getNickname((await Altergene.topDailyAchievements("enemiesDefeated"))[0])}`;
+
+    return {
+      creditsPurchased,
+      highScore,
+      highScoreList,
+      highestLevelScore,
+      enemiesDefeated,
+      levelReached,
+      powerupsCollected,
+      topSpender,
+      dailyEnemiesDefeated
     };
   }
 

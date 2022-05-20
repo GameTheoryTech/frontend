@@ -47,6 +47,18 @@ export type LPStat = {
   totalSupply: string;
 };
 
+export type AltergeneStat = {
+  creditsPurchased: string;
+  highScore: string;
+  highScoreList: Array<string>;
+  highestLevelScore: string;
+  enemiesDefeated: string;
+  levelReached: string;
+  powerupsCollected: string;
+  topSpender: string;
+  dailyEnemiesDefeated: string;
+};
+
 export type AllocationTime = {
   from: Date;
   to: Date;

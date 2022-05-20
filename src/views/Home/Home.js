@@ -81,8 +81,8 @@ const Home = () => {
     tShare = tShareProd;
   }
 
-  const buyTombAddress = 'https://spooky.fi/swap?outputCurrency=' + tomb.address;
-  const buyTShareAddress = 'https://spooky.fi/swap?outputCurrency=' + tShare.address;
+  const buyTombAddress = 'https://spooky.fi/#/swap?outputCurrency=' + tomb.address;
+  const buyTShareAddress = 'https://spooky.fi/#/swap?outputCurrency=' + tShare.address;
 
   const tombLPStats = useMemo(() => (tombFtmLpStats ? tombFtmLpStats : null), [tombFtmLpStats]);
   const tshareLPStats = useMemo(() => (tShareFtmLpStats ? tShareFtmLpStats : null), [tShareFtmLpStats]);
@@ -201,7 +201,7 @@ const Home = () => {
               </Typography>
               <Button
                 target="_blank"
-                href="https://spooky.fi/swap?outputCurrency=0x56EbFC2F3873853d799C155AF9bE9Cb8506b7817"
+                href="https://spooky.fi/#/swap?outputCurrency=0x56EbFC2F3873853d799C155AF9bE9Cb8506b7817"
                 variant="contained"
                 className={classes.button}
               >
@@ -237,7 +237,7 @@ const Home = () => {
               <Typography variant="h3" component="h4" style={{marginBottom: '20px', color: 'var(--extra-color-2)'}}>
                 {numberWithCommas(tShareTotalSupply)}
               </Typography>
-              <Button variant="contained" target="_blank" href="https://spooky.fi/swap?outputCurrency=0x60787C689ddc6edfc84FCC9E7d6BD21990793f06" className={classes.button}>
+              <Button variant="contained" target="_blank" href="https://spooky.fi/#/swap?outputCurrency=0x60787C689ddc6edfc84FCC9E7d6BD21990793f06" className={classes.button}>
                 Buy THEORY
               </Button>
             </CardContent>
