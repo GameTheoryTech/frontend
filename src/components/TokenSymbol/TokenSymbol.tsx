@@ -54,6 +54,8 @@ const logosBySymbol: { [title: string]: string } = {
 
   'GAME-DAI LP': GameLPLogo,
   'THEORY-DAI LP': TheoryLPLogo,
+  'GAME-DAI': GameLPLogo,
+  'THEORY-DAI': TheoryLPLogo,
 
 
   'dAI': daiLogo,

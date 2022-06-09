@@ -13,13 +13,14 @@ interface DepositModalProps extends ModalProps {
   decimals: number;
   onConfirm: (amount: string) => void;
   tokenName?: string;
+  description?: string;
 }
 
-const DepositModal: React.FC<DepositModalProps> = ({ max, decimals, onConfirm, onDismiss, tokenName = '' }) => {
+const DepositModal: React.FC<DepositModalProps> = ({ max, decimals, onConfirm, onDismiss, tokenName = '', description }) => {
   const [val, setVal] = useState('');
 
   const fullBalance = useMemo(() => {
-    return getFullDisplayBalance(max, decimals, false);
+    return getFullDisplayBalance(max, decimals);
   }, [max, decimals]);
 
   const handleChange = useCallback(
@@ -49,7 +50,7 @@ const DepositModal: React.FC<DepositModalProps> = ({ max, decimals, onConfirm, o
         </Button>
       </ModalActions>
       <Typography variant="body2" align="center" className="textGlow" style={{marginTop: '40px'}}>
-        Your rewards will be claimed whenever you deposit or withdraw tokens from the pool
+          {description !== undefined && description !== null ? description : "Your rewards will be claimed whenever you deposit or withdraw tokens from the pool"}
       </Typography>
     </Modal>
   );

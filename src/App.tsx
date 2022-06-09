@@ -29,6 +29,7 @@ const Nft = lazy(() => import('./views/Nft'));
 const Dungeon = lazy(() => import('./views/Dungeon'));
 const Altergene = lazy(() => import('./views/Altergene'));
 const Leaderboards = lazy(() => import('./views/Leaderboards'));
+const Migration = lazy(() => import('./views/Migration'));
 // const SBS = lazy(() => import('./views/Sbs'));
 // const Liquidity = lazy(() => import('./views/Liquidity'));
 
@@ -85,6 +86,9 @@ const App: React.FC = () => {
             </Route>
             <Route path="/leaderboards">
               <Leaderboards />
+            </Route>
+            <Route path="/migration">
+              <Migration />
             </Route>
             {/* <Route path="/sbs">
               <SBS />

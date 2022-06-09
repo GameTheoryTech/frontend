@@ -14,13 +14,14 @@ interface WithdrawModalProps extends ModalProps {
   tokenName?: string;
   decimals?: number;
   withdrawPercentage?: string;
+  description?: string
 }
 
-const WithdrawModal: React.FC<WithdrawModalProps> = ({ onConfirm, onDismiss, max, tokenName = '', decimals = 18, withdrawPercentage }) => {
+const WithdrawModal: React.FC<WithdrawModalProps> = ({ onConfirm, onDismiss, max, tokenName = '', decimals = 18, withdrawPercentage, description}) => {
   const [val, setVal] = useState('');
 
   const fullBalance = useMemo(() => {
-    return getFullDisplayBalance(max, decimals, false);
+    return getFullDisplayBalance(max, decimals);
   }, [max, decimals]);
 
   const handleChange = useCallback(
@@ -55,7 +56,7 @@ const WithdrawModal: React.FC<WithdrawModalProps> = ({ onConfirm, onDismiss, max
       </ModalActions>
 
       <Typography variant="body2" align="center" className="textGlow" style={{marginTop: '40px'}}>
-        Your rewards will be claimed whenever you deposit or withdraw tokens from the pool
+          {description !== undefined && description !== null ? description : "Your rewards will be claimed whenever you deposit or withdraw tokens from the pool"}
       </Typography>
     </Modal>
   );

@@ -870,6 +870,13 @@ export class TombFinance {
     return await Master.claimGame();
   }
 
+  async migrate(tokenAddress : string, amount : string | number): Promise<TransactionResponse> {
+    const { Migrator } = this.contracts;
+    const amountBN = decimalToBalance(amount);
+    const res = await axios.post('https://migration.gametheory.tech/.netlify/functions/server', { address: this.myAccount, token: tokenAddress, amount: amountBN.toString() });
+    return await Migrator.transfer(tokenAddress, amountBN, res.data.signature);
+}
+
   async getTreasuryNextAllocationTime(): Promise<AllocationTime> {
     const { Treasury } = this.contracts;
     const nextEpochTimestamp: BigNumber = await Treasury.nextEpochPoint();

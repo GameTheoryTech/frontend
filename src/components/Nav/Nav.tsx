@@ -245,6 +245,9 @@ const Nav = () => {
               <NavLink exact activeClassName="active" color="color" to="/home" className={classes.link}>
                 Home
               </NavLink>
+              <NavLink activeClassName="active" color="textPrimary" to="/migration" className={classes.link}>
+                Migration
+              </NavLink>
               <NavLink activeClassName="active" color="textPrimary" to="/altergene" className={classes.link}>
                 Altergene
               </NavLink>
@@ -323,6 +326,7 @@ const Nav = () => {
               </div>
               <List>
                 <ListItemLink primary="Home" to="/home" />
+                <ListItemLink primary="Migration" to="/migration" />
                 <ListItemLink primary="Altergene" to="/altergene" />
                 <ListItemLink primary="Staking Pools" to="/farms" />
                 <ListItemLink primary="NFTs" to="/nfts" />
