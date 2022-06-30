@@ -22,4 +22,6 @@ Used to set the network: https://chainlist.org/
 338 Cronos Testnet
 */
 
-window.web3ChainId = 250;
+window.web3ChainId = 43113;
+//window.web3ServerChainId = 137;
+window.web3ServerRpcUrl = "https://api.avax-test.network/ext/bc/C/rpc";
